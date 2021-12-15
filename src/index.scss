@@ -1,0 +1,36 @@
+@use './theme' as t;
+
+html,
+body {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  background-color: t.$dark-background;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: "Space Grotesk";
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+a {
+  text-decoration: none;
+  color: t.$color-gray-dark;
+}
+
+*::-webkit-scrollbar {
+  width: 0; /* Remove scrollbar space */
+  background: transparent; /* Optional: just make scrollbar invisible */
+}

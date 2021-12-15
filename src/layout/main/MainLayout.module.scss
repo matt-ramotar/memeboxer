@@ -1,0 +1,23 @@
+@use '../../theme' as t;
+
+.root {
+  display: flex;
+
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  max-height: calc(100vh - #{t.$nav-height});
+  width: 100vw;
+  flex-wrap: nowrap;
+}
+
+.main {
+  width: 100%;
+}
