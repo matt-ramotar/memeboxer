@@ -1,0 +1,37 @@
+@use '../../theme' as t;
+
+.root {
+  background-color: t.$dark-background;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.modal {
+  background-color: t.$dark-paper-background;
+  box-shadow: t.$dark-paper-background 0px 2px 0px;
+  border-radius: 4px;
+  border: 1px solid t.$dark-paper-background;
+  padding: 4em;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  img {
+    border-radius: 30%;
+    object-fit: contain;
+    height: 60px;
+  }
+
+  .text {
+    font-family: "Space Grotesk";
+    font-weight: bold;
+    color: t.$on-dark-white;
+  }
+}

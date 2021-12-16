@@ -5,7 +5,7 @@ body {
   box-sizing: border-box;
   margin: 0px;
   padding: 0px;
-  background-color: t.$dark-background;
+  background-color: t.$light-background;
 }
 
 *,
@@ -14,11 +14,19 @@ body {
   box-sizing: inherit;
 }
 
+*::-webkit-clear-button {
+  display: none;
+}
+
 body {
   font-family: "Space Grotesk";
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+text {
+  color: #262626;
 }
 
 code {

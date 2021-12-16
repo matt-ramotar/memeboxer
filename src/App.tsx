@@ -5,7 +5,7 @@ import { useRoutes } from "react-router";
 import validateToken, { ValidateTokenSuccess } from "./lib/validateToken";
 import routes from "./routes";
 import { setEmail, setGoogleId, setId, setName, setPicture, setUsername } from "./store/user";
-import theme from "./theme";
+import useTheme from "./theme";
 import { User } from "./types";
 
 export default function AppContainer(): JSX.Element | null {
@@ -20,7 +20,7 @@ export default function AppContainer(): JSX.Element | null {
     } else {
       setIsValidated(false);
     }
-  });
+  }, []);
 
   async function validateTokenAsync(localToken: string) {
     try {
@@ -57,7 +57,7 @@ function App(props: Props): JSX.Element {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={useTheme()}>
       <StylesProvider injectFirst>{routing}</StylesProvider>
     </ThemeProvider>
   );
