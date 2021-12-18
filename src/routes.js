@@ -2,9 +2,14 @@
 
 import { Navigate } from "react-router";
 import MainLayout from "./layout/main/MainLayout";
+import App from "./pages/App";
 import Login from "./pages/Login";
 
 const routes = (isLoggedIn, user) => [
+  {
+    path: "app",
+    element: !isLoggedIn ? <Navigate to="/login" /> : <App user={user} />,
+  },
   {
     path: "login",
     element: isLoggedIn ? <Navigate to="/" /> : <Login />,
