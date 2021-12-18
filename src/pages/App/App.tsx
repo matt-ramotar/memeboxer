@@ -1,5 +1,6 @@
 import { Box, Grid, Typography } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import domtoimage from "dom-to-image";
+import React, { useEffect, useState } from "react";
 
 export default function App(): JSX.Element {
   const [start, setStart] = useState([0, 0]);
@@ -23,8 +24,8 @@ export default function App(): JSX.Element {
     <Grid style={{ width: "100vw", height: "100vh" }}>
       <Typography style={{ color: "black" }}>App</Typography>
 
-      <Grid style={{ position: "relative", width: 400 }} onClick={handleClick}>
-        <img src="https://memegenerator.net/img/images/400x/3459374.jpg" alt="bad-luck-brian" style={{ width: 400 }} />
+      <Grid style={{ position: "relative", width: 600 }} onClick={handleClick} id="meme">
+        <img src="https://www.sidforglenville.com/_next/static/media/fire_truck.f79ca7a7fbfa9633a6696c21609bc976.jpeg" alt="bad-luck-brian" style={{ width: 600 }} />
 
         {textInputs.map((textInput) => (
           <Box key={`${textInput.x}, ${textInput.y}`} style={{ position: "absolute", top: textInput.y, left: textInput.x }}>
@@ -32,6 +33,35 @@ export default function App(): JSX.Element {
           </Box>
         ))}
       </Grid>
+
+      <button
+        onClick={() => {
+          const node = document.getElementById("meme");
+          const scale = 1.25;
+
+          const style = {
+            transform: "scale(" + scale + ")",
+            transformOrigin: "top left",
+            width: node!.offsetWidth + "px",
+            height: node!.offsetHeight + "px",
+          };
+
+          const param = {
+            height: node!.offsetHeight * scale,
+            width: node!.offsetWidth * scale,
+            quality: 1,
+            style,
+          };
+
+          return domtoimage.toPng(node!, param).then((dataUrl) => {
+            const img = new window.Image();
+            img.src = dataUrl;
+            document.body.appendChild(img);
+          });
+        }}
+      >
+        <Typography>Snap</Typography>
+      </button>
     </Grid>
   );
 }
