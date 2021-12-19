@@ -58,7 +58,8 @@ export default function NewMemeFlow(): JSX.Element {
         style={{
           backgroundColor: theme.palette.background.paper,
           width: currentJob == 2 ? 900 : 600,
-          height: 600,
+          minHeight: currentJob == 1 ? 600 : 0,
+          maxHeight: 600,
           borderRadius: 10,
           display: "flex",
           overflowY: currentJob == 1 ? "scroll" : "hidden",
@@ -192,25 +193,22 @@ function CreateMeme(): JSX.Element {
   return (
     <Box
       style={{
-        border: "none",
-        boxShadow: "none",
-        backgroundColor: "transparent",
-        height: "100%",
-
         display: "flex",
         flexDirection: "row",
+        maxHeight: 900,
+        width: "100%",
         overscrollBehaviorY: "contain",
       }}
       onClick={onClick}
     >
-      <Grid container style={{ display: "flex", overflowY: "scroll" }}>
+      <Grid container style={{ display: "flex", overflowY: "scroll", zIndex: 1000 }}>
         {(!isLoaded || !signedUrl) && (
           <Box style={{ height: 550, width: 550, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
             <BeatLoader color="#2F7EFE" loading={!isLoaded} />
           </Box>
         )}
         <div style={{ overflowY: "scroll" }}>
-          <img src={signedUrl!} alt="null" style={{ width: 600, height: "100%", display: isLoaded ? "flex" : "none", margin: 0, padding: 0 }} onLoad={() => setIsLoaded(true)} />
+          <img src={signedUrl!} alt="null" style={{ minWidth: 600, maxWidth: 600, maxHeight: "100%", display: isLoaded ? "flex" : "none", margin: 0, padding: 0 }} onLoad={() => setIsLoaded(true)} />
         </div>
       </Grid>
 
@@ -221,8 +219,8 @@ function CreateMeme(): JSX.Element {
 
 function Inspect(): JSX.Element {
   return (
-    <Box>
+    <Grid style={{ display: "flex", backgroundColor: "red", minWidth: 300, zIndex: 1000 }}>
       <Typography>Inspect</Typography>
-    </Box>
+    </Grid>
   );
 }
