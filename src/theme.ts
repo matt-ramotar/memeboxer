@@ -36,7 +36,7 @@ const lightTheme = createTheme({
     },
     divider: "#dbdbdb",
     text: {
-      primary: "262626",
+      primary: "#262626",
     },
 
     primary: {
