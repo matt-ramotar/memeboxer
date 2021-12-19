@@ -19,6 +19,11 @@ const routes = (isLoggedIn, user) => [
     path: "login",
     element: isLoggedIn ? <Navigate to="/" /> : <Login />,
   },
+
+  {
+    path: ":userId",
+    element: !isLoggedIn ? <Navigate to="/login" /> : <MainLayout user={user} pageName="Profile" />,
+  },
   {
     path: "/",
     element: !isLoggedIn ? <Navigate to="/login" /> : <MainLayout pageName="Home" user={user} />,

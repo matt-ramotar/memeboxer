@@ -28,6 +28,7 @@ export default function MainLayout(props: Props): JSX.Element {
         <Box
           style={{
             width: "100vw",
+            height: 80,
             backgroundColor: theme.palette.background.paper,
             borderBottom: `1px solid ${theme.palette.divider}`,
             display: "flex",
