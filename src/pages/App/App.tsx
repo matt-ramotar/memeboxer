@@ -25,7 +25,7 @@ export default function App(): JSX.Element {
       <Typography style={{ color: "black" }}>App</Typography>
 
       <Grid style={{ position: "relative", width: 600 }} onClick={handleClick} id="meme">
-        <img src="https://www.sidforglenville.com/_next/static/media/fire_truck.f79ca7a7fbfa9633a6696c21609bc976.jpeg" alt="bad-luck-brian" style={{ width: 600 }} />
+        <img src="https://memeboxer.s3.us-east-2.amazonaws.com/tag" alt="bad-luck-brian" style={{ width: 600 }} />
 
         {textInputs.map((textInput) => (
           <Box key={`${textInput.x}, ${textInput.y}`} style={{ position: "absolute", top: textInput.y, left: textInput.x }}>
@@ -56,6 +56,7 @@ export default function App(): JSX.Element {
           return domtoimage.toPng(node!, param).then((dataUrl) => {
             const img = new window.Image();
             img.src = dataUrl;
+            console.log(JSON.stringify(dataUrl));
             document.body.appendChild(img);
           });
         }}
