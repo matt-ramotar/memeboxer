@@ -1,9 +1,13 @@
 import loadable from "@loadable/component";
 import { Box, Grid, TextField, Typography, useTheme } from "@material-ui/core";
 import { useState } from "react";
-import HomeIcon from "../../assets/icons/HomeIcon";
+import { useSelector } from "react-redux";
 import SearchIcon from "../../assets/icons/SearchIcon";
+import { RootState } from "../../store";
 import { User } from "../../types";
+import CreateButton from "./CreateButton";
+import HomeButton from "./HomeButton";
+import NewMemeFlow from "./NewMemeFlow";
 
 interface Props {
   user: User;
@@ -13,6 +17,9 @@ interface Props {
 export default function MainLayout(props: Props): JSX.Element {
   const Page = loadable(() => import(`../../pages/Main/${props.pageName}`));
   const theme = useTheme();
+
+  const activePage = useSelector((state: RootState) => state.view.activePage);
+
   const [searchInput, setSearchInput] = useState("");
 
   return (
@@ -48,11 +55,13 @@ export default function MainLayout(props: Props): JSX.Element {
           />
 
           <Box>
-            <HomeIcon fill={theme.palette.text.primary} height={32} width={32} />
+            <HomeButton fill={theme.palette.text.primary} height={32} width={32} />
+            <CreateButton fill={theme.palette.text.primary} height={32} width={32} />
             <img src={props.user.picture} alt="avatar" style={{ width: 30, height: 30, borderRadius: 50 }} />
           </Box>
         </Box>
-        <Box style={{ marginTop: 100 }}>
+        <Box style={{ marginTop: 100, width: "100vw", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+          <NewMemeFlow />
           <Page user={props.user} />
         </Box>
       </Box>
