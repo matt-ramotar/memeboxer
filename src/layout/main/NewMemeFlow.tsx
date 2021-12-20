@@ -4,6 +4,7 @@ import { Box, Button, Grid, Modal, TextField, Typography, useTheme } from "@mate
 import axios from "axios";
 import domtoimage from "dom-to-image";
 import { useEffect, useState } from "react";
+import { SketchPicker } from "react-color";
 import { useDispatch, useSelector } from "react-redux";
 import { Rnd } from "react-rnd";
 import { BeatLoader } from "react-spinners";
@@ -192,6 +193,10 @@ function CreateMeme(): JSX.Element {
   const [textComponents, setTextComponents] = useState<TextComponent[]>([]);
   const theme = useTheme();
 
+  const [color, setColor] = useState("#0160FE");
+
+  const [isVisible, setIsVisible] = useState(false);
+
   const handleClick = (e: any) => {
     const x = e.nativeEvent.offsetX;
     const y = e.nativeEvent.offsetY;
@@ -357,36 +362,49 @@ function CreateMeme(): JSX.Element {
               border: "none",
               fontSize: 20,
             }}
+            onClick={() => setIsVisible(true)}
           >
-            <FontAwesomeIcon icon={faPalette} color="#0160FE" />
+            <FontAwesomeIcon icon={faPalette} style={{ color: color }} />
           </button>
         </Grid>
       </Grid>
 
-      <Grid container style={{ display: "flex", overflowY: "scroll", overscrollBehavior: "scroll" }}>
-        {(!isLoaded || !signedUrl) && (
-          <Box style={{ height: 550, width: 550, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-            <BeatLoader color="#0160FE" loading={!isLoaded} />
-          </Box>
-        )}
-
-        <Box style={{ cursor: "text", position: "relative" }} onClick={handleClick} id="meme">
-          <img src={signedUrl!} alt="null" style={{ minWidth: 600, maxWidth: 600, maxHeight: "100%", display: isLoaded ? "flex" : "none", margin: 0, padding: 0 }} onLoad={() => setIsLoaded(true)} />
-          {textComponents.map((textComponent) => (
-            <Box
-              key={textComponent.id}
-              style={{
-                position: "absolute",
-                top: textComponent.layout.startY,
-                left: textComponent.layout.startX,
-                transform: `rotate(${textComponent.layout.rotation.isPositive ? "+" : "-"}${textComponent.layout.rotation.degrees}deg)`,
-              }}
-            >
-              <UserInput textComponent={textComponent} />
+      <div style={{ position: "relative" }}>
+        <div style={{ display: isVisible ? "inline" : "none", position: "absolute", top: 0, right: 10, zIndex: 1000 }}>
+          <SketchPicker
+            onChange={(color: any) => {
+              setColor(color.hex);
+              setIsVisible(false);
+            }}
+            style={{ zIndex: 10001 }}
+            color={color}
+          />
+        </div>
+        <Grid container style={{ display: "flex", overflowY: "scroll", overscrollBehavior: "scroll" }}>
+          {(!isLoaded || !signedUrl) && (
+            <Box style={{ height: 550, width: 550, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+              <BeatLoader color="#0160FE" loading={!isLoaded} />
             </Box>
-          ))}
-        </Box>
-      </Grid>
+          )}
+
+          <Box style={{ cursor: "text", position: "relative" }} onClick={handleClick} id="meme">
+            <img src={signedUrl!} alt="null" style={{ minWidth: 600, maxWidth: 600, maxHeight: "100%", display: isLoaded ? "flex" : "none", margin: 0, padding: 0 }} onLoad={() => setIsLoaded(true)} />
+            {textComponents.map((textComponent) => (
+              <Box
+                key={textComponent.id}
+                style={{
+                  position: "absolute",
+                  top: textComponent.layout.startY,
+                  left: textComponent.layout.startX,
+                  transform: `rotate(${textComponent.layout.rotation.isPositive ? "+" : "-"}${textComponent.layout.rotation.degrees}deg)`,
+                }}
+              >
+                <UserInput textComponent={textComponent} />
+              </Box>
+            ))}
+          </Box>
+        </Grid>
+      </div>
     </Box>
   );
 }
