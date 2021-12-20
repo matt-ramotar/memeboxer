@@ -67,7 +67,7 @@ export default function App(): JSX.Element {
   );
 }
 
-interface TextInput {
+export interface TextInput {
   x: number;
   y: number;
 }

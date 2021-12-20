@@ -1,10 +1,13 @@
 import { Box, Grid, Modal, Typography, useTheme } from "@material-ui/core";
 import axios from "axios";
+import domtoimage from "dom-to-image";
+import { saveAs } from "file-saver";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BeatLoader } from "react-spinners";
 import ArrowLeftLine from "../../assets/icons/ArrowLeftLine";
 import ArrowRightLine from "../../assets/icons/ArrowRightLine";
+import { TextInput } from "../../pages/App/App";
 import { RootState } from "../../store";
 import { setCurrentJob, setTemplateId } from "../../store/createMeme";
 import { Page, setActivePage, toggleCreateTemplate } from "../../store/view";
@@ -47,8 +50,8 @@ export default function NewMemeFlow(): JSX.Element {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        overflowY: currentJob == 1 ? "scroll" : "hidden",
-        overscrollBehavior: currentJob == 1 ? "scroll" : "none",
+        overflowY: currentJob == 1 ? "scroll" : "inherit",
+        overscrollBehavior: currentJob == 1 ? "scroll" : "scroll",
         scrollBehavior: currentJob == 1 ? "smooth" : "unset",
       }}
       BackdropProps={{ style: { backgroundColor: "rgba(0,0,0,0.85)" } }}
@@ -59,11 +62,11 @@ export default function NewMemeFlow(): JSX.Element {
           backgroundColor: theme.palette.background.paper,
           width: currentJob == 2 ? 900 : 600,
           minHeight: currentJob == 1 ? 600 : 0,
-          maxHeight: 600,
+          maxHeight: currentJob == 1 ? 600 : 900,
           borderRadius: 10,
           display: "flex",
-          overflowY: currentJob == 1 ? "scroll" : "hidden",
-          overscrollBehavior: currentJob == 1 ? "scroll" : "none",
+          overflowY: currentJob == 1 ? "scroll" : "inherit",
+          overscrollBehavior: currentJob == 1 ? "scroll" : "scroll",
           position: "relative",
           paddingBottom: 0,
         }}
@@ -80,6 +83,7 @@ export default function NewMemeFlow(): JSX.Element {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
+            zIndex: 1000,
           }}
         >
           <button
@@ -172,6 +176,43 @@ function CreateMeme(): JSX.Element {
   const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
 
+  const [start, setStart] = useState([0, 0]);
+  const [end, setEnd] = useState<number[] | null>(null);
+  const [textInputs, setTextInputs] = useState<TextInput[]>([]);
+
+  const handleClick = (e: any) => {
+    const x = e.nativeEvent.offsetX;
+    const y = e.nativeEvent.offsetY;
+
+    const nextTextInputs = [...textInputs];
+    nextTextInputs.push({ x, y });
+    setTextInputs(nextTextInputs);
+  };
+
+  const onClick = () => {
+    const node = document.getElementById("meme");
+    const scale = 1.5;
+
+    const style = {
+      transform: "scale(" + scale + ")",
+      transformOrigin: "top left",
+      width: node!.offsetWidth + "px",
+      height: node!.offsetHeight + "px",
+    };
+
+    const param = {
+      height: node!.offsetHeight * scale,
+      width: node!.offsetWidth * scale,
+      quality: 1,
+      style,
+      type: "image/png",
+    };
+
+    return domtoimage.toPng(node!, param).then((data) => {
+      saveAs(data, "img.png");
+    });
+  };
+
   useEffect(() => {
     async function fetchSignedUrl() {
       const response = await axios.get(`${rootUrl}/storage/${templateId}`);
@@ -182,14 +223,6 @@ function CreateMeme(): JSX.Element {
     fetchSignedUrl();
   }, []);
 
-  const onClick = () => {
-    dispatch(setCurrentJob(3));
-  };
-
-  const onScroll = (e: any) => {
-    e.preventDefault();
-  };
-
   return (
     <Box
       style={{
@@ -197,30 +230,78 @@ function CreateMeme(): JSX.Element {
         flexDirection: "row",
         maxHeight: 900,
         width: "100%",
-        overscrollBehaviorY: "contain",
       }}
-      onClick={onClick}
     >
-      <Grid container style={{ display: "flex", overflowY: "scroll", zIndex: 1000 }}>
+      <Grid container style={{ display: "flex", overflowY: "scroll", overscrollBehavior: "scroll" }}>
         {(!isLoaded || !signedUrl) && (
           <Box style={{ height: 550, width: 550, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
             <BeatLoader color="#2F7EFE" loading={!isLoaded} />
           </Box>
         )}
-        <div style={{ overflowY: "scroll" }}>
+        <Box style={{ cursor: "text", position: "relative" }} onClick={handleClick} id="meme">
           <img src={signedUrl!} alt="null" style={{ minWidth: 600, maxWidth: 600, maxHeight: "100%", display: isLoaded ? "flex" : "none", margin: 0, padding: 0 }} onLoad={() => setIsLoaded(true)} />
-        </div>
+          {textInputs.map((textInput) => (
+            <Box key={`${textInput.x}, ${textInput.y}`} style={{ position: "absolute", top: textInput.y, left: textInput.x }}>
+              <UserInput />
+            </Box>
+          ))}
+        </Box>
       </Grid>
 
-      <Inspect />
+      <Grid style={{ display: "flex", backgroundColor: "red", minWidth: 300 }}>
+        <Typography>Inspect</Typography>
+
+        <button onClick={onClick}>Create Meme</button>
+      </Grid>
     </Box>
   );
 }
 
-function Inspect(): JSX.Element {
+function UserInput(): JSX.Element {
+  const [input, setInput] = useState<string | null>(null);
+  const theme = useTheme();
+
+  const onClick = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+  const onChange = (e: any) => {
+    setInput(e.target.value);
+  };
+
   return (
-    <Grid style={{ display: "flex", backgroundColor: "red", minWidth: 300, zIndex: 1000 }}>
-      <Typography>Inspect</Typography>
-    </Grid>
+    // <input
+    //   value={input ?? ""}
+    //   placeholder="TODO"
+    //   onClick={onClick}
+    //   onChange={onChange}
+    //   style={{
+    //     boxShadow: "none",
+    //     border: "none",
+    //     backgroundColor: "transparent",
+    //     fontFamily: "roboto",
+    //     color: "black",
+    //     fontSize: 36,
+    //     fontWeight: "bold",
+    //     outline: "none",
+    //     textTransform: "uppercase",
+    //     maxWidth: 200,
+    //   }}
+    // />
+
+    <Typography
+      style={{
+        boxShadow: "none",
+        border: "none",
+        backgroundColor: "white",
+        fontFamily: "roboto",
+        color: "black",
+        fontSize: 48,
+        fontWeight: "bold",
+        outline: "none",
+      }}
+    >
+      TODO
+    </Typography>
   );
 }
