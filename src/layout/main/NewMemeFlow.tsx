@@ -1,7 +1,6 @@
 import { Box, Grid, Modal, Typography, useTheme } from "@material-ui/core";
 import axios from "axios";
 import domtoimage from "dom-to-image";
-import { saveAs } from "file-saver";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BeatLoader } from "react-spinners";
@@ -10,7 +9,7 @@ import ArrowLeftLine from "../../assets/icons/ArrowLeftLine";
 import ArrowRightLine from "../../assets/icons/ArrowRightLine";
 import { TextInput } from "../../pages/App/App";
 import { RootState } from "../../store";
-import { addComponent, setCurrentJob, setTemplateId, TextComponent } from "../../store/createMeme";
+import { addComponent, clearComponents, setCurrentJob, setData, setTemplateId, TextComponent } from "../../store/createMeme";
 import { Page, setActivePage, toggleCreateTemplate } from "../../store/view";
 
 const rootUrl = "http://localhost:5000";
@@ -39,6 +38,9 @@ export default function NewMemeFlow(): JSX.Element {
 
       case 2:
         return <CreateMeme />;
+
+      case 3:
+        return <PostMeme />;
     }
   };
 
@@ -61,7 +63,7 @@ export default function NewMemeFlow(): JSX.Element {
         container
         style={{
           backgroundColor: theme.palette.background.paper,
-          width: currentJob == 2 ? 900 : 600,
+          width: currentJob == 1 ? 600 : 900,
           minHeight: currentJob == 1 ? 600 : 0,
           maxHeight: currentJob == 1 ? 600 : 900,
           borderRadius: 10,
@@ -89,7 +91,10 @@ export default function NewMemeFlow(): JSX.Element {
         >
           <button
             style={{ margin: 0, padding: 0, border: "none", boxShadow: "none", backgroundColor: "transparent", display: "flex" }}
-            onClick={() => dispatch(setCurrentJob(Math.max(currentJob - 1, 1)))}
+            onClick={() => {
+              dispatch(clearComponents());
+              dispatch(setCurrentJob(Math.max(currentJob - 1, 1)));
+            }}
           >
             <ArrowLeftLine />
           </button>
@@ -98,7 +103,7 @@ export default function NewMemeFlow(): JSX.Element {
           </Typography>
           <button
             style={{ margin: 0, padding: 0, border: "none", boxShadow: "none", backgroundColor: "transparent", display: "flex" }}
-            onClick={() => dispatch(setCurrentJob(Math.min(currentJob + 1, 2)))}
+            onClick={() => dispatch(setCurrentJob(Math.min(currentJob + 1, 3)))}
           >
             <ArrowRightLine />
           </button>
@@ -226,7 +231,7 @@ function CreateMeme(): JSX.Element {
     };
 
     return domtoimage.toPng(node!, param).then((data) => {
-      saveAs(data, "img.png");
+      dispatch(setData(data));
     });
   };
 
@@ -328,5 +333,32 @@ function UserInput({ textComponent }: { textComponent: TextComponent }): JSX.Ele
     >
       {textComponent.text}
     </Typography>
+  );
+}
+
+function PostMeme(): JSX.Element | null {
+  const meme = useSelector((state: RootState) => state.createMeme.data);
+
+  if (!meme) return null;
+
+  return (
+    <Box
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        maxHeight: 900,
+        width: "100%",
+      }}
+    >
+      <Grid container style={{ display: "flex", overflowY: "scroll", overscrollBehavior: "scroll" }}>
+        <Box style={{ position: "relative" }}>
+          <img src={meme} alt="null" style={{ minWidth: 600, maxWidth: 600, maxHeight: "100%", display: "flex", margin: 0, padding: 0 }} />
+        </Box>
+      </Grid>
+
+      <Grid style={{ display: "flex", backgroundColor: "red", minWidth: 300 }}>
+        <Typography>Inspect</Typography>
+      </Grid>
+    </Box>
   );
 }

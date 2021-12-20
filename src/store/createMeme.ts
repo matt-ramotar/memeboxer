@@ -7,6 +7,7 @@ export interface CreateMemeState {
     [id: string]: TextComponent;
   };
   tagIds: string[] | null;
+  data: string | null;
 }
 
 export interface TextComponent {
@@ -50,6 +51,7 @@ const initialState: CreateMemeState = {
   templateId: null,
   tagIds: null,
   componentMap: {},
+  data: null,
 };
 
 const createMemeSlice = createSlice({
@@ -68,8 +70,14 @@ const createMemeSlice = createSlice({
     addComponent(state, action: PayloadAction<TextComponent>) {
       state.componentMap[action.payload.id] = action.payload;
     },
+    setData(state, action: PayloadAction<string>) {
+      state.data = action.payload;
+    },
+    clearComponents(state) {
+      state.componentMap = {};
+    },
   },
 });
 
-export const { setCurrentJob, setTemplateId, setTagIds, addComponent } = createMemeSlice.actions;
+export const { setCurrentJob, setTemplateId, setTagIds, addComponent, setData, clearComponents } = createMemeSlice.actions;
 export default createMemeSlice.reducer;
