@@ -10,11 +10,13 @@ export enum Page {
 export interface ViewState {
   activePage: Page;
   createTemplate: boolean;
+  colorPicker: boolean;
 }
 
 const initialState: ViewState = {
   activePage: Page.Home,
   createTemplate: false,
+  colorPicker: false,
 };
 
 const viewSlice = createSlice({
@@ -24,11 +26,14 @@ const viewSlice = createSlice({
     toggleCreateTemplate(state) {
       state.createTemplate = !state.createTemplate;
     },
+    toggleColorPicker(state) {
+      state.colorPicker = !state.colorPicker;
+    },
     setActivePage(state, action: PayloadAction<Page>) {
       state.activePage = action.payload;
     },
   },
 });
 
-export const { toggleCreateTemplate, setActivePage } = viewSlice.actions;
+export const { toggleCreateTemplate, setActivePage, toggleColorPicker } = viewSlice.actions;
 export default viewSlice.reducer;

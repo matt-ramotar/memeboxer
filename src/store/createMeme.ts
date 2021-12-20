@@ -31,9 +31,8 @@ export interface Layout {
 }
 
 export interface Style {
-  backgroundColor?: string;
-  color?: string;
-  fontSize?: number;
+  color: string;
+  fontSize: number;
 }
 
 export interface Padding {
