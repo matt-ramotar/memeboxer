@@ -1,7 +1,6 @@
 import "@fontsource/roboto";
 import "@fontsource/space-grotesk";
 import "@fontsource/space-mono";
-import "dotenv";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";

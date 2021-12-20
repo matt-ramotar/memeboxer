@@ -4,11 +4,11 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import SearchIcon from "../../assets/icons/SearchIcon";
 import Memeboxer from "../../images/Memeboxer.png";
+import CreateMemeFlow from "../../modals/CreateMemeFlow/CreateMemeFlow";
 import { RootState } from "../../store";
 import { User } from "../../types";
 import CreateButton from "./CreateButton";
 import HomeButton from "./HomeButton";
-import NewMemeFlow from "./NewMemeFlow";
 
 interface Props {
   user: User;
@@ -66,7 +66,7 @@ export default function MainLayout(props: Props): JSX.Element {
           </Box>
         </Box>
         <Box style={{ marginTop: 100, width: "100vw", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-          <NewMemeFlow />
+          <CreateMemeFlow />
           <Page user={props.user} />
         </Box>
       </Box>

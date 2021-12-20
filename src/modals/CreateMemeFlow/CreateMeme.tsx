@@ -1,7 +1,7 @@
 import { Box, Grid } from "@material-ui/core";
 import axios from "axios";
 import domtoimage from "dom-to-image";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SketchPicker } from "react-color";
 import { useDispatch, useSelector } from "react-redux";
 import { BeatLoader } from "react-spinners";

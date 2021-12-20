@@ -50,7 +50,6 @@ export default function Toolbar(): JSX.Element {
         </Button>
         <input
           type="text"
-          value={24}
           style={{
             height: 40,
             padding: 0,
