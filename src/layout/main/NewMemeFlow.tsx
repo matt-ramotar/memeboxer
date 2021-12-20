@@ -1,17 +1,17 @@
-import { Box, Grid, Modal, Typography, useTheme } from "@material-ui/core";
+import { Box, Grid, Modal, TextField, Typography, useTheme } from "@material-ui/core";
 import axios from "axios";
 import domtoimage from "dom-to-image";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Rnd } from "react-rnd";
 import { BeatLoader } from "react-spinners";
 import { v4 as uuidv4 } from "uuid";
 import ArrowLeftLine from "../../assets/icons/ArrowLeftLine";
 import ArrowRightLine from "../../assets/icons/ArrowRightLine";
 import { TextInput } from "../../pages/App/App";
 import { RootState } from "../../store";
-import { addComponent, clearComponents, setCurrentJob, setData, setTemplateId, TextComponent } from "../../store/createMeme";
+import { addComponent, clearComponents, removeComponent, setActiveComponent, setCurrentJob, setData, setTemplateId, setText, TextComponent } from "../../store/createMeme";
 import { Page, setActivePage, toggleCreateTemplate } from "../../store/view";
-
 const rootUrl = "http://localhost:5000";
 
 export default function NewMemeFlow(): JSX.Element {
@@ -92,7 +92,7 @@ export default function NewMemeFlow(): JSX.Element {
           <button
             style={{ margin: 0, padding: 0, border: "none", boxShadow: "none", backgroundColor: "transparent", display: "flex" }}
             onClick={() => {
-              dispatch(clearComponents());
+              if (currentJob == 2) dispatch(clearComponents());
               dispatch(setCurrentJob(Math.max(currentJob - 1, 1)));
             }}
           >
@@ -168,7 +168,7 @@ function TemplateGridItem(props: TemplateProps): JSX.Element {
     <button style={{ margin: 0, padding: 0, border: "none", boxShadow: "none", backgroundColor: "transparent", display: "flex" }} onClick={onClick}>
       {(!isLoaded || !signedUrl) && (
         <Box style={{ height: 150, width: 150, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-          <BeatLoader color="#2F7EFE" loading={!isLoaded} />
+          <BeatLoader color="#0160FE" loading={!isLoaded} />
         </Box>
       )}
       <img src={signedUrl!} alt="null" style={{ height: 150, width: 150, objectFit: "cover", display: isLoaded ? "flex" : "none", margin: 0, padding: 0 }} onLoad={() => setIsLoaded(true)} />
@@ -197,6 +197,7 @@ function CreateMeme(): JSX.Element {
       id,
       text: "TODO",
       layout: { startX: x, startY: y, rotation: { isPositive: true, degrees: 0 } },
+      style: {},
       size: { width: 200 },
     };
 
@@ -209,7 +210,7 @@ function CreateMeme(): JSX.Element {
 
   useEffect(() => {
     setTextComponents(Object.values(componentMap));
-  }, [componentMap, Object.keys(componentMap)]);
+  }, [Object.keys(componentMap).length]);
 
   const onClick = () => {
     const node = document.getElementById("meme");
@@ -257,7 +258,7 @@ function CreateMeme(): JSX.Element {
       <Grid container style={{ display: "flex", overflowY: "scroll", overscrollBehavior: "scroll" }}>
         {(!isLoaded || !signedUrl) && (
           <Box style={{ height: 550, width: 550, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-            <BeatLoader color="#2F7EFE" loading={!isLoaded} />
+            <BeatLoader color="#0160FE" loading={!isLoaded} />
           </Box>
         )}
         <Box style={{ cursor: "text", position: "relative" }} onClick={handleClick} id="meme">
@@ -288,51 +289,32 @@ function CreateMeme(): JSX.Element {
 }
 
 function UserInput({ textComponent }: { textComponent: TextComponent }): JSX.Element {
-  const [input, setInput] = useState<string | null>(null);
+  const dispatch = useDispatch();
+
+  const [input, setInput] = useState<string | null>();
   const theme = useTheme();
 
   const onClick = (e: any) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (e.type === "contextmenu") {
+      dispatch(removeComponent(textComponent.id));
+    }
+
+    dispatch(setActiveComponent(textComponent.id));
   };
   const onChange = (e: any) => {
     setInput(e.target.value);
+    dispatch(setText(e.target.value));
   };
 
   return (
-    // <input
-    //   value={input ?? ""}
-    //   placeholder="TODO"
-    //   onClick={onClick}
-    //   onChange={onChange}
-    //   style={{
-    //     boxShadow: "none",
-    //     border: "none",
-    //     backgroundColor: "transparent",
-    //     fontFamily: "roboto",
-    //     color: "black",
-    //     fontSize: 36,
-    //     fontWeight: "bold",
-    //     outline: "none",
-    //     textTransform: "uppercase",
-    //     maxWidth: 200,
-    //   }}
-    // />
-
-    <Typography
-      style={{
-        boxShadow: "none",
-        border: "none",
-        backgroundColor: "white",
-        fontFamily: "roboto",
-        color: "black",
-        fontSize: 48,
-        fontWeight: "bold",
-        outline: "none",
-      }}
-    >
-      {textComponent.text}
-    </Typography>
+    <Rnd>
+      <Box onClick={onClick} onContextMenu={onClick} style={{ cursor: "pointer", padding: 8, border: "3px solid #00D9E1" }}>
+        <TextField placeholder="Todo" value={input} InputProps={{ disableUnderline: true }} onChange={onChange} />
+      </Box>
+    </Rnd>
   );
 }
 

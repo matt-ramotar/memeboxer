@@ -6,6 +6,7 @@ export interface CreateMemeState {
   componentMap: {
     [id: string]: TextComponent;
   };
+  activeComponent: string | null;
   tagIds: string[] | null;
   data: string | null;
 }
@@ -13,7 +14,7 @@ export interface CreateMemeState {
 export interface TextComponent {
   id: string;
   text: string;
-  style?: Style;
+  style: Style;
   layout: Layout;
   size: Size;
 }
@@ -32,6 +33,7 @@ export interface Layout {
 export interface Style {
   backgroundColor?: string;
   color?: string;
+  fontSize?: number;
 }
 
 export interface Padding {
@@ -51,6 +53,7 @@ const initialState: CreateMemeState = {
   templateId: null,
   tagIds: null,
   componentMap: {},
+  activeComponent: null,
   data: null,
 };
 
@@ -76,8 +79,30 @@ const createMemeSlice = createSlice({
     clearComponents(state) {
       state.componentMap = {};
     },
+    setActiveComponent(state, action: PayloadAction<string>) {
+      state.activeComponent = action.payload;
+    },
+    setFontSize(state, action: PayloadAction<number>) {
+      if (state.activeComponent) {
+        state.componentMap[state.activeComponent].style.fontSize = action.payload;
+      }
+    },
+    setText(state, action: PayloadAction<string>) {
+      if (state.activeComponent) {
+        state.componentMap[state.activeComponent].text = action.payload;
+      }
+    },
+    removeComponent(state, action: PayloadAction<string>) {
+      if (state.activeComponent == action.payload) {
+        state.activeComponent = null;
+      }
+
+      const nextComponentMap = { ...state.componentMap };
+      delete nextComponentMap[action.payload];
+      state.componentMap = nextComponentMap;
+    },
   },
 });
 
-export const { setCurrentJob, setTemplateId, setTagIds, addComponent, setData, clearComponents } = createMemeSlice.actions;
+export const { setCurrentJob, setTemplateId, setTagIds, addComponent, setData, clearComponents, setActiveComponent, setFontSize, removeComponent, setText } = createMemeSlice.actions;
 export default createMemeSlice.reducer;

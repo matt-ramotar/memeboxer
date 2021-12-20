@@ -3,6 +3,7 @@ import { Box, Grid, TextField, Typography, useTheme } from "@material-ui/core";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import SearchIcon from "../../assets/icons/SearchIcon";
+import Memeboxer from "../../images/Memeboxer.png";
 import { RootState } from "../../store";
 import { User } from "../../types";
 import CreateButton from "./CreateButton";
@@ -44,9 +45,12 @@ export default function MainLayout(props: Props): JSX.Element {
             top: 0,
           }}
         >
-          <Typography variant="h5" style={{ fontFamily: "Space Mono", fontWeight: "bold" }}>
-            Memeboxer
-          </Typography>
+          <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+            <img src={Memeboxer} alt="Memeboxer" style={{ height: 50 }} />
+            <Typography variant="h5" style={{ fontFamily: "Space Mono", fontWeight: "bold", marginLeft: 10 }}>
+              Memeboxer
+            </Typography>
+          </Box>
 
           <TextField
             style={{ width: 300, padding: 5, border: `1px solid ${theme.palette.divider}` }}
