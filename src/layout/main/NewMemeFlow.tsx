@@ -1,4 +1,6 @@
-import { Box, Grid, Modal, TextField, Typography, useTheme } from "@material-ui/core";
+import { faBold, faCaretDown, faItalic, faPalette, faUnderline } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Box, Button, Grid, Modal, TextField, Typography, useTheme } from "@material-ui/core";
 import axios from "axios";
 import domtoimage from "dom-to-image";
 import { useEffect, useState } from "react";
@@ -12,6 +14,7 @@ import { TextInput } from "../../pages/App/App";
 import { RootState } from "../../store";
 import { addComponent, clearComponents, removeComponent, setActiveComponent, setCurrentJob, setData, setTemplateId, setText, TextComponent } from "../../store/createMeme";
 import { Page, setActivePage, toggleCreateTemplate } from "../../store/view";
+
 const rootUrl = "http://localhost:5000";
 
 export default function NewMemeFlow(): JSX.Element {
@@ -63,7 +66,7 @@ export default function NewMemeFlow(): JSX.Element {
         container
         style={{
           backgroundColor: theme.palette.background.paper,
-          width: currentJob == 1 ? 600 : 900,
+          width: currentJob == 3 ? 900 : 600,
           minHeight: currentJob == 1 ? 600 : 0,
           maxHeight: currentJob == 1 ? 600 : 900,
           borderRadius: 10,
@@ -187,6 +190,7 @@ function CreateMeme(): JSX.Element {
   const [textInputs, setTextInputs] = useState<TextInput[]>([]);
   const componentMap = useSelector((state: RootState) => state.createMeme.componentMap);
   const [textComponents, setTextComponents] = useState<TextComponent[]>([]);
+  const theme = useTheme();
 
   const handleClick = (e: any) => {
     const x = e.nativeEvent.offsetX;
@@ -250,17 +254,122 @@ function CreateMeme(): JSX.Element {
     <Box
       style={{
         display: "flex",
-        flexDirection: "row",
+        flexDirection: "column",
+        justifyContent: "space-between",
         maxHeight: 900,
         width: "100%",
       }}
     >
+      <Grid
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          backgroundColor: theme.palette.background.paper,
+          boxShadow: "10px solid black",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 8,
+          paddingLeft: 8,
+          paddingRight: 8,
+        }}
+      >
+        <Button variant="outlined" style={{ fontSize: 20, height: 40, border: `1px solid ${theme.palette.divider}`, textTransform: "none" }}>
+          <Typography variant="body1" style={{ fontFamily: "roboto", fontSize: 20, padding: 0 }}>
+            roboto
+          </Typography>
+
+          <FontAwesomeIcon icon={faCaretDown} style={{ fontSize: 20, marginLeft: 4 }} />
+        </Button>
+
+        <Grid style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+          <Button variant="outlined" style={{ fontSize: 20, height: 40, border: `1px solid ${theme.palette.divider}`, borderTopRightRadius: 0, borderBottomRightRadius: 0, borderRightWidth: 0 }}>
+            -
+          </Button>
+          <input
+            type="text"
+            value={24}
+            style={{
+              height: 40,
+              padding: 0,
+              fontSize: 20,
+
+              margin: 0,
+              border: `1px solid ${theme.palette.divider}`,
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "center",
+              width: 56,
+            }}
+          />
+          <Button variant="outlined" style={{ fontSize: 20, height: 40, border: `1px solid ${theme.palette.divider}`, borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderLeftWidth: 0 }}>
+            +
+          </Button>
+        </Grid>
+
+        <Grid style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+          <button
+            style={{
+              backgroundColor: "transparent",
+              padding: 4,
+
+              boxShadow: "none",
+              border: "none",
+              fontSize: 20,
+            }}
+          >
+            <FontAwesomeIcon icon={faBold} />
+          </button>
+
+          <button
+            style={{
+              backgroundColor: "transparent",
+              padding: 4,
+
+              boxShadow: "none",
+              border: "none",
+              fontSize: 20,
+            }}
+          >
+            <FontAwesomeIcon icon={faItalic} />
+          </button>
+
+          <button
+            style={{
+              backgroundColor: "transparent",
+              padding: 4,
+
+              boxShadow: "none",
+              border: "none",
+              fontSize: 20,
+            }}
+          >
+            <FontAwesomeIcon icon={faUnderline} />
+          </button>
+
+          <button
+            style={{
+              backgroundColor: "transparent",
+              padding: 4,
+
+              boxShadow: "none",
+              border: "none",
+              fontSize: 20,
+            }}
+          >
+            <FontAwesomeIcon icon={faPalette} color="#0160FE" />
+          </button>
+        </Grid>
+      </Grid>
+
       <Grid container style={{ display: "flex", overflowY: "scroll", overscrollBehavior: "scroll" }}>
         {(!isLoaded || !signedUrl) && (
           <Box style={{ height: 550, width: 550, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
             <BeatLoader color="#0160FE" loading={!isLoaded} />
           </Box>
         )}
+
         <Box style={{ cursor: "text", position: "relative" }} onClick={handleClick} id="meme">
           <img src={signedUrl!} alt="null" style={{ minWidth: 600, maxWidth: 600, maxHeight: "100%", display: isLoaded ? "flex" : "none", margin: 0, padding: 0 }} onLoad={() => setIsLoaded(true)} />
           {textComponents.map((textComponent) => (
@@ -277,12 +386,6 @@ function CreateMeme(): JSX.Element {
             </Box>
           ))}
         </Box>
-      </Grid>
-
-      <Grid style={{ display: "flex", backgroundColor: "red", minWidth: 300 }}>
-        <Typography>Inspect</Typography>
-
-        <button onClick={onClick}>Create Meme</button>
       </Grid>
     </Box>
   );
