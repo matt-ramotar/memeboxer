@@ -10,9 +10,10 @@ export default function ColorPicker(): JSX.Element {
 
   const activeComponent = useSelector((state: RootState) => state.createMeme.activeComponent);
   const color = useSelector((state: RootState) => state.createMeme.componentMap[activeComponent ?? ""]?.style?.color);
+  const colorPickerIsVisible = useSelector((state: RootState) => state.view.colorPicker);
 
   const toggleColorPickerDispatcher = () => {
-    dispatch(toggleColorPicker());
+    dispatch(toggleColorPicker(!colorPickerIsVisible));
   };
 
   return (
@@ -24,7 +25,7 @@ export default function ColorPicker(): JSX.Element {
         border: "none",
         fontSize: 20,
       }}
-      onClick={toggleColorPicker}
+      onClick={toggleColorPickerDispatcher}
     >
       <CustomizeLine fill={color ?? "#0160FE"} height={24} width={24} />
     </button>

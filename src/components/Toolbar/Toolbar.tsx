@@ -16,9 +16,10 @@ export default function Toolbar(): JSX.Element {
   const [color, setColor] = useState("#0160FE");
 
   const templateId = useSelector((state: RootState) => state.createMeme.templateId);
+  const colorPickerIsVisible = useSelector((state: RootState) => state.view.colorPicker);
 
   const toggleColorPickerDispatcher = () => {
-    dispatch(toggleColorPicker());
+    dispatch(toggleColorPicker(!colorPickerIsVisible));
   };
 
   return (

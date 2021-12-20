@@ -1,4 +1,4 @@
-import { Box, Grid, useTheme } from "@material-ui/core";
+import { Box, Grid } from "@material-ui/core";
 import axios from "axios";
 import domtoimage from "dom-to-image";
 import { useEffect, useState } from "react";
@@ -10,7 +10,8 @@ import MemeTextInput from "../../components/CreateMemeFlow/MemeTextInput";
 import Toolbar from "../../components/Toolbar";
 import { TextInput } from "../../pages/App/App";
 import { RootState } from "../../store";
-import { addComponent, setData, TextComponent } from "../../store/createMeme";
+import { addComponent, setColor, setData, TextComponent } from "../../store/createMeme";
+import { toggleColorPicker } from "../../store/view";
 import { API_URL } from "../../util/secrets";
 
 export default function CreateMeme(): JSX.Element {
@@ -19,16 +20,14 @@ export default function CreateMeme(): JSX.Element {
   const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
 
-  const [start, setStart] = useState([0, 0]);
-  const [end, setEnd] = useState<number[] | null>(null);
   const [textInputs, setTextInputs] = useState<TextInput[]>([]);
   const componentMap = useSelector((state: RootState) => state.createMeme.componentMap);
+  const activeComponent = useSelector((state: RootState) => state.createMeme.activeComponent);
   const [textComponents, setTextComponents] = useState<TextComponent[]>([]);
-  const theme = useTheme();
 
-  const [color, setColor] = useState("#0160FE");
-
-  const [isVisible, setIsVisible] = useState(false);
+  const colorPickerIsVisible = useSelector((state: RootState) => state.view.colorPicker);
+  // const color = useSelector((state: RootState) => state.createMeme.componentMap[activeComponent ?? ""]?.style?.color);
+  const color = "red";
 
   const handleClick = (e: any) => {
     const x = e.nativeEvent.offsetX;
@@ -102,16 +101,17 @@ export default function CreateMeme(): JSX.Element {
       <Toolbar />
 
       <div style={{ position: "relative", display: "flex", overflowY: "scroll" }}>
-        <div style={{ display: isVisible ? "inline" : "none", position: "absolute", top: 0, right: 10, zIndex: 1000 }}>
+        <div style={{ display: "inline", position: "absolute", top: 0, right: 10, zIndex: 1000 }}>
           <SketchPicker
             onChange={(color: any) => {
-              setColor(color.hex);
-              setIsVisible(false);
+              dispatch(setColor(color.hex));
+              dispatch(toggleColorPicker(!colorPickerIsVisible));
             }}
             style={{ zIndex: 10001 }}
             color={color}
           />
         </div>
+
         <Grid container style={{ display: "flex", overflowY: "scroll", overscrollBehavior: "scroll" }}>
           {(!isLoaded || !signedUrl) && (
             <Box style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
@@ -119,7 +119,7 @@ export default function CreateMeme(): JSX.Element {
             </Box>
           )}
 
-          <Grid style={{ cursor: "text", position: "relative" }} onClick={handleClick} id="meme">
+          <Grid style={{ display: "flex", cursor: "text", position: "relative", maxHeight: "100%" }} onClick={handleClick} id="meme">
             <img src={signedUrl!} alt="null" style={{ minWidth: 600, maxWidth: 600, maxHeight: "100%", display: isLoaded ? "flex" : "none", margin: 0, padding: 0 }} onLoad={() => setIsLoaded(true)} />
             {textComponents.map((textComponent) => (
               <Box

@@ -9,8 +9,6 @@ import CreateMeme from "./CreateMeme";
 import PostMeme from "./PostMeme";
 import SelectTemplate from "./SelectTemplate";
 
-const rootUrl = "http://localhost:5000";
-
 export default function CreateMemeFlow(): JSX.Element {
   const dispatch = useDispatch();
   const isOpen = useSelector((state: RootState) => state.view.createTemplate);

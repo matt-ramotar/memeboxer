@@ -26,8 +26,8 @@ const viewSlice = createSlice({
     toggleCreateTemplate(state) {
       state.createTemplate = !state.createTemplate;
     },
-    toggleColorPicker(state) {
-      state.colorPicker = !state.colorPicker;
+    toggleColorPicker(state, action: PayloadAction<boolean>) {
+      state.colorPicker = action.payload;
     },
     setActivePage(state, action: PayloadAction<Page>) {
       state.activePage = action.payload;

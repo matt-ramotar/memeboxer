@@ -91,6 +91,12 @@ const createMemeSlice = createSlice({
         state.componentMap[state.activeComponent].text = action.payload;
       }
     },
+
+    setColor(state, action: PayloadAction<string>) {
+      if (state.activeComponent) {
+        state.componentMap[state.activeComponent].style.color = action.payload;
+      }
+    },
     removeComponent(state, action: PayloadAction<string>) {
       if (state.activeComponent == action.payload) {
         state.activeComponent = null;
@@ -103,5 +109,5 @@ const createMemeSlice = createSlice({
   },
 });
 
-export const { setCurrentJob, setTemplateId, setTagIds, addComponent, setData, clearComponents, setActiveComponent, setFontSize, removeComponent, setText } = createMemeSlice.actions;
+export const { setCurrentJob, setTemplateId, setTagIds, addComponent, setData, clearComponents, setActiveComponent, setFontSize, removeComponent, setText, setColor } = createMemeSlice.actions;
 export default createMemeSlice.reducer;
