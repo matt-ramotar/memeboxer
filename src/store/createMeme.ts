@@ -3,13 +3,53 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface CreateMemeState {
   currentJob: number;
   templateId: string | null;
+  componentMap: {
+    [id: string]: TextComponent;
+  };
   tagIds: string[] | null;
+}
+
+export interface TextComponent {
+  id: string;
+  text: string;
+  style?: Style;
+  layout: Layout;
+  size: Size;
+}
+
+export interface Size {
+  width: number;
+  padding?: Padding;
+}
+
+export interface Layout {
+  startX: number;
+  startY: number;
+  rotation: Rotation;
+}
+
+export interface Style {
+  backgroundColor?: string;
+  color?: string;
+}
+
+export interface Padding {
+  start: number;
+  end: number;
+  top: number;
+  bottom: number;
+}
+
+export interface Rotation {
+  isPositive: boolean;
+  degrees: number;
 }
 
 const initialState: CreateMemeState = {
   currentJob: 1,
   templateId: null,
   tagIds: null,
+  componentMap: {},
 };
 
 const createMemeSlice = createSlice({
@@ -25,8 +65,11 @@ const createMemeSlice = createSlice({
     setTagIds(state, action: PayloadAction<string[] | null>) {
       state.tagIds = action.payload;
     },
+    addComponent(state, action: PayloadAction<TextComponent>) {
+      state.componentMap[action.payload.id] = action.payload;
+    },
   },
 });
 
-export const { setCurrentJob, setTemplateId, setTagIds } = createMemeSlice.actions;
+export const { setCurrentJob, setTemplateId, setTagIds, addComponent } = createMemeSlice.actions;
 export default createMemeSlice.reducer;

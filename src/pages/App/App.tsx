@@ -12,7 +12,7 @@ export default function App(): JSX.Element {
     const y = e.nativeEvent.offsetY;
 
     const nextTextInputs = [...textInputs];
-    nextTextInputs.push({ x, y });
+    nextTextInputs.push({ x, y, id: "123" });
     setTextInputs(nextTextInputs);
   };
 
@@ -70,6 +70,7 @@ export default function App(): JSX.Element {
 export interface TextInput {
   x: number;
   y: number;
+  id: string;
 }
 
 function TextInput() {

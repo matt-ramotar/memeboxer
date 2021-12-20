@@ -5,11 +5,12 @@ import { saveAs } from "file-saver";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BeatLoader } from "react-spinners";
+import { v4 as uuidv4 } from "uuid";
 import ArrowLeftLine from "../../assets/icons/ArrowLeftLine";
 import ArrowRightLine from "../../assets/icons/ArrowRightLine";
 import { TextInput } from "../../pages/App/App";
 import { RootState } from "../../store";
-import { setCurrentJob, setTemplateId } from "../../store/createMeme";
+import { addComponent, setCurrentJob, setTemplateId, TextComponent } from "../../store/createMeme";
 import { Page, setActivePage, toggleCreateTemplate } from "../../store/view";
 
 const rootUrl = "http://localhost:5000";
@@ -179,15 +180,31 @@ function CreateMeme(): JSX.Element {
   const [start, setStart] = useState([0, 0]);
   const [end, setEnd] = useState<number[] | null>(null);
   const [textInputs, setTextInputs] = useState<TextInput[]>([]);
+  const componentMap = useSelector((state: RootState) => state.createMeme.componentMap);
+  const [textComponents, setTextComponents] = useState<TextComponent[]>([]);
 
   const handleClick = (e: any) => {
     const x = e.nativeEvent.offsetX;
     const y = e.nativeEvent.offsetY;
+    const id = uuidv4().split("-")[0];
+
+    const textComponent: TextComponent = {
+      id,
+      text: "TODO",
+      layout: { startX: x, startY: y, rotation: { isPositive: true, degrees: 0 } },
+      size: { width: 200 },
+    };
+
+    dispatch(addComponent(textComponent));
 
     const nextTextInputs = [...textInputs];
-    nextTextInputs.push({ x, y });
+    nextTextInputs.push({ x, y, id });
     setTextInputs(nextTextInputs);
   };
+
+  useEffect(() => {
+    setTextComponents(Object.values(componentMap));
+  }, [componentMap, Object.keys(componentMap)]);
 
   const onClick = () => {
     const node = document.getElementById("meme");
@@ -240,9 +257,17 @@ function CreateMeme(): JSX.Element {
         )}
         <Box style={{ cursor: "text", position: "relative" }} onClick={handleClick} id="meme">
           <img src={signedUrl!} alt="null" style={{ minWidth: 600, maxWidth: 600, maxHeight: "100%", display: isLoaded ? "flex" : "none", margin: 0, padding: 0 }} onLoad={() => setIsLoaded(true)} />
-          {textInputs.map((textInput) => (
-            <Box key={`${textInput.x}, ${textInput.y}`} style={{ position: "absolute", top: textInput.y, left: textInput.x }}>
-              <UserInput />
+          {textComponents.map((textComponent) => (
+            <Box
+              key={textComponent.id}
+              style={{
+                position: "absolute",
+                top: textComponent.layout.startY,
+                left: textComponent.layout.startX,
+                transform: `rotate(${textComponent.layout.rotation.isPositive ? "+" : "-"}${textComponent.layout.rotation.degrees}deg)`,
+              }}
+            >
+              <UserInput textComponent={textComponent} />
             </Box>
           ))}
         </Box>
@@ -257,7 +282,7 @@ function CreateMeme(): JSX.Element {
   );
 }
 
-function UserInput(): JSX.Element {
+function UserInput({ textComponent }: { textComponent: TextComponent }): JSX.Element {
   const [input, setInput] = useState<string | null>(null);
   const theme = useTheme();
 
@@ -301,7 +326,7 @@ function UserInput(): JSX.Element {
         outline: "none",
       }}
     >
-      TODO
+      {textComponent.text}
     </Typography>
   );
 }
