@@ -26,8 +26,7 @@ export default function CreateMeme(): JSX.Element {
   const [textComponents, setTextComponents] = useState<TextComponent[]>([]);
 
   const colorPickerIsVisible = useSelector((state: RootState) => state.view.colorPicker);
-  // const color = useSelector((state: RootState) => state.createMeme.componentMap[activeComponent ?? ""]?.style?.color);
-  const color = "red";
+  const color = useSelector((state: RootState) => state.createMeme.componentMap[activeComponent ?? ""]?.style?.color);
 
   const handleClick = (e: any) => {
     const x = e.nativeEvent.offsetX;
@@ -101,7 +100,7 @@ export default function CreateMeme(): JSX.Element {
       <Toolbar />
 
       <div style={{ position: "relative", display: "flex", overflowY: "scroll" }}>
-        <div style={{ display: "inline", position: "absolute", top: 0, right: 10, zIndex: 1000 }}>
+        <div style={{ display: colorPickerIsVisible ? "flex" : "none", position: "absolute", top: 0, right: 10, zIndex: 1000 }}>
           <SketchPicker
             onChange={(color: any) => {
               dispatch(setColor(color.hex));
@@ -114,13 +113,13 @@ export default function CreateMeme(): JSX.Element {
 
         <Grid container style={{ display: "flex", overflowY: "scroll", overscrollBehavior: "scroll" }}>
           {(!isLoaded || !signedUrl) && (
-            <Box style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+            <Box style={{ height: 550, width: 600, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
               <BeatLoader color="#0160FE" loading={!isLoaded} />
             </Box>
           )}
 
-          <Grid style={{ display: "flex", cursor: "text", position: "relative", maxHeight: "100%" }} onClick={handleClick} id="meme">
-            <img src={signedUrl!} alt="null" style={{ minWidth: 600, maxWidth: 600, maxHeight: "100%", display: isLoaded ? "flex" : "none", margin: 0, padding: 0 }} onLoad={() => setIsLoaded(true)} />
+          <Grid style={{ display: "flex", cursor: "text", position: "relative" }} onClick={handleClick} id="meme">
+            <img src={signedUrl!} alt="null" style={{ minWidth: 600, maxWidth: 600, display: isLoaded ? "flex" : "none", margin: 0, padding: 0 }} onLoad={() => setIsLoaded(true)} />
             {textComponents.map((textComponent) => (
               <Box
                 key={textComponent.id}
