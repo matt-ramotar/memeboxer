@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import BoldLine from "../../assets/icons/BoldLine";
 import ItalicLine from "../../assets/icons/ItalicLine";
 import { RootState } from "../../store";
+import { setIsBold, setIsItalic } from "../../store/createMeme";
 import { toggleColorPicker } from "../../store/view";
 import ColorPicker from "./ColorPicker";
 
@@ -17,6 +18,9 @@ export default function Toolbar(): JSX.Element {
 
   const templateId = useSelector((state: RootState) => state.createMeme.templateId);
   const colorPickerIsVisible = useSelector((state: RootState) => state.view.colorPicker);
+
+  const activeComponent = useSelector((state: RootState) => state.createMeme.activeComponent);
+  const realComponent = useSelector((state: RootState) => state.createMeme.componentMap[activeComponent ?? ""]);
 
   const toggleColorPickerDispatcher = () => {
     dispatch(toggleColorPicker(!colorPickerIsVisible));
@@ -80,6 +84,7 @@ export default function Toolbar(): JSX.Element {
             border: "none",
             fontSize: 20,
           }}
+          onClick={() => dispatch(setIsBold(!realComponent.style.isBold))}
         >
           <BoldLine fill="#262626" height={24} width={24} />
         </button>
@@ -93,6 +98,7 @@ export default function Toolbar(): JSX.Element {
             border: "none",
             fontSize: 20,
           }}
+          onClick={() => dispatch(setIsItalic(!realComponent.style.isItalic))}
         >
           <ItalicLine fill="#262626" height={24} width={24} />
         </button>

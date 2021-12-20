@@ -37,7 +37,7 @@ export default function CreateMeme(): JSX.Element {
       id,
       text: "TODO",
       layout: { startX: x, startY: y, rotation: { isPositive: true, degrees: 0 } },
-      style: { color: "#262626", fontSize: 40 },
+      style: { color: "#000", fontSize: 40, fontFamily: "roboto", isBold: false, isItalic: false },
       size: { width: 200 },
     };
 

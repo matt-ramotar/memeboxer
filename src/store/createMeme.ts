@@ -33,6 +33,9 @@ export interface Layout {
 export interface Style {
   color: string;
   fontSize: number;
+  fontFamily: string;
+  isBold: boolean;
+  isItalic: boolean;
 }
 
 export interface Padding {
@@ -99,6 +102,22 @@ const createMemeSlice = createSlice({
         state.componentMap[nextTextComponent.id] = nextTextComponent;
       }
     },
+
+    setIsBold(state, action: PayloadAction<boolean>) {
+      if (state.activeComponent) {
+        const nextTextComponent = { ...state.componentMap[state.activeComponent] };
+        nextTextComponent.style.isBold = action.payload;
+        state.componentMap[nextTextComponent.id] = nextTextComponent;
+      }
+    },
+
+    setIsItalic(state, action: PayloadAction<boolean>) {
+      if (state.activeComponent) {
+        const nextTextComponent = { ...state.componentMap[state.activeComponent] };
+        nextTextComponent.style.isItalic = action.payload;
+        state.componentMap[nextTextComponent.id] = nextTextComponent;
+      }
+    },
     removeComponent(state, action: PayloadAction<string>) {
       if (state.activeComponent == action.payload) {
         state.activeComponent = null;
@@ -111,5 +130,6 @@ const createMemeSlice = createSlice({
   },
 });
 
-export const { setCurrentJob, setTemplateId, setTagIds, addComponent, setData, clearComponents, setActiveComponent, setFontSize, removeComponent, setText, setColor } = createMemeSlice.actions;
+export const { setCurrentJob, setTemplateId, setTagIds, addComponent, setData, clearComponents, setActiveComponent, setFontSize, removeComponent, setText, setColor, setIsBold, setIsItalic } =
+  createMemeSlice.actions;
 export default createMemeSlice.reducer;
