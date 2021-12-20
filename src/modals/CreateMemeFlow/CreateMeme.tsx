@@ -11,7 +11,7 @@ import Toolbar from "../../components/Toolbar";
 import { TextInput } from "../../pages/App/App";
 import { RootState } from "../../store";
 import { addComponent, setColor, setData, TextComponent } from "../../store/createMeme";
-import { toggleColorPicker } from "../../store/view";
+import { setLastColorPicked, toggleColorPicker } from "../../store/view";
 import { API_URL } from "../../util/secrets";
 
 export default function CreateMeme(): JSX.Element {
@@ -26,7 +26,7 @@ export default function CreateMeme(): JSX.Element {
   const [textComponents, setTextComponents] = useState<TextComponent[]>([]);
 
   const colorPickerIsVisible = useSelector((state: RootState) => state.view.colorPicker);
-  const color = useSelector((state: RootState) => state.createMeme.componentMap[activeComponent ?? ""]?.style?.color);
+  const color = useSelector((state: RootState) => state.createMeme.componentMap[activeComponent ?? ""]);
 
   const handleClick = (e: any) => {
     const x = e.nativeEvent.offsetX;
@@ -104,6 +104,7 @@ export default function CreateMeme(): JSX.Element {
           <SketchPicker
             onChange={(color: any) => {
               dispatch(setColor(color.hex));
+              dispatch(setLastColorPicked(color.hex));
               dispatch(toggleColorPicker(!colorPickerIsVisible));
             }}
             style={{ zIndex: 10001 }}

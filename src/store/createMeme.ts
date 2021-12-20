@@ -94,7 +94,9 @@ const createMemeSlice = createSlice({
 
     setColor(state, action: PayloadAction<string>) {
       if (state.activeComponent) {
-        state.componentMap[state.activeComponent].style.color = action.payload;
+        const nextTextComponent = { ...state.componentMap[state.activeComponent] };
+        nextTextComponent.style.color = action.payload;
+        state.componentMap[nextTextComponent.id] = nextTextComponent;
       }
     },
     removeComponent(state, action: PayloadAction<string>) {

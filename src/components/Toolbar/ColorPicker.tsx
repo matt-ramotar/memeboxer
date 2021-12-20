@@ -9,7 +9,7 @@ export default function ColorPicker(): JSX.Element {
   const theme = useTheme();
 
   const activeComponent = useSelector((state: RootState) => state.createMeme.activeComponent);
-  const color = useSelector((state: RootState) => state.createMeme.componentMap[activeComponent ?? ""]?.style?.color);
+  const color = useSelector((state: RootState) => state.view.lastColorPicked);
   const colorPickerIsVisible = useSelector((state: RootState) => state.view.colorPicker);
 
   const toggleColorPickerDispatcher = () => {
