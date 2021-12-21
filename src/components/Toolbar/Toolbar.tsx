@@ -1,12 +1,10 @@
 import { Grid, MenuItem, Select, Typography, useTheme } from "@material-ui/core";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BoldLine from "../../assets/icons/BoldLine";
 import ItalicLine from "../../assets/icons/ItalicLine";
 import { RootState } from "../../store";
 import { setFontFamily, setIsBold, setIsItalic } from "../../store/createMeme";
 import { setLastFontFamilyPicked, setLastIsBold, setLastIsItalic } from "../../store/theme";
-import { toggleColorPicker } from "../../store/view";
 import ColorPicker from "./ColorPicker";
 import FontSize from "./FontSize";
 
@@ -14,19 +12,10 @@ export default function Toolbar(): JSX.Element {
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  const [color, setColor] = useState("#0160FE");
-
-  const templateId = useSelector((state: RootState) => state.createMeme.templateId);
-  const colorPickerIsVisible = useSelector((state: RootState) => state.view.colorPicker);
-
   const activeComponent = useSelector((state: RootState) => state.createMeme.activeComponent);
   const realComponent = useSelector((state: RootState) => state.createMeme.componentMap[activeComponent ?? ""]);
 
   const lastFontFamilyPicked = useSelector((state: RootState) => state.theme.lastFontFamilyPicked);
-
-  const toggleColorPickerDispatcher = () => {
-    dispatch(toggleColorPicker(!colorPickerIsVisible));
-  };
 
   const handleFontFamilyChange = (e: any) => {
     dispatch(setFontFamily(e.target.value as string));

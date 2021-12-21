@@ -1,5 +1,4 @@
 import { Box, Grid, Typography, useTheme } from "@material-ui/core";
-import { BaseEmoji } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -17,50 +16,12 @@ export default function ShareMeme(): JSX.Element | null {
   const [image, setImage] = useState<HTMLImageElement | null>(null);
   const [imageHeight, setImageHeight] = useState<number | null>(null);
 
-  const [caption, setCaption] = useState("");
-  const getNumCharacters = () => caption.length;
-
-  const onChange = (e: any) => {
-    const numCharacters = e.target.value.length;
-
-    if (numCharacters <= 2000) setCaption(e.target.value);
-    else setCaption(e.target.value.slice(2000));
-  };
-
-  const [shouldShow, setShouldShow] = useState(false);
-
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-
-  const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (!shouldShow) {
-      setAnchorEl(event.currentTarget);
-      setShouldShow(true);
-    } else {
-      setShouldShow(false);
-      setAnchorEl(null);
-    }
-  };
-
-  const hashtagFormatter = (s: string) => {
-    return s.replace(/(^|\s)(#[a-z\d-]+)/gi, (m, g1, g2) => {
-      return g1 + "<span style={color:'#0160FE'}>" + g2 + "< /span>";
-    });
-  };
-
-  const onClose = () => {
-    setAnchorEl(null);
-    setShouldShow(false);
-  };
-
   const onLoad = () => {
     const node = document.getElementById("generated-meme") as HTMLImageElement;
-    setImageHeight(node!.height);
-  };
 
-  const onPick = (emoji: BaseEmoji) => {
-    setCaption(caption + `${emoji.native}`);
-    setShouldShow(false);
-    setAnchorEl(null);
+    if (node) {
+      setImageHeight(node.height);
+    }
   };
 
   useEffect(() => {

@@ -2,26 +2,27 @@ import { Box, Grid, Popover, TextField, Typography, useTheme } from "@material-u
 import { BaseEmoji, Picker } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import EmojiSmileLine from "../../assets/icons/EmojiSmileLine";
 import { RootState } from "../../store";
+import { setCaption } from "../../store/createMeme";
 
 export default function WriteACaption(): JSX.Element | null {
+  const dispatch = useDispatch();
   const meme = useSelector((state: RootState) => state.createMeme.data);
-  const user = useSelector((state: RootState) => state.user);
+
   const theme = useTheme();
 
   const [image, setImage] = useState<HTMLImageElement | null>(null);
-  const [imageHeight, setImageHeight] = useState<number | null>(null);
 
-  const [caption, setCaption] = useState("");
-  const getNumCharacters = () => caption.length;
+  const caption = useSelector((state: RootState) => state.createMeme.caption);
+
+  const getNumCharacters = () => caption?.length ?? 0;
 
   const onChange = (e: any) => {
-    const numCharacters = e.target.value.length;
+    const nextCaption = e.target.value.slice(0, 280);
 
-    if (numCharacters <= 280) setCaption(e.target.value);
-    else setCaption(e.target.value.slice(280));
+    dispatch(setCaption(nextCaption));
   };
 
   const [shouldShow, setShouldShow] = useState(false);
@@ -51,7 +52,6 @@ export default function WriteACaption(): JSX.Element | null {
 
   useEffect(() => {
     if (meme) {
-      console.log("hitting");
       const nextImage = new Image();
       nextImage.src = meme;
       setImage(nextImage);

@@ -54,7 +54,7 @@ function App(props: Props): JSX.Element {
       dispatch(setGoogleId(props.user.googleId));
       dispatch(setPicture(props.user.picture));
     }
-  }, []);
+  }, [dispatch, props.user]);
 
   return (
     <ThemeProvider theme={useTheme()}>

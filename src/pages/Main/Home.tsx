@@ -15,7 +15,6 @@ export default function Home(props: Props): JSX.Element | null {
     async function fetchMemesAsync(number: number) {
       const response = await fetchMemes(number);
       setMemes(response.memes);
-      console.log(response.memes);
     }
 
     fetchMemesAsync(10);

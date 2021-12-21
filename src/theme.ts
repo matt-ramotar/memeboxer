@@ -40,7 +40,7 @@ const lightTheme = createTheme({
     },
 
     primary: {
-      main: "#262626",
+      main: "#0160FE",
     },
   },
 

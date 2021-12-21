@@ -1,11 +1,9 @@
 import loadable from "@loadable/component";
 import { Box, Grid, TextField, Typography, useTheme } from "@material-ui/core";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import SearchIcon from "../../assets/icons/SearchIcon";
 import Memeboxer from "../../images/Memeboxer.png";
 import CreateMemeFlow from "../../modals/CreateMemeFlow/CreateMemeFlow";
-import { RootState } from "../../store";
 import { User } from "../../types";
 import CreateButton from "./CreateButton";
 import HomeButton from "./HomeButton";
@@ -18,8 +16,6 @@ interface Props {
 export default function MainLayout(props: Props): JSX.Element {
   const Page = loadable(() => import(`../../pages/Main/${props.pageName}`));
   const theme = useTheme();
-
-  const activePage = useSelector((state: RootState) => state.view.activePage);
 
   const [searchInput, setSearchInput] = useState("");
 

@@ -28,22 +28,24 @@ export default function CreateMemeFlow(): JSX.Element {
     const style = {
       transform: "scale(" + scale + ")",
       transformOrigin: "top left",
-      width: node!.offsetWidth + "px",
-      height: node!.offsetHeight + "px",
+      width: node?.offsetWidth + "px",
+      height: node?.offsetHeight + "px",
     };
 
     const param = {
-      height: node!.offsetHeight * scale,
-      width: node!.offsetWidth * scale,
+      height: (node?.offsetHeight ?? 1) * scale,
+      width: (node?.offsetWidth ?? 1) * scale,
       quality: 1,
       style,
       type: "image/png",
     };
 
-    return domtoimage.toPng(node!, param).then((data) => {
-      dispatch(setData(data));
-      dispatch(setCurrentJob(Math.min(currentJob + 1, 3)));
-    });
+    if (node) {
+      return domtoimage.toPng(node, param).then((data) => {
+        dispatch(setData(data));
+        dispatch(setCurrentJob(Math.min(currentJob + 1, 3)));
+      });
+    }
   };
 
   const renderSwitch = () => {

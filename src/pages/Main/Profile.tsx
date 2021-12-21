@@ -18,7 +18,6 @@ export default function Profile(): JSX.Element | null {
   useEffect(() => {
     async function fetchUser() {
       const response = await axios.get(`${rootUrl}/v1/users/${userId}`);
-      console.log(response);
       setUser(response.data);
     }
 

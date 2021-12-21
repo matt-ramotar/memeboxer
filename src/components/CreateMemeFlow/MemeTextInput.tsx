@@ -1,4 +1,4 @@
-import { Box, TextField, useTheme } from "@material-ui/core";
+import { Box, TextField } from "@material-ui/core";
 import buzzphrase from "buzzphrase";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +12,6 @@ export default function MemeTextInput({ textComponent }: { textComponent: TextCo
   const realComponent = useSelector((state: RootState) => state.createMeme.componentMap[textComponent.id]);
 
   const [input, setInput] = useState<string | null>();
-  const theme = useTheme();
 
   const onClick = (e: any) => {
     e.preventDefault();

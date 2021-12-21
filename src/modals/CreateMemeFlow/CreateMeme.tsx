@@ -1,6 +1,5 @@
 import { Box, Grid } from "@material-ui/core";
 import axios from "axios";
-import domtoimage from "dom-to-image";
 import React, { useEffect, useState } from "react";
 import { SketchPicker } from "react-color";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,9 +7,8 @@ import { BeatLoader } from "react-spinners";
 import { v4 as uuidv4 } from "uuid";
 import MemeTextInput from "../../components/CreateMemeFlow/MemeTextInput";
 import Toolbar from "../../components/Toolbar";
-import { TextInput } from "../../pages/App/App";
 import { RootState } from "../../store";
-import { addComponent, setActiveComponent, setColor, setData, TextComponent } from "../../store/createMeme";
+import { addComponent, setActiveComponent, setColor, TextComponent } from "../../store/createMeme";
 import { setLastColorPicked } from "../../store/theme";
 import { toggleColorPicker } from "../../store/view";
 import { API_URL } from "../../util/secrets";
@@ -21,7 +19,6 @@ export default function CreateMeme(): JSX.Element {
   const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
 
-  const [textInputs, setTextInputs] = useState<TextInput[]>([]);
   const componentMap = useSelector((state: RootState) => state.createMeme.componentMap);
   const activeComponent = useSelector((state: RootState) => state.createMeme.activeComponent);
   const [textComponents, setTextComponents] = useState<TextComponent[]>([]);
@@ -35,6 +32,8 @@ export default function CreateMeme(): JSX.Element {
   const lastIsBold = useSelector((state: RootState) => state.theme.lastIsBold);
   const lastIsItalic = useSelector((state: RootState) => state.theme.lastIsItalic);
 
+  const numComponents = Object.keys(componentMap).length;
+
   const handleClick = (e: any) => {
     const x = e.nativeEvent.offsetX;
     const y = e.nativeEvent.offsetY;
@@ -42,7 +41,7 @@ export default function CreateMeme(): JSX.Element {
 
     const textComponent: TextComponent = {
       id,
-      text: "TODO",
+      text: "",
       layout: { startX: x, startY: y, rotation: { isPositive: true, degrees: 0 } },
       style: { color: lastColorPicked, fontSize: lastFontSize, fontFamily: lastFontFamilyPicked, isBold: lastIsBold, isItalic: lastIsItalic },
       size: { width: 200 },
@@ -50,49 +49,20 @@ export default function CreateMeme(): JSX.Element {
 
     dispatch(addComponent(textComponent));
     dispatch(setActiveComponent(id));
-
-    const nextTextInputs = [...textInputs];
-    nextTextInputs.push({ x, y, id });
-    setTextInputs(nextTextInputs);
   };
 
   useEffect(() => {
     setTextComponents(Object.values(componentMap));
-  }, [Object.keys(componentMap).length]);
-
-  const onClick = () => {
-    const node = document.getElementById("meme");
-    const scale = 1.5;
-
-    const style = {
-      transform: "scale(" + scale + ")",
-      transformOrigin: "top left",
-      width: node!.offsetWidth + "px",
-      height: node!.offsetHeight + "px",
-    };
-
-    const param = {
-      height: node!.offsetHeight * scale,
-      width: node!.offsetWidth * scale,
-      quality: 1,
-      style,
-      type: "image/png",
-    };
-
-    return domtoimage.toPng(node!, param).then((data) => {
-      dispatch(setData(data));
-    });
-  };
+  }, [numComponents, componentMap]);
 
   useEffect(() => {
     async function fetchSignedUrl() {
       const response = await axios.get(`${API_URL}/storage/${templateId}`);
-      console.log("response", response);
       setSignedUrl(response.data.data);
     }
 
     fetchSignedUrl();
-  }, []);
+  }, [templateId]);
 
   return (
     <Box
@@ -128,7 +98,7 @@ export default function CreateMeme(): JSX.Element {
           )}
 
           <Grid style={{ display: "flex", cursor: "text", position: "relative" }} onClick={handleClick} id="meme">
-            <img src={signedUrl!} alt="null" style={{ minWidth: 600, maxWidth: 600, display: isLoaded ? "flex" : "none", margin: 0, padding: 0 }} onLoad={() => setIsLoaded(true)} />
+            <img src={signedUrl ?? ""} alt="null" style={{ minWidth: 600, maxWidth: 600, display: isLoaded ? "flex" : "none", margin: 0, padding: 0 }} onLoad={() => setIsLoaded(true)} />
             {textComponents.map((textComponent) => (
               <Box
                 key={textComponent.id}

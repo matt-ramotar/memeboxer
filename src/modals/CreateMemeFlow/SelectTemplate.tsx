@@ -1,21 +1,16 @@
 import { Grid } from "@material-ui/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
-import TemplateGridItem from "./TemplateGridItem";
-
-const rootUrl = "http://localhost:5000";
+import TemplateGridItem from "../../components/CreateMemeFlow/TemplateGridItem";
+import { API_URL } from "../../util/secrets";
 
 export default function SelectTemplate(): JSX.Element {
   const [templates, setTemplates] = useState<any[] | null>(null);
 
-  const userId = useSelector((state: RootState) => state.user.id);
-
   useEffect(() => {
     async function fetchTemplates() {
-      const responseFromServer = await axios.get(`${rootUrl}/v1/templates`);
-      console.log(responseFromServer);
+      const responseFromServer = await axios.get(`${API_URL}/v1/templates`);
+
       setTemplates([...responseFromServer.data]);
     }
 
