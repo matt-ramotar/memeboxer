@@ -1,7 +1,6 @@
 import { Grid, Modal, Typography, useTheme } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import ArrowLeftLine from "../../assets/icons/ArrowLeftLine";
-import ArrowRightLine from "../../assets/icons/ArrowRightLine";
 import { RootState } from "../../store";
 import { clearComponents, setCurrentJob } from "../../store/createMeme";
 import { Page, setActivePage, toggleCreateTemplate } from "../../store/view";
@@ -83,7 +82,7 @@ export default function CreateMemeFlow(): JSX.Element {
           }}
         >
           <button
-            style={{ margin: 0, padding: 0, border: "none", boxShadow: "none", backgroundColor: "transparent", display: "flex" }}
+            style={{ margin: 0, padding: 0, border: "none", boxShadow: "none", backgroundColor: "transparent", visibility: currentJob == 1 ? "hidden" : "visible" }}
             onClick={() => {
               if (currentJob == 2) dispatch(clearComponents());
               dispatch(setCurrentJob(Math.max(currentJob - 1, 1)));
@@ -98,7 +97,7 @@ export default function CreateMemeFlow(): JSX.Element {
             style={{ margin: 0, padding: 0, border: "none", boxShadow: "none", backgroundColor: "transparent", display: "flex" }}
             onClick={() => dispatch(setCurrentJob(Math.min(currentJob + 1, 3)))}
           >
-            <ArrowRightLine />
+            <Typography style={{ fontFamily: "Space Grotesk", color: "#0160FE", fontWeight: "bold" }}>Next</Typography>
           </button>
         </Grid>
         {renderSwitch()}
