@@ -78,6 +78,8 @@ export default function CreateMemeFlow(): JSX.Element {
             justifyContent: "space-between",
             alignItems: "center",
             zIndex: 1000,
+            paddingLeft: 20,
+            paddingRight: 20,
           }}
         >
           <button

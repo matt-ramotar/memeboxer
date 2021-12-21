@@ -32,7 +32,7 @@ export default function FontSize(): JSX.Element {
           height: 40,
           padding: 0,
           fontSize: 20,
-
+          fontFamily: "Space Grotesk",
           margin: 0,
           border: `1px solid ${theme.palette.divider}`,
           display: "flex",
@@ -45,7 +45,7 @@ export default function FontSize(): JSX.Element {
       />
       <Button
         variant="outlined"
-        style={{ fontSize: 20, height: 40, border: `1px solid ${theme.palette.divider}`, borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderLeftWidth: 0 }}
+        style={{ fontSize: 20, width: 30, height: 40, border: `1px solid ${theme.palette.divider}`, borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderLeftWidth: 0 }}
         onClick={() => dispatch(incrementFontSize())}
       >
         +

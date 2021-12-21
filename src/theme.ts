@@ -50,5 +50,5 @@ const lightTheme = createTheme({
 });
 
 export default function useTheme() {
-  return useLightMode() ? lightTheme : darkTheme;
+  return useLightMode() ? lightTheme : lightTheme;
 }

@@ -1,6 +1,4 @@
-import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Grid, Typography, useTheme } from "@material-ui/core";
+import { Grid, MenuItem, Select, Typography, useTheme } from "@material-ui/core";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BoldLine from "../../assets/icons/BoldLine";
@@ -16,6 +14,7 @@ export default function Toolbar(): JSX.Element {
   const theme = useTheme();
 
   const [color, setColor] = useState("#0160FE");
+  const [fontFamily, setFontFamily] = useState("Impact");
 
   const templateId = useSelector((state: RootState) => state.createMeme.templateId);
   const colorPickerIsVisible = useSelector((state: RootState) => state.view.colorPicker);
@@ -25,6 +24,17 @@ export default function Toolbar(): JSX.Element {
 
   const toggleColorPickerDispatcher = () => {
     dispatch(toggleColorPicker(!colorPickerIsVisible));
+  };
+
+  const ITEM_HEIGHT = 40;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
   };
 
   return (
@@ -37,17 +47,18 @@ export default function Toolbar(): JSX.Element {
         justifyContent: "space-between",
         alignItems: "center",
         marginBottom: 8,
-        paddingLeft: 8,
-        paddingRight: 8,
+        paddingLeft: 20,
+        paddingRight: 20,
       }}
     >
-      <Button variant="outlined" style={{ fontSize: 20, height: 40, border: `1px solid ${theme.palette.divider}`, textTransform: "none" }}>
-        <Typography variant="body1" style={{ fontFamily: "roboto", fontSize: 20, padding: 0 }}>
-          roboto
-        </Typography>
-
-        <FontAwesomeIcon icon={faCaretDown} style={{ fontSize: 20, marginLeft: 4 }} />
-      </Button>
+      <Select variant="outlined" value={fontFamily} onChange={(e) => setFontFamily(e.target.value as string)} defaultValue={"Impact"} MenuProps={MenuProps} style={{ height: 40, width: 100 }}>
+        <MenuItem value="Impact">
+          <Typography style={{ fontFamily: "Impact" }}>Impact</Typography>
+        </MenuItem>
+        <MenuItem value="Roboto">
+          <Typography style={{ fontFamily: "Roboto" }}>Roboto</Typography>
+        </MenuItem>
+      </Select>
 
       <FontSize />
 
