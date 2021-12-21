@@ -31,7 +31,7 @@ export default function MemeTextInput({ textComponent }: { textComponent: TextCo
   if (!realComponent) return null;
 
   return (
-    <Rnd minWidth={100} size={{ width: 200, height: 200 }}>
+    <Rnd minWidth={100}>
       <Box onClick={onClick} onContextMenu={onClick} style={{ cursor: "pointer", padding: 4, border: "3px solid #00D9E1", display: "flex", flexDirection: "row", justifyContent: "center" }}>
         <TextField
           placeholder={buzzphrase.get({
