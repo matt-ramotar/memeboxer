@@ -61,10 +61,10 @@ export default function WriteACaption(): JSX.Element | null {
   if (!meme || !image) return null;
 
   return (
-    <Box style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "flex-start", height: 280, width: "100%", marginTop: 16 }}>
+    <Box style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "flex-start", width: "100%", marginTop: 16 }}>
       <TextField
         placeholder="Write a caption..."
-        style={{ border: "none", fontFamily: "Space Grotesk", width: "100%", overflowY: "scroll" }}
+        style={{ border: "none", fontFamily: "Space Grotesk", width: "100%", height: 200 }}
         InputProps={{ disableUnderline: true }}
         inputProps={{
           style: {

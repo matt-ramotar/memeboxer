@@ -53,7 +53,7 @@ export default function ShareMeme(): JSX.Element | null {
   };
 
   const onLoad = () => {
-    const node = document.getElementById("meme") as HTMLImageElement;
+    const node = document.getElementById("generated-meme") as HTMLImageElement;
     setImageHeight(node!.height);
   };
 
@@ -79,16 +79,14 @@ export default function ShareMeme(): JSX.Element | null {
       style={{
         display: "flex",
         flexDirection: "row",
-        maxHeight: imageHeight!,
+        height: "100%",
         width: "100%",
         cursor: "auto",
       }}
     >
-      <Grid container style={{ display: "flex", overflowY: "scroll", overscrollBehavior: "scroll" }}>
-        <Box style={{ position: "relative" }}>
-          <img src={image.src} alt="null" style={{ minWidth: 600, maxWidth: 600, maxHeight: imageHeight ? imageHeight : "100%", display: "flex", margin: 0, padding: 0 }} onLoad={onLoad} id="meme" />
-        </Box>
-      </Grid>
+      <Box style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", overflowY: "scroll", height: "100%" }}>
+        <img src={meme} alt="null" style={{ minWidth: 600, maxWidth: 600, height: "auto", display: "flex" }} onLoad={onLoad} id="generated-meme" />
+      </Box>
 
       <Grid
         style={{
@@ -103,8 +101,10 @@ export default function ShareMeme(): JSX.Element | null {
           paddingLeft: 16,
           paddingRight: 16,
 
-          height: imageHeight ? `calc(${imageHeight}px - 16px - 40px)` : 200,
+          height: imageHeight ? imageHeight : 0,
           position: "relative",
+          paddingBottom: 0,
+          marginBottom: 0,
         }}
       >
         <Box
