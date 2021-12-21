@@ -1,7 +1,7 @@
 import { Button, Grid, useTheme } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { setFontSize } from "../../store/createMeme";
+import { decrementFontSize, incrementFontSize, setFontSize } from "../../store/createMeme";
 
 export default function FontSize(): JSX.Element {
   const dispatch = useDispatch();
@@ -17,7 +17,11 @@ export default function FontSize(): JSX.Element {
 
   return (
     <Grid style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-      <Button variant="outlined" style={{ fontSize: 20, height: 40, border: `1px solid ${theme.palette.divider}`, borderTopRightRadius: 0, borderBottomRightRadius: 0, borderRightWidth: 0 }}>
+      <Button
+        variant="outlined"
+        style={{ fontSize: 20, height: 40, border: `1px solid ${theme.palette.divider}`, borderTopRightRadius: 0, borderBottomRightRadius: 0, borderRightWidth: 0 }}
+        onClick={() => dispatch(decrementFontSize())}
+      >
         -
       </Button>
       <input
@@ -39,7 +43,11 @@ export default function FontSize(): JSX.Element {
           width: 56,
         }}
       />
-      <Button variant="outlined" style={{ fontSize: 20, height: 40, border: `1px solid ${theme.palette.divider}`, borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderLeftWidth: 0 }}>
+      <Button
+        variant="outlined"
+        style={{ fontSize: 20, height: 40, border: `1px solid ${theme.palette.divider}`, borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderLeftWidth: 0 }}
+        onClick={() => dispatch(incrementFontSize())}
+      >
         +
       </Button>
     </Grid>

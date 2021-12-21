@@ -89,6 +89,24 @@ const createMemeSlice = createSlice({
         state.componentMap[state.activeComponent].style.fontSize = action.payload;
       }
     },
+
+    incrementFontSize(state) {
+      if (state.activeComponent) {
+        const nextTextComponent = { ...state.componentMap[state.activeComponent] };
+        nextTextComponent.style.fontSize += 4;
+        nextTextComponent.style.fontSize = Math.min(nextTextComponent.style.fontSize, 250);
+        state.componentMap[nextTextComponent.id] = nextTextComponent;
+      }
+    },
+
+    decrementFontSize(state) {
+      if (state.activeComponent) {
+        const nextTextComponent = { ...state.componentMap[state.activeComponent] };
+        nextTextComponent.style.fontSize -= 4;
+        nextTextComponent.style.fontSize = Math.max(nextTextComponent.style.fontSize, 0);
+        state.componentMap[nextTextComponent.id] = nextTextComponent;
+      }
+    },
     setText(state, action: PayloadAction<string>) {
       if (state.activeComponent) {
         state.componentMap[state.activeComponent].text = action.payload;
@@ -130,6 +148,21 @@ const createMemeSlice = createSlice({
   },
 });
 
-export const { setCurrentJob, setTemplateId, setTagIds, addComponent, setData, clearComponents, setActiveComponent, setFontSize, removeComponent, setText, setColor, setIsBold, setIsItalic } =
-  createMemeSlice.actions;
+export const {
+  setCurrentJob,
+  setTemplateId,
+  setTagIds,
+  addComponent,
+  setData,
+  clearComponents,
+  setActiveComponent,
+  setFontSize,
+  removeComponent,
+  setText,
+  setColor,
+  setIsBold,
+  setIsItalic,
+  incrementFontSize,
+  decrementFontSize,
+} = createMemeSlice.actions;
 export default createMemeSlice.reducer;
