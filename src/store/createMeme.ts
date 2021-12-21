@@ -81,7 +81,7 @@ const createMemeSlice = createSlice({
     clearComponents(state) {
       state.componentMap = {};
     },
-    setActiveComponent(state, action: PayloadAction<string>) {
+    setActiveComponent(state, action: PayloadAction<string | null>) {
       state.activeComponent = action.payload;
     },
     setFontSize(state, action: PayloadAction<number>) {

@@ -8,6 +8,7 @@ import { removeComponent, setActiveComponent, setText, TextComponent } from "../
 
 export default function MemeTextInput({ textComponent }: { textComponent: TextComponent }): JSX.Element | null {
   const dispatch = useDispatch();
+  const activeComponent = useSelector((state: RootState) => state.createMeme.activeComponent);
   const realComponent = useSelector((state: RootState) => state.createMeme.componentMap[textComponent.id]);
 
   const [input, setInput] = useState<string | null>();
@@ -32,7 +33,11 @@ export default function MemeTextInput({ textComponent }: { textComponent: TextCo
 
   return (
     <Rnd minWidth={100}>
-      <Box onClick={onClick} onContextMenu={onClick} style={{ cursor: "pointer", padding: 4, border: "3px solid #00D9E1", display: "flex", flexDirection: "row", justifyContent: "center" }}>
+      <Box
+        onClick={onClick}
+        onContextMenu={onClick}
+        style={{ cursor: "pointer", padding: 4, border: activeComponent == realComponent.id ? "3px solid #00D9E1" : "none", display: "flex", flexDirection: "row", justifyContent: "center" }}
+      >
         <TextField
           placeholder={buzzphrase.get({
             format: "{i} {a} {n}",

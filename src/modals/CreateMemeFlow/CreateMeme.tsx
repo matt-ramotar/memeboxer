@@ -10,7 +10,7 @@ import MemeTextInput from "../../components/CreateMemeFlow/MemeTextInput";
 import Toolbar from "../../components/Toolbar";
 import { TextInput } from "../../pages/App/App";
 import { RootState } from "../../store";
-import { addComponent, setColor, setData, TextComponent } from "../../store/createMeme";
+import { addComponent, setActiveComponent, setColor, setData, TextComponent } from "../../store/createMeme";
 import { setLastColorPicked } from "../../store/theme";
 import { toggleColorPicker } from "../../store/view";
 import { API_URL } from "../../util/secrets";
@@ -49,6 +49,7 @@ export default function CreateMeme(): JSX.Element {
     };
 
     dispatch(addComponent(textComponent));
+    dispatch(setActiveComponent(id));
 
     const nextTextInputs = [...textInputs];
     nextTextInputs.push({ x, y, id });

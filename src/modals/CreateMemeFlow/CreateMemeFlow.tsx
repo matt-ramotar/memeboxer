@@ -1,12 +1,13 @@
 import { Grid, Modal, Typography, useTheme } from "@material-ui/core";
+import domtoimage from "dom-to-image";
 import { useDispatch, useSelector } from "react-redux";
 import ArrowLeftLine from "../../assets/icons/ArrowLeftLine";
 import { RootState } from "../../store";
-import { clearComponents, setCurrentJob } from "../../store/createMeme";
+import { clearComponents, setActiveComponent, setCurrentJob, setData } from "../../store/createMeme";
 import { Page, setActivePage, toggleCreateTemplate } from "../../store/view";
 import CreateMeme from "./CreateMeme";
-import PostMeme from "./PostMeme";
 import SelectTemplate from "./SelectTemplate";
+import ShareMeme from "./ShareMeme";
 
 export default function CreateMemeFlow(): JSX.Element {
   const dispatch = useDispatch();
@@ -17,6 +18,32 @@ export default function CreateMemeFlow(): JSX.Element {
   const onClose = () => {
     dispatch(setActivePage(Page.Home));
     dispatch(toggleCreateTemplate());
+  };
+
+  const onNext = () => {
+    dispatch(setActiveComponent(null));
+    const node = document.getElementById("meme");
+    const scale = 1.5;
+
+    const style = {
+      transform: "scale(" + scale + ")",
+      transformOrigin: "top left",
+      width: node!.offsetWidth + "px",
+      height: node!.offsetHeight + "px",
+    };
+
+    const param = {
+      height: node!.offsetHeight * scale,
+      width: node!.offsetWidth * scale,
+      quality: 1,
+      style,
+      type: "image/png",
+    };
+
+    return domtoimage.toPng(node!, param).then((data) => {
+      dispatch(setData(data));
+      dispatch(setCurrentJob(Math.min(currentJob + 1, 3)));
+    });
   };
 
   const renderSwitch = () => {
@@ -30,7 +57,7 @@ export default function CreateMemeFlow(): JSX.Element {
         return <CreateMeme />;
 
       case 3:
-        return <PostMeme />;
+        return <ShareMeme />;
     }
   };
 
@@ -93,11 +120,8 @@ export default function CreateMemeFlow(): JSX.Element {
           <Typography variant="h6" style={{ fontWeight: "bold" }}>
             Create new meme
           </Typography>
-          <button
-            style={{ margin: 0, padding: 0, border: "none", boxShadow: "none", backgroundColor: "transparent", display: "flex" }}
-            onClick={() => dispatch(setCurrentJob(Math.min(currentJob + 1, 3)))}
-          >
-            <Typography style={{ fontFamily: "Space Grotesk", color: "#0160FE", fontWeight: "bold" }}>Next</Typography>
+          <button style={{ margin: 0, padding: 0, border: "none", boxShadow: "none", backgroundColor: "transparent", display: "flex" }} onClick={onNext}>
+            <Typography style={{ fontFamily: "Space Grotesk", color: "#0160FE", fontWeight: "bold" }}>{currentJob == 3 ? "Share" : "Next"}</Typography>
           </button>
         </Grid>
         {renderSwitch()}
