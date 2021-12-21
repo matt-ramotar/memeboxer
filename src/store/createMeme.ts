@@ -121,6 +121,14 @@ const createMemeSlice = createSlice({
       }
     },
 
+    setFontFamily(state, action: PayloadAction<string>) {
+      if (state.activeComponent) {
+        const nextTextComponent = { ...state.componentMap[state.activeComponent] };
+        nextTextComponent.style.fontFamily = action.payload;
+        state.componentMap[nextTextComponent.id] = nextTextComponent;
+      }
+    },
+
     setIsBold(state, action: PayloadAction<boolean>) {
       if (state.activeComponent) {
         const nextTextComponent = { ...state.componentMap[state.activeComponent] };
@@ -164,5 +172,6 @@ export const {
   setIsItalic,
   incrementFontSize,
   decrementFontSize,
+  setFontFamily,
 } = createMemeSlice.actions;
 export default createMemeSlice.reducer;

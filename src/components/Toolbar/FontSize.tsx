@@ -1,7 +1,8 @@
 import { Button, Grid, useTheme } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { decrementFontSize, incrementFontSize, setFontSize } from "../../store/createMeme";
+import { setFontSize } from "../../store/createMeme";
+import { setLastFontSize } from "../../store/theme";
 
 export default function FontSize(): JSX.Element {
   const dispatch = useDispatch();
@@ -13,6 +14,19 @@ export default function FontSize(): JSX.Element {
   const onChange = (e: any) => {
     const nextFontSize = parseInt(e.target.value) || 0;
     dispatch(setFontSize(nextFontSize));
+    dispatch(setLastFontSize(nextFontSize));
+  };
+
+  const decrementFontSize = () => {
+    const nextFontSize = Math.max(realComponent.style.fontSize - 4, 0);
+    dispatch(setFontSize(nextFontSize));
+    dispatch(setLastFontSize(nextFontSize));
+  };
+
+  const incrementFontSize = () => {
+    const nextFontSize = Math.min(realComponent.style.fontSize + 4, 250);
+    dispatch(setFontSize(nextFontSize));
+    dispatch(setLastFontSize(nextFontSize));
   };
 
   return (
@@ -20,7 +34,7 @@ export default function FontSize(): JSX.Element {
       <Button
         variant="outlined"
         style={{ fontSize: 20, height: 40, border: `1px solid ${theme.palette.divider}`, borderTopRightRadius: 0, borderBottomRightRadius: 0, borderRightWidth: 0 }}
-        onClick={() => dispatch(decrementFontSize())}
+        onClick={decrementFontSize}
       >
         -
       </Button>
@@ -46,7 +60,7 @@ export default function FontSize(): JSX.Element {
       <Button
         variant="outlined"
         style={{ fontSize: 20, width: 30, height: 40, border: `1px solid ${theme.palette.divider}`, borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderLeftWidth: 0 }}
-        onClick={() => dispatch(incrementFontSize())}
+        onClick={incrementFontSize}
       >
         +
       </Button>

@@ -33,6 +33,7 @@
     "@types/redux-logger": "^3.0.8",
     "@types/uuid": "^8.3.3",
     "axios": "^0.21.1",
+    "buzzphrase": "^3.1.1",
     "dom-to-image": "^2.6.0",
     "emoji-mart": "^3.0.1",
     "file-saver": "^2.0.5",

@@ -11,7 +11,8 @@ import Toolbar from "../../components/Toolbar";
 import { TextInput } from "../../pages/App/App";
 import { RootState } from "../../store";
 import { addComponent, setColor, setData, TextComponent } from "../../store/createMeme";
-import { setLastColorPicked, toggleColorPicker } from "../../store/view";
+import { setLastColorPicked } from "../../store/theme";
+import { toggleColorPicker } from "../../store/view";
 import { API_URL } from "../../util/secrets";
 
 export default function CreateMeme(): JSX.Element {
@@ -28,6 +29,12 @@ export default function CreateMeme(): JSX.Element {
   const colorPickerIsVisible = useSelector((state: RootState) => state.view.colorPicker);
   const color = useSelector((state: RootState) => state.createMeme.componentMap[activeComponent ?? ""]);
 
+  const lastColorPicked = useSelector((state: RootState) => state.theme.lastColorPicked);
+  const lastFontFamilyPicked = useSelector((state: RootState) => state.theme.lastFontFamilyPicked);
+  const lastFontSize = useSelector((state: RootState) => state.theme.lastFontSize);
+  const lastIsBold = useSelector((state: RootState) => state.theme.lastIsBold);
+  const lastIsItalic = useSelector((state: RootState) => state.theme.lastIsItalic);
+
   const handleClick = (e: any) => {
     const x = e.nativeEvent.offsetX;
     const y = e.nativeEvent.offsetY;
@@ -37,7 +44,7 @@ export default function CreateMeme(): JSX.Element {
       id,
       text: "TODO",
       layout: { startX: x, startY: y, rotation: { isPositive: true, degrees: 0 } },
-      style: { color: "#000", fontSize: 40, fontFamily: "roboto", isBold: false, isItalic: false },
+      style: { color: lastColorPicked, fontSize: lastFontSize, fontFamily: lastFontFamilyPicked, isBold: lastIsBold, isItalic: lastIsItalic },
       size: { width: 200 },
     };
 

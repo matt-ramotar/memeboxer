@@ -1,4 +1,5 @@
 import { Box, TextField, useTheme } from "@material-ui/core";
+import buzzphrase from "buzzphrase";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Rnd } from "react-rnd";
@@ -30,23 +31,30 @@ export default function MemeTextInput({ textComponent }: { textComponent: TextCo
   if (!realComponent) return null;
 
   return (
-    <Rnd>
-      <Box onClick={onClick} onContextMenu={onClick} style={{ cursor: "pointer", padding: 8, border: "3px solid #00D9E1" }}>
+    <Rnd minWidth={100} size={{ width: 200, height: 200 }}>
+      <Box onClick={onClick} onContextMenu={onClick} style={{ cursor: "pointer", padding: 4, border: "3px solid #00D9E1", display: "flex", flexDirection: "row", justifyContent: "center" }}>
         <TextField
-          placeholder="Todo"
+          placeholder={buzzphrase.get({
+            format: "{i} {a} {n}",
+            iterations: 1,
+          })}
           value={input}
           id="no"
+          multiline
           InputProps={{
             disableUnderline: true,
             style: {
               fontSize: realComponent.style.fontSize,
-              fontFamily: "Impact",
-              color: "white",
+              fontFamily: realComponent.style.fontFamily,
+              color: realComponent.style.color,
               fontWeight: realComponent.style.isBold ? "bold" : "normal",
               fontStyle: realComponent.style.isItalic ? "italic" : "normal",
-              WebkitTextStrokeWidth: 2,
-              WebkitTextStrokeColor: "#000",
-              textShadow: "0px 2px 2px black",
+              WebkitTextStrokeWidth: realComponent.style.fontFamily == "Impact" ? 2 : 0,
+              WebkitTextStrokeColor: realComponent.style.fontFamily == "Impact" ? "#000" : "transparent",
+              letterSpacing: realComponent.style.fontFamily == "Impact" ? 4 : 0,
+              textTransform: realComponent.style.fontFamily == "Impact" ? "uppercase" : "none",
+              paddingLeft: 8,
+              textAlign: "center",
             },
           }}
           onChange={onChange}

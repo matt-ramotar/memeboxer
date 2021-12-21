@@ -11,14 +11,12 @@ export interface ViewState {
   activePage: Page;
   createTemplate: boolean;
   colorPicker: boolean;
-  lastColorPicked: string;
 }
 
 const initialState: ViewState = {
   activePage: Page.Home,
   createTemplate: false,
   colorPicker: false,
-  lastColorPicked: "#0160FE",
 };
 
 const viewSlice = createSlice({
@@ -34,11 +32,8 @@ const viewSlice = createSlice({
     setActivePage(state, action: PayloadAction<Page>) {
       state.activePage = action.payload;
     },
-    setLastColorPicked(state, action: PayloadAction<string>) {
-      state.lastColorPicked = action.payload;
-    },
   },
 });
 
-export const { toggleCreateTemplate, setActivePage, toggleColorPicker, setLastColorPicked } = viewSlice.actions;
+export const { toggleCreateTemplate, setActivePage, toggleColorPicker } = viewSlice.actions;
 export default viewSlice.reducer;
