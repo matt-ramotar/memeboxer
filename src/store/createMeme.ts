@@ -7,8 +7,11 @@ export interface CreateMemeState {
     [id: string]: TextComponent;
   };
   activeComponent: string | null;
-  tagIds: string[] | null;
   data: string | null;
+  caption: string | null;
+  tagIds: string[] | null;
+  location: string | null;
+  zipCode: string | null;
 }
 
 export interface TextComponent {
@@ -53,10 +56,13 @@ export interface Rotation {
 const initialState: CreateMemeState = {
   currentJob: 1,
   templateId: null,
-  tagIds: null,
   componentMap: {},
   activeComponent: null,
   data: null,
+  caption: null,
+  location: null,
+  tagIds: null,
+  zipCode: null,
 };
 
 const createMemeSlice = createSlice({
@@ -144,6 +150,16 @@ const createMemeSlice = createSlice({
         state.componentMap[nextTextComponent.id] = nextTextComponent;
       }
     },
+    setCaption(state, action: PayloadAction<string>) {
+      state.caption = action.payload;
+    },
+    setLocation(state, action: PayloadAction<string>) {
+      state.location = action.payload;
+    },
+    setZipCode(state, action: PayloadAction<string>) {
+      state.zipCode = action.payload;
+    },
+
     removeComponent(state, action: PayloadAction<string>) {
       const nextComponentMap = { ...state.componentMap };
       delete nextComponentMap[action.payload];
@@ -173,5 +189,8 @@ export const {
   incrementFontSize,
   decrementFontSize,
   setFontFamily,
+  setCaption,
+  setLocation,
+  setZipCode,
 } = createMemeSlice.actions;
 export default createMemeSlice.reducer;
