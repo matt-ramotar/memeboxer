@@ -4,6 +4,7 @@ import "emoji-mart/css/emoji-mart.css";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import EmojiSmileLine from "../../assets/icons/EmojiSmileLine";
+import HashtagLine from "../../assets/icons/HashtagLine";
 import { RootState } from "../../store";
 
 export default function ShareMeme(): JSX.Element | null {
@@ -35,6 +36,12 @@ export default function ShareMeme(): JSX.Element | null {
     }
   };
 
+  const hashtagFormatter = (s: string) => {
+    return s.replace(/(^|\s)(#[a-z\d-]+)/gi, (m, g1, g2) => {
+      return g1 + "<span style={color:'#0160FE'}>" + g2 + "< /span>";
+    });
+  };
+
   const onClose = () => {
     setAnchorEl(null);
     setShouldShow(false);
@@ -63,7 +70,7 @@ export default function ShareMeme(): JSX.Element | null {
         </Box>
       </Grid>
 
-      <Grid style={{ display: "flex", minWidth: 300, height: "100%", flexDirection: "column", justifyContent: "flex-start", alignItems: "flex-start", paddingRight: 16 }}>
+      <Grid style={{ display: "flex", minWidth: 300, maxWidth: 330, width: 330, height: "100%", flexDirection: "column", justifyContent: "flex-start", alignItems: "flex-start", paddingRight: 16 }}>
         <Grid style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center", width: "100%" }}>
           <img src={user.picture} alt="avatar" style={{ width: 40, height: 40, borderRadius: "50%" }} />
           <Typography variant="body1" style={{ fontFamily: "Space Grotesk", fontWeight: "bold", marginLeft: 8 }}>
@@ -108,6 +115,24 @@ export default function ShareMeme(): JSX.Element | null {
             <Typography variant="body2" style={{ fontFamily: "Space Grotesk", color: theme.palette.divider, fontWeight: "bold" }}>{`${getNumCharacters()}/2,000`}</Typography>
           </Grid>
         </Box>
+
+        <Box style={{ backgroundColor: theme.palette.divider, height: 1, width: "100%", marginTop: 8, marginBottom: 8, visibility: "visible" }}></Box>
+
+        <Grid style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", maxHeight: 100, overflowY: "scroll", alignItems: "flex-start", width: "100%" }}>
+          <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start", width: "70%", flexWrap: "wrap", alignItems: "flex-start" }}>
+            {Array.from(new Set(caption.split(" ").filter((word) => word.startsWith("#") && word.length > 1)))
+              .sort()
+              .map((word) => {
+                return (
+                  <span key={word} style={{ marginRight: 2 }}>
+                    <Typography style={{ fontFamily: "Space Grotesk", color: theme.palette.divider, fontWeight: "bold", fontStyle: "italic", wordBreak: "break-word" }}>{word}</Typography>
+                  </span>
+                );
+              })}
+          </div>
+
+          <HashtagLine width={24} height={24} fill="#0160FE" />
+        </Grid>
       </Grid>
     </Box>
   );
