@@ -65,7 +65,6 @@ export default function ShareMeme(): JSX.Element | null {
 
   useEffect(() => {
     if (meme) {
-      console.log("hitting");
       const nextImage = new Image();
       nextImage.src = meme;
       setImage(nextImage);
@@ -85,7 +84,13 @@ export default function ShareMeme(): JSX.Element | null {
       }}
     >
       <Box style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", overflowY: "scroll", maxHeight: "100%" }}>
-        <img src={meme} alt="null" style={{ minWidth: 600, maxWidth: 600, height: "auto", display: "flex" }} onLoad={onLoad} id="generated-meme" />
+        <img
+          src={meme}
+          alt="null"
+          style={{ minWidth: 600, maxWidth: 600, height: imageHeight ? (imageHeight > 600 ? "auto" : "100%") : "auto", display: "flex" }}
+          onLoad={onLoad}
+          id="generated-meme"
+        />
       </Box>
 
       <Grid
@@ -101,7 +106,6 @@ export default function ShareMeme(): JSX.Element | null {
           justifyContent: "flex-start",
           alignItems: "flex-start",
           paddingLeft: 16,
-          backgroundColor: "red",
           paddingRight: 16,
           position: "relative",
           paddingBottom: 0,
@@ -109,7 +113,7 @@ export default function ShareMeme(): JSX.Element | null {
           flexWrap: "nowrap",
         }}
       >
-        <Grid item style={{ width: "100%" }}>
+        <Grid item style={{ width: "100%", position: "sticky", top: 0, backgroundColor: theme.palette.background.paper, zIndex: 1000 }}>
           <Box
             style={{
               display: "flex",
@@ -117,11 +121,8 @@ export default function ShareMeme(): JSX.Element | null {
               justifyContent: "flex-start",
               alignItems: "center",
               width: "100%",
-              position: "sticky",
+
               maxHeight: 50,
-              top: 0,
-              backgroundColor: theme.palette.background.paper,
-              zIndex: 1000,
             }}
           >
             <img src={user.picture} alt="avatar" style={{ width: 40, height: 40, borderRadius: "50%" }} />
