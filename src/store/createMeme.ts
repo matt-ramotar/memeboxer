@@ -137,13 +137,13 @@ const createMemeSlice = createSlice({
       }
     },
     removeComponent(state, action: PayloadAction<string>) {
-      if (state.activeComponent == action.payload) {
-        state.activeComponent = null;
-      }
-
       const nextComponentMap = { ...state.componentMap };
       delete nextComponentMap[action.payload];
       state.componentMap = nextComponentMap;
+
+      if (state.activeComponent == action.payload) {
+        state.activeComponent = Object.keys(state.componentMap)[0];
+      }
     },
   },
 });

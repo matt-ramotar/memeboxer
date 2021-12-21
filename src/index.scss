@@ -48,3 +48,12 @@ a {
   width: 0; /* Remove scrollbar space */
   background: transparent; /* Optional: just make scrollbar invisible */
 }
+
+input#memeboxer {
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  text-align: center;
+  stroke-width: 2px;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: black;
+}

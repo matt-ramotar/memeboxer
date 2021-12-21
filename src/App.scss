@@ -35,3 +35,8 @@
     transform: rotate(360deg);
   }
 }
+
+@font-face {
+  font-family: "Impact";
+  src: local("impact"), url(./assets/impact.ttf) format("truetype");
+}
