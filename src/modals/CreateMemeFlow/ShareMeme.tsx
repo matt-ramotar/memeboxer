@@ -3,10 +3,10 @@ import { BaseEmoji } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import CompassLine from "../../assets/icons/CompassLine";
-import HashtagLine from "../../assets/icons/HashtagLine";
 import Divider from "../../components/Divider";
 import { RootState } from "../../store";
+import AddLocation from "./AddLocation";
+import AddTags from "./AddTags";
 import WriteACaption from "./WriteACaption";
 
 export default function ShareMeme(): JSX.Element | null {
@@ -84,103 +84,67 @@ export default function ShareMeme(): JSX.Element | null {
         cursor: "auto",
       }}
     >
-      <Box style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", overflowY: "scroll", height: "100%" }}>
+      <Box style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", overflowY: "scroll", maxHeight: "100%" }}>
         <img src={meme} alt="null" style={{ minWidth: 600, maxWidth: 600, height: "auto", display: "flex" }} onLoad={onLoad} id="generated-meme" />
       </Box>
 
       <Grid
+        container
         style={{
           display: "flex",
           minWidth: 300,
           maxWidth: 330,
           width: 330,
+          maxHeight: imageHeight ? imageHeight : "auto",
           overflowY: "scroll",
           flexDirection: "column",
           justifyContent: "flex-start",
           alignItems: "flex-start",
           paddingLeft: 16,
+          backgroundColor: "red",
           paddingRight: 16,
-
-          height: imageHeight ? imageHeight : 0,
           position: "relative",
           paddingBottom: 0,
           marginBottom: 0,
+          flexWrap: "nowrap",
         }}
       >
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "flex-start",
-            alignItems: "center",
-            width: "100%",
-            position: "sticky",
-            top: 0,
-            backgroundColor: theme.palette.background.paper,
-            zIndex: 1000,
-          }}
-        >
-          <img src={user.picture} alt="avatar" style={{ width: 40, height: 40, borderRadius: "50%" }} />
-          <Typography variant="body1" style={{ fontFamily: "Space Grotesk", fontWeight: "bold", marginLeft: 8 }}>
-            {user.name}
-          </Typography>
-        </Box>
-
-        <WriteACaption />
-
-        <Divider />
-
-        <Grid style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", width: "100%" }}>
-          <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start", width: "70%", height: 120, flexWrap: "wrap", alignItems: "flex-start" }}>
-            {caption.split(" ").filter((word) => word.startsWith("#") && word.length > 1).length > 0 ? (
-              Array.from(new Set(caption.split(" ").filter((word) => word.startsWith("#") && word.length > 1)))
-                .sort()
-                .map((word) => {
-                  return (
-                    <span key={word} style={{ marginRight: 2 }}>
-                      <Typography variant="body2" style={{ fontFamily: "Space Grotesk", color: theme.palette.text.primary, fontWeight: "bold", fontStyle: "italic", wordBreak: "break-word" }}>
-                        {word}
-                      </Typography>
-                    </span>
-                  );
-                })
-            ) : (
-              <Typography style={{ fontFamily: "Space Grotesk", color: theme.palette.text.primary, opacity: 0.4 }}>Add tags</Typography>
-            )}
-          </div>
-
-          <button onClick={onClick} style={{ backgroundColor: "transparent", border: "none", boxShadow: "none", padding: 0, margin: 0, cursor: "pointer" }}>
-            <HashtagLine width={24} height={24} fill="#0160FE" />
-          </button>
+        <Grid item style={{ width: "100%" }}>
+          <Box
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-start",
+              alignItems: "center",
+              width: "100%",
+              position: "sticky",
+              maxHeight: 50,
+              top: 0,
+              backgroundColor: theme.palette.background.paper,
+              zIndex: 1000,
+            }}
+          >
+            <img src={user.picture} alt="avatar" style={{ width: 40, height: 40, borderRadius: "50%" }} />
+            <Typography variant="body1" style={{ fontFamily: "Space Grotesk", fontWeight: "bold", marginLeft: 8 }}>
+              {user.name}
+            </Typography>
+          </Box>
         </Grid>
 
-        <Box style={{ backgroundColor: theme.palette.divider, height: 1, width: "100%", marginTop: 8, marginBottom: 8, visibility: "visible" }}></Box>
-
-        <Grid style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", height: 60, overflowY: "scroll", alignItems: "flex-start", width: "100%" }}>
-          <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start", width: "70%", flexWrap: "wrap", alignItems: "flex-start" }}>
-            {caption.split(" ").filter((word) => word.startsWith("#") && word.length > 1).length > 0 ? (
-              Array.from(new Set(caption.split(" ").filter((word) => word.startsWith("#") && word.length > 1)))
-                .sort()
-                .map((word) => {
-                  return (
-                    <span key={word} style={{ marginRight: 2 }}>
-                      <Typography variant="body2" style={{ fontFamily: "Space Grotesk", color: theme.palette.text.primary, fontWeight: "bold", fontStyle: "italic", wordBreak: "break-word" }}>
-                        {word}
-                      </Typography>
-                    </span>
-                  );
-                })
-            ) : (
-              <Typography style={{ fontFamily: "Space Grotesk", color: theme.palette.text.primary, opacity: 0.4 }}>Add location</Typography>
-            )}
-          </div>
-
-          <button onClick={onClick} style={{ backgroundColor: "transparent", border: "none", boxShadow: "none", padding: 0, margin: 0, cursor: "pointer" }}>
-            <CompassLine width={24} height={24} fill="#0160FE" />
-          </button>
+        <Grid item style={{ width: "100%" }}>
+          <WriteACaption />
+          <Divider />
         </Grid>
 
-        <Box style={{ backgroundColor: theme.palette.divider, height: 1, width: "100%", marginTop: 8, marginBottom: 8, visibility: "visible" }}></Box>
+        <Grid item style={{ width: "100%" }}>
+          <AddTags />
+          <Divider />
+        </Grid>
+
+        <Grid item style={{ width: "100%" }}>
+          <AddLocation />
+          <Divider />
+        </Grid>
       </Grid>
     </Box>
   );
