@@ -4,7 +4,7 @@ interface Props {
   width: number;
 }
 
-export default function AddCommentIcon(props: Props): JSX.Element {
+export default function AddCommentLine(props: Props): JSX.Element {
   return (
     <svg width={props.width} height={props.height} viewBox="0 0 24 24" fill={props.fill} xmlns="http://www.w3.org/2000/svg">
       <path d="M21.5 16.5H18V13H16.5V16.5H13V18H16.5V21.5H18V18H21.5V16.5Z" fill={props.fill} />

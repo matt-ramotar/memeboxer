@@ -57,7 +57,7 @@ export default function CreateMeme(): JSX.Element {
 
   useEffect(() => {
     async function fetchSignedUrl() {
-      const response = await axios.get(`${API_URL}/storage/${templateId}`);
+      const response = await axios.get(`${API_URL}/storage/${templateId}`, { withCredentials: true });
       setSignedUrl(response.data.data);
     }
 

@@ -38,6 +38,7 @@ export default function MainLayout(props: Props): JSX.Element {
             paddingRight: "10%",
             paddingTop: 20,
             paddingBottom: 20,
+            zIndex: 100000,
 
             position: "fixed",
             top: 0,

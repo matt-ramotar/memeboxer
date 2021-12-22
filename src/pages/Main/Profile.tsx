@@ -5,8 +5,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { RootState } from "../../store";
 import { User } from "../../types";
-
-const rootUrl = "http://localhost:5000";
+import { API_URL } from "../../util/secrets";
 
 export default function Profile(): JSX.Element | null {
   const theme = useTheme();
@@ -17,7 +16,7 @@ export default function Profile(): JSX.Element | null {
 
   useEffect(() => {
     async function fetchUser() {
-      const response = await axios.get(`${rootUrl}/v1/users/${userId}`);
+      const response = await axios.get(`${API_URL}/v1/users/${userId}`);
       setUser(response.data);
     }
 
