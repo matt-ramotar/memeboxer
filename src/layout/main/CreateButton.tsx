@@ -22,7 +22,7 @@ export default function CreateButton(props: Props): JSX.Element {
   };
 
   return (
-    <button onClick={onClick} style={{ margin: 0, padding: 0, backgroundColor: "transparent", border: "none", boxShadow: "none" }}>
+    <button onClick={onClick} style={{ margin: 0, padding: 0, backgroundColor: "transparent", border: "none", boxShadow: "none", cursor: "pointer" }}>
       {activePage === page ? <AddCircleFill width={props.width} height={props.height} fill={props.fill} /> : <AddCircleLine width={props.width} height={props.height} fill={props.fill} />}
     </button>
   );

@@ -1,5 +1,15 @@
 export interface Meme {}
 
+export interface GodMeme {
+  id: string;
+  template: Template;
+  user: User;
+  caption?: string;
+  location?: string;
+  upvotes?: MemeUpvote[];
+  comments?: Comment[];
+  reactions?: MemeReaction[];
+}
 export interface User {
   id: string;
   email: string;
@@ -20,3 +30,13 @@ export interface FakeMeme {
   ups: number;
   preview: string[];
 }
+
+export interface Template {
+  _id: string;
+}
+
+export interface MemeUpvote {}
+
+export interface Comment {}
+
+export interface MemeReaction {}

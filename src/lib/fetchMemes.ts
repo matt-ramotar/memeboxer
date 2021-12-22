@@ -1,12 +1,8 @@
 import axios, { AxiosResponse } from "axios";
-import { FakeMeme } from "../types";
+import { GodMeme } from "../types";
+import { API_URL } from "../util/secrets";
 
-export interface FakeMemeResponse {
-  count: number;
-  memes: FakeMeme[];
-}
-
-export default async function fetchMemes(number: number): Promise<FakeMemeResponse> {
-  const response: AxiosResponse = await axios.get(`https://meme-api.herokuapp.com/gimme/ProgrammerHumor/${number}`);
+export default async function fetchMemes(): Promise<GodMeme[]> {
+  const response: AxiosResponse = await axios.get(`${API_URL}/v1/memes`);
   return response.data;
 }

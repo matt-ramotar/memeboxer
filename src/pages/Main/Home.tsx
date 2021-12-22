@@ -1,7 +1,8 @@
-import { Box, Grid, Typography, useTheme } from "@material-ui/core";
+import { Grid, useTheme } from "@material-ui/core";
 import { useEffect, useState } from "react";
+import MemeFeedItem from "../../components/MemeFeedItem/MemeFeedItem";
 import fetchMemes from "../../lib/fetchMemes";
-import { FakeMeme, User } from "../../types";
+import { GodMeme, User } from "../../types";
 
 interface Props {
   user: User;
@@ -9,15 +10,16 @@ interface Props {
 
 export default function Home(props: Props): JSX.Element | null {
   const theme = useTheme();
-  const [memes, setMemes] = useState<FakeMeme[] | null>(null);
+  const [memes, setMemes] = useState<GodMeme[] | null>(null);
 
   useEffect(() => {
-    async function fetchMemesAsync(number: number) {
-      const response = await fetchMemes(number);
-      setMemes(response.memes);
+    async function fetchMemesAsync() {
+      const response = await fetchMemes();
+
+      setMemes(response);
     }
 
-    fetchMemesAsync(10);
+    fetchMemesAsync();
   }, []);
 
   if (memes == null) return null;
@@ -25,18 +27,7 @@ export default function Home(props: Props): JSX.Element | null {
   return (
     <Grid style={{ minHeight: "100vh", flexDirection: "column", alignItems: "center", marginTop: 0 }}>
       {memes.map((meme) => (
-        <Box key={meme.title} style={{ margin: 10, display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", paddingTop: 20, paddingBottom: 20 }}>
-          <Box style={{ border: `1px solid ${theme.palette.divider}`, paddingTop: 10, paddingBottom: 10 }}>
-            <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", marginBottom: 10 }}>
-              <img src={props.user.picture} alt="avatar" style={{ height: 40, width: 40, borderRadius: 50 }} />
-
-              <Typography variant="body1" style={{ fontWeight: "bold", marginLeft: 10 }}>
-                mramotar
-              </Typography>
-            </Box>
-            <img src={meme.url} alt={meme.title} style={{ width: 600 }} />
-          </Box>
-        </Box>
+        <MemeFeedItem key={meme.id} meme={meme} />
       ))}
     </Grid>
   );
