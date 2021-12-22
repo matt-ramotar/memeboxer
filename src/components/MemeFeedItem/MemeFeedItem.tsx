@@ -49,8 +49,6 @@ export default function MemeFeedItem(props: Props): JSX.Element {
           borderRadius: 10,
         }}
       >
-        {/* <EmojiPopover size="lg" actionId={props.action.id} userId={props.user.id} /> */}
-
         <button style={{ backgroundColor: "transparent", border: "none", boxShadow: "none", margin: 0, padding: 0, cursor: "pointer", marginLeft: 2, marginRight: 2 }}>
           <EmojiSmileLine fill={theme.palette.text.primary} height={28} width={28} />
         </button>
@@ -72,7 +70,7 @@ export default function MemeFeedItem(props: Props): JSX.Element {
           <img src={props.meme.user.picture} alt="avatar" style={{ height: 40, width: 40, borderRadius: 50 }} />
 
           <Typography variant="body1" style={{ fontWeight: "bold", marginLeft: 10, cursor: "pointer" }} onClick={() => navigate(`/${props.meme.user.username}`)}>
-            {props.meme.user.name}
+            {props.meme.user.username}
           </Typography>
         </Box>
 

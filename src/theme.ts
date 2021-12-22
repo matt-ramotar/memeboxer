@@ -52,3 +52,5 @@ const lightTheme = createTheme({
 export default function useTheme() {
   return useLightMode() ? lightTheme : lightTheme;
 }
+
+export const MAIN_NAV_HEIGHT = 80;

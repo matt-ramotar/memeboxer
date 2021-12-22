@@ -3,13 +3,9 @@ import { useEffect, useState } from "react";
 import MemeFeedItem from "../../components/MemeFeedItem/MemeFeedItem";
 import fetchMemes from "../../lib/fetchMemes";
 import { MAIN_NAV_HEIGHT } from "../../theme";
-import { GodMeme, User } from "../../types";
+import { GodMeme } from "../../types";
 
-interface Props {
-  user: User;
-}
-
-export default function Home(props: Props): JSX.Element | null {
+export default function Explore(): JSX.Element | null {
   const theme = useTheme();
   const [memes, setMemes] = useState<GodMeme[] | null>(null);
 

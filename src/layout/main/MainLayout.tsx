@@ -1,10 +1,11 @@
 import loadable from "@loadable/component";
-import { Box, Grid, TextField, Typography, useTheme } from "@material-ui/core";
+import { Grid, TextField, Typography, useTheme } from "@material-ui/core";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import SearchIcon from "../../assets/icons/SearchIcon";
 import Memeboxer from "../../images/Memeboxer.png";
 import CreateMemeFlow from "../../modals/CreateMemeFlow/CreateMemeFlow";
+import { MAIN_NAV_HEIGHT } from "../../theme";
 import { User } from "../../types";
 import CreateButton from "./CreateButton";
 import ExploreButton from "./ExploreButton";
@@ -25,42 +26,43 @@ export default function MainLayout(props: Props): JSX.Element {
 
   return (
     <Grid style={{ flexDirection: "column", justifyContent: "start" }}>
-      <Box>
-        <Box
+      <Grid container style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "center" }}>
+        <Grid
+          container
           style={{
             width: "100vw",
-            height: 80,
+            height: MAIN_NAV_HEIGHT,
             backgroundColor: theme.palette.background.paper,
             borderBottom: `1px solid ${theme.palette.divider}`,
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            paddingLeft: "10%",
-            paddingRight: "10%",
-            paddingTop: 20,
-            paddingBottom: 20,
-            zIndex: 100000,
-
+            paddingLeft: 16,
+            paddingRight: 16,
             position: "fixed",
+            flexWrap: "nowrap",
+            zIndex: 2,
             top: 0,
           }}
         >
-          <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+          <Grid item xs={3} style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 0 }}>
             <img src={Memeboxer} alt="Memeboxer" style={{ height: 50 }} />
             <Typography variant="h5" style={{ fontFamily: "Space Mono", fontWeight: "bold", marginLeft: 10, cursor: "pointer" }} onClick={() => navigate("/")}>
-              Memeboxer
+              memeboxer
             </Typography>
-          </Box>
+          </Grid>
 
-          <TextField
-            style={{ width: 300, padding: 5, border: `1px solid ${theme.palette.divider}` }}
-            InputProps={{ disableUnderline: true, startAdornment: <SearchIcon fill={theme.palette.divider} height={32} width={32} />, endAdornment: null }}
-            value={searchInput}
-            onChange={(value) => setSearchInput(value.target.value)}
-          />
+          <Grid item xs={4}>
+            <TextField
+              style={{ padding: 5, border: `1px solid ${theme.palette.divider}`, width: 300 }}
+              InputProps={{ disableUnderline: true, startAdornment: <SearchIcon fill={theme.palette.divider} height={32} width={32} />, endAdornment: null }}
+              value={searchInput}
+              onChange={(value) => setSearchInput(value.target.value)}
+            />
+          </Grid>
 
-          <Grid container style={{ display: "flex", flexDirection: "row", alignItems: "center", paddingLeft: 8, paddingRight: 8, justifyContent: "space-between", width: 220, flexWrap: "nowrap" }}>
+          <Grid item xs={3} container style={{ display: "flex", flexDirection: "row", alignItems: "center", maxWidth: 220, justifyContent: "space-between", flexWrap: "nowrap" }}>
             <HomeButton fill={theme.palette.text.primary} height={32} width={32} />
 
             <ExploreButton fill={theme.palette.text.primary} height={32} width={32} />
@@ -75,12 +77,24 @@ export default function MainLayout(props: Props): JSX.Element {
               <img src={props.user.picture} alt="avatar" style={{ width: 30, height: 30, borderRadius: 50 }} />
             </button>
           </Grid>
-        </Box>
-        <Box style={{ marginTop: 100, width: "100vw", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+        </Grid>
+        <Grid
+          container
+          style={{
+            paddingTop: MAIN_NAV_HEIGHT,
+            width: "100vw",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            backgroundColor: theme.palette.background.default,
+            minHeight: "100vh",
+          }}
+        >
           <CreateMemeFlow />
           <Page user={props.user} />
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
     </Grid>
   );
 }

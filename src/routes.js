@@ -6,6 +6,10 @@ import Login from "./pages/Login";
 
 const routes = (isLoggedIn, user) => [
   {
+    path: "explore",
+    element: !isLoggedIn ? <Navigate to="/login" /> : <MainLayout user={user} pageName="Explore" />,
+  },
+  {
     path: "login",
     element: isLoggedIn ? <Navigate to="/" /> : <Login />,
   },
