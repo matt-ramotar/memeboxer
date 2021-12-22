@@ -34,6 +34,11 @@ select {
   appearance: none;
 }
 
+svg.invert_svg {
+  -webkit-filter: invert(100%);
+  filter: invert(100%);
+}
+
 body {
   font-family: "Space Grotesk";
 

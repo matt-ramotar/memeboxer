@@ -5,6 +5,8 @@ export enum Page {
   Create = "Create",
   Profile = "Profile",
   Explore = "Explore",
+  Notifications = "Notifications",
+  Threads = "Threads",
 }
 
 export interface ViewState {

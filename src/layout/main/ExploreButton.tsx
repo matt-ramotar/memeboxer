@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { AddCircleFill } from "../../assets/icons/AddCircleFill";
-import { AddCircleLine } from "../../assets/icons/AddCircleLine";
+import { useNavigate } from "react-router";
+import GlobeFill from "../../assets/icons/GlobeFill";
+import GlobeLine from "../../assets/icons/GlobeLine";
 import { RootState } from "../../store";
-import { Page, setActivePage, toggleCreateMeme } from "../../store/view";
+import { Page, setActivePage } from "../../store/view";
 
 interface Props {
   fill: string;
@@ -10,17 +11,17 @@ interface Props {
   width: number;
 }
 
-export default function CreateButton(props: Props): JSX.Element {
+export default function ExploreButton(props: Props): JSX.Element {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const activePage = useSelector((state: RootState) => state.view.activePage);
-  const page = Page.Create;
+  const page = Page.Explore;
 
   const onClick = () => {
     dispatch(setActivePage(page));
-    dispatch(toggleCreateMeme());
+    navigate("/explore");
   };
-
   return (
     <button
       onClick={onClick}
@@ -37,7 +38,7 @@ export default function CreateButton(props: Props): JSX.Element {
         justifyContent: "center",
       }}
     >
-      {activePage === page ? <AddCircleFill width={props.width} height={props.height} fill={props.fill} /> : <AddCircleLine width={props.width} height={props.height} fill={props.fill} />}
+      {activePage === page ? <GlobeFill width={props.width} height={props.height} fill={props.fill} /> : <GlobeLine width={props.width} height={props.height} fill={props.fill} />}
     </button>
   );
 }

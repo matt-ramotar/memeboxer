@@ -23,7 +23,21 @@ export default function HomeButton(props: Props): JSX.Element {
     navigate("/");
   };
   return (
-    <button onClick={onClick} style={{ margin: 0, padding: 0, backgroundColor: "transparent", border: "none", boxShadow: "none", cursor: "pointer" }}>
+    <button
+      onClick={onClick}
+      style={{
+        margin: 0,
+        padding: 0,
+        backgroundColor: "transparent",
+        border: "none",
+        boxShadow: "none",
+        cursor: "pointer",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       {activePage === page ? <HomeFill width={props.width} height={props.height} fill={props.fill} /> : <HomeLine width={props.width} height={props.height} fill={props.fill} />}
     </button>
   );
