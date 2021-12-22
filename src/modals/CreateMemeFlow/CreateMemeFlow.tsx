@@ -39,7 +39,7 @@ export default function CreateMemeFlow(): JSX.Element {
       location: locationRedux ?? undefined,
     };
 
-    const response = await axios.post(`${API_URL}/v1/memes`, input, { withCredentials: true });
+    const response = await axios.post(`${API_URL}/v1/memes`, input);
 
     if (response.data) {
       onClose();
