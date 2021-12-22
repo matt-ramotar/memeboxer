@@ -1,10 +1,9 @@
 import { Box, useTheme } from "@material-ui/core";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { BeatLoader } from "react-spinners";
 import { setCurrentJob, setTemplateId } from "../../store/createMeme";
-import { API_URL } from "../../util/secrets";
+import { STORAGE_URL } from "../../util/secrets";
 
 interface TemplateProps {
   id: string;
@@ -18,8 +17,7 @@ export default function TemplateGridItem(props: TemplateProps): JSX.Element {
 
   useEffect(() => {
     async function fetchSignedUrl() {
-      const response = await axios.get(`${API_URL}/storage/${props.id}`);
-      setSignedUrl(response.data.data);
+      setSignedUrl(`${STORAGE_URL}/${props.id}`);
     }
 
     fetchSignedUrl();

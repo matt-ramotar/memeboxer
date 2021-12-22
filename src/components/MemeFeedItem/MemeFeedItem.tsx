@@ -1,5 +1,4 @@
 import { Box, Typography, useTheme } from "@material-ui/core";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { BeatLoader } from "react-spinners";
@@ -8,7 +7,7 @@ import EmojiSmileLine from "../../assets/icons/EmojiSmileLine";
 import HeartLine from "../../assets/icons/HeartLine";
 import MoreVerticalLine from "../../assets/icons/MoreVerticalLine";
 import { GodMeme } from "../../types";
-import { API_URL } from "../../util/secrets";
+import { STORAGE_URL } from "../../util/secrets";
 
 interface Props {
   meme: GodMeme;
@@ -25,8 +24,7 @@ export default function MemeFeedItem(props: Props): JSX.Element {
 
   useEffect(() => {
     async function fetchSignedUrl() {
-      const response = await axios.get(`${API_URL}/storage/${props.meme.template._id}_${props.meme.id}`);
-      setSignedUrl(response.data.data);
+      setSignedUrl(`${STORAGE_URL}/${props.meme.template._id}_${props.meme.id}`);
     }
 
     fetchSignedUrl();

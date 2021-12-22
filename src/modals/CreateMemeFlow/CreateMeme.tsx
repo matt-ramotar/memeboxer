@@ -1,5 +1,4 @@
 import { Box, Grid } from "@material-ui/core";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { SketchPicker } from "react-color";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +10,7 @@ import { RootState } from "../../store";
 import { addComponent, setActiveComponent, setColor, TextComponent } from "../../store/createMeme";
 import { setLastColorPicked } from "../../store/theme";
 import { toggleColorPicker } from "../../store/view";
-import { API_URL } from "../../util/secrets";
+import { STORAGE_URL } from "../../util/secrets";
 
 export default function CreateMeme(): JSX.Element {
   const templateId = useSelector((state: RootState) => state.createMeme.templateId);
@@ -57,8 +56,7 @@ export default function CreateMeme(): JSX.Element {
 
   useEffect(() => {
     async function fetchSignedUrl() {
-      const response = await axios.get(`${API_URL}/storage/${templateId}`);
-      setSignedUrl(response.data.data);
+      setSignedUrl(`${STORAGE_URL}/${templateId}`);
     }
 
     fetchSignedUrl();
