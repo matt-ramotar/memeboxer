@@ -18,7 +18,7 @@ export default function TemplateGridItem(props: TemplateProps): JSX.Element {
 
   useEffect(() => {
     async function fetchSignedUrl() {
-      const response = await axios.get(`${API_URL}/storage/${props.id}`);
+      const response = await axios.get(`${API_URL}/storage/${props.id}`, { withCredentials: true });
       setSignedUrl(response.data.data);
     }
 
