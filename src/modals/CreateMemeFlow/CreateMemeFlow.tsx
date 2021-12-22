@@ -1,50 +1,84 @@
 import { Grid, Modal, Typography, useTheme } from "@material-ui/core";
+import axios from "axios";
 import domtoimage from "dom-to-image";
 import { useDispatch, useSelector } from "react-redux";
 import ArrowLeftLine from "../../assets/icons/ArrowLeftLine";
 import { RootState } from "../../store";
 import { clearComponents, setActiveComponent, setCurrentJob, setData } from "../../store/createMeme";
-import { Page, setActivePage, toggleCreateTemplate } from "../../store/view";
+import { Page, setActivePage, toggleCreateMeme } from "../../store/view";
+import { API_URL } from "../../util/secrets";
 import CreateMeme from "./CreateMeme";
 import SelectTemplate from "./SelectTemplate";
 import ShareMeme from "./ShareMeme";
 
 export default function CreateMemeFlow(): JSX.Element {
   const dispatch = useDispatch();
-  const isOpen = useSelector((state: RootState) => state.view.createTemplate);
+  const isOpen = useSelector((state: RootState) => state.view.createMeme);
   const theme = useTheme();
   const currentJob = useSelector((state: RootState) => state.createMeme.currentJob);
 
+  const dataRedux = useSelector((state: RootState) => state.createMeme.data);
+  const templateIdRedux = useSelector((state: RootState) => state.createMeme.templateId);
+  const userRedux = useSelector((state: RootState) => state.user);
+  const captionRedux = useSelector((state: RootState) => state.createMeme.caption);
+  const tagsRedux = useSelector((state: RootState) => state.createMeme.tags);
+  const locationRedux = useSelector((state: RootState) => state.createMeme.location);
+
   const onClose = () => {
     dispatch(setActivePage(Page.Home));
-    dispatch(toggleCreateTemplate());
+    dispatch(toggleCreateMeme());
+  };
+
+  const createMemeAsync = async () => {
+    const input = {
+      data: dataRedux,
+      templateId: templateIdRedux,
+      userId: userRedux.id,
+      caption: captionRedux ?? undefined,
+      tags: tagsRedux ?? undefined,
+      location: locationRedux ?? undefined,
+    };
+
+    console.log(input);
+
+    const response = await axios.post(`${API_URL}/v1/memes`, input);
+    console.log(response);
+
+    if (response.data) {
+      onClose();
+    }
   };
 
   const onNext = () => {
-    dispatch(setActiveComponent(null));
-    const node = document.getElementById("meme");
-    const scale = 1.5;
+    if (currentJob == 1) dispatch(setCurrentJob(2));
+    else if (currentJob == 2) {
+      dispatch(setActiveComponent(null));
+      const node = document.getElementById("meme");
+      const scale = 1.5;
 
-    const style = {
-      transform: "scale(" + scale + ")",
-      transformOrigin: "top left",
-      width: node?.offsetWidth + "px",
-      height: node?.offsetHeight + "px",
-    };
+      const style = {
+        transform: "scale(" + scale + ")",
+        transformOrigin: "top left",
+        width: node?.offsetWidth + "px",
+        height: node?.offsetHeight + "px",
+      };
 
-    const param = {
-      height: (node?.offsetHeight ?? 1) * scale,
-      width: (node?.offsetWidth ?? 1) * scale,
-      quality: 1,
-      style,
-      type: "image/png",
-    };
+      const param = {
+        height: (node?.offsetHeight ?? 1) * scale,
+        width: (node?.offsetWidth ?? 1) * scale,
+        quality: 1,
+        style,
+        type: "image/png",
+      };
 
-    if (node) {
-      return domtoimage.toPng(node, param).then((data) => {
-        dispatch(setData(data));
-        dispatch(setCurrentJob(Math.min(currentJob + 1, 3)));
-      });
+      if (node) {
+        return domtoimage.toPng(node, param).then((data) => {
+          dispatch(setData(data));
+          dispatch(setCurrentJob(Math.min(currentJob + 1, 3)));
+        });
+      }
+    } else if (currentJob == 3) {
+      createMemeAsync();
     }
   };
 
@@ -122,7 +156,7 @@ export default function CreateMemeFlow(): JSX.Element {
           <Typography variant="h6" style={{ fontWeight: "bold" }}>
             Create new meme
           </Typography>
-          <button style={{ margin: 0, padding: 0, border: "none", boxShadow: "none", backgroundColor: "transparent", display: "flex" }} onClick={onNext}>
+          <button style={{ margin: 0, padding: 0, border: "none", boxShadow: "none", backgroundColor: "transparent", display: "flex", cursor: "pointer" }} onClick={onNext}>
             <Typography style={{ fontFamily: "Space Grotesk", color: "#0160FE", fontWeight: "bold" }}>{currentJob == 3 ? "Share" : "Next"}</Typography>
           </button>
         </Grid>

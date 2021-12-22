@@ -9,6 +9,7 @@ export enum Page {
 
 export interface ViewState {
   activePage: Page;
+  createMeme: boolean;
   createTemplate: boolean;
   colorPicker: boolean;
 }
@@ -16,6 +17,7 @@ export interface ViewState {
 const initialState: ViewState = {
   activePage: Page.Home,
   createTemplate: false,
+  createMeme: false,
   colorPicker: false,
 };
 
@@ -26,6 +28,9 @@ const viewSlice = createSlice({
     toggleCreateTemplate(state) {
       state.createTemplate = !state.createTemplate;
     },
+    toggleCreateMeme(state) {
+      state.createMeme = !state.createMeme;
+    },
     toggleColorPicker(state, action: PayloadAction<boolean>) {
       state.colorPicker = action.payload;
     },
@@ -35,5 +40,5 @@ const viewSlice = createSlice({
   },
 });
 
-export const { toggleCreateTemplate, setActivePage, toggleColorPicker } = viewSlice.actions;
+export const { toggleCreateTemplate, setActivePage, toggleColorPicker, toggleCreateMeme } = viewSlice.actions;
 export default viewSlice.reducer;

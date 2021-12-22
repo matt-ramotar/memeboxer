@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AddCircleFill } from "../../assets/icons/AddCircleFill";
 import { AddCircleLine } from "../../assets/icons/AddCircleLine";
 import { RootState } from "../../store";
-import { Page, setActivePage, toggleCreateTemplate } from "../../store/view";
+import { Page, setActivePage, toggleCreateMeme } from "../../store/view";
 
 interface Props {
   fill: string;
@@ -18,7 +18,7 @@ export default function CreateButton(props: Props): JSX.Element {
 
   const onClick = () => {
     dispatch(setActivePage(page));
-    dispatch(toggleCreateTemplate());
+    dispatch(toggleCreateMeme());
   };
 
   return (

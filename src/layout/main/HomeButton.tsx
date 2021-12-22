@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { HomeFill } from "../../assets/icons/HomeFill";
 import HomeLine from "../../assets/icons/HomeLine";
 import { RootState } from "../../store";
-import { Page, setActivePage, toggleCreateTemplate } from "../../store/view";
+import { Page, setActivePage, toggleCreateMeme } from "../../store/view";
 
 interface Props {
   fill: string;
@@ -18,7 +18,7 @@ export default function HomeButton(props: Props): JSX.Element {
 
   const onClick = () => {
     dispatch(setActivePage(page));
-    dispatch(toggleCreateTemplate());
+    dispatch(toggleCreateMeme());
   };
   return (
     <button onClick={onClick} style={{ margin: 0, padding: 0, backgroundColor: "transparent", border: "none", boxShadow: "none" }}>

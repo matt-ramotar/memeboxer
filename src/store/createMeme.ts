@@ -9,7 +9,7 @@ export interface CreateMemeState {
   activeComponent: string | null;
   data: string | null;
   caption: string | null;
-  tagIds: string[] | null;
+  tags: string[] | null;
   location: string | null;
   zipCode: string | null;
 }
@@ -61,7 +61,7 @@ const initialState: CreateMemeState = {
   data: null,
   caption: null,
   location: null,
-  tagIds: null,
+  tags: null,
   zipCode: null,
 };
 
@@ -75,8 +75,8 @@ const createMemeSlice = createSlice({
     setTemplateId(state, action: PayloadAction<string | null>) {
       state.templateId = action.payload;
     },
-    setTagIds(state, action: PayloadAction<string[] | null>) {
-      state.tagIds = action.payload;
+    setTags(state, action: PayloadAction<string[] | null>) {
+      state.tags = action.payload;
     },
     addComponent(state, action: PayloadAction<TextComponent>) {
       state.componentMap[action.payload.id] = action.payload;
@@ -175,7 +175,7 @@ const createMemeSlice = createSlice({
 export const {
   setCurrentJob,
   setTemplateId,
-  setTagIds,
+  setTags,
   addComponent,
   setData,
   clearComponents,

@@ -17,7 +17,6 @@ export default function AddTags(): JSX.Element | null {
       const allTags = caption.split(" ").filter((word) => word.startsWith("#") && word.length > 1);
       const nextTags = Array.from(new Set(allTags));
       setTags(nextTags);
-      console.log(nextTags);
     }
   }, [caption]);
 

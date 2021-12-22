@@ -45,7 +45,7 @@ export default function WriteACaption(): JSX.Element | null {
   };
 
   const onPick = (emoji: BaseEmoji) => {
-    setCaption(caption + `${emoji.native}`);
+    dispatch(setCaption(caption + `${emoji.native}`));
     setShouldShow(false);
     setAnchorEl(null);
   };
@@ -73,7 +73,7 @@ export default function WriteACaption(): JSX.Element | null {
           maxLength: 280,
         }}
         onChange={onChange}
-        value={caption}
+        value={caption ?? ""}
         multiline
       />
 
