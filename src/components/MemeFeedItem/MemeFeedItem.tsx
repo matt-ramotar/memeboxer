@@ -2,12 +2,9 @@ import { Box, Typography, useTheme } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { BeatLoader } from "react-spinners";
-import CommentLine from "../../assets/icons/CommentLine";
-import EmojiSmileLine from "../../assets/icons/EmojiSmileLine";
-import HeartLine from "../../assets/icons/HeartLine";
-import MoreVerticalLine from "../../assets/icons/MoreVerticalLine";
 import { GodMeme } from "../../types";
 import { STORAGE_URL } from "../../util/secrets";
+import MemeUserActions from "./MemeUserActions";
 
 interface Props {
   meme: GodMeme;
@@ -37,34 +34,10 @@ export default function MemeFeedItem(props: Props): JSX.Element {
       onMouseEnter={() => setActionsIsVisible(true)}
       onMouseLeave={() => setActionsIsVisible(false)}
     >
-      <Box
-        style={{
-          position: "absolute",
-          top: 0,
-          right: -20,
-          display: actionsIsVisible ? "flex" : "none",
-          padding: 8,
-          backgroundColor: theme.palette.background.paper,
-          border: `1px solid ${theme.palette.divider}`,
-          borderRadius: 10,
-        }}
-      >
-        <button style={{ backgroundColor: "transparent", border: "none", boxShadow: "none", margin: 0, padding: 0, cursor: "pointer", marginLeft: 2, marginRight: 2 }}>
-          <EmojiSmileLine fill={theme.palette.text.primary} height={28} width={28} />
-        </button>
-
-        <button style={{ backgroundColor: "transparent", border: "none", boxShadow: "none", margin: 0, padding: 0, cursor: "pointer", marginLeft: 2, marginRight: 2 }}>
-          <CommentLine fill={theme.palette.text.primary} height={28} width={28} />
-        </button>
-
-        <button style={{ backgroundColor: "transparent", border: "none", boxShadow: "none", margin: 0, padding: 0, cursor: "pointer", marginLeft: 2, marginRight: 2 }}>
-          <HeartLine fill={theme.palette.text.primary} height={28} width={28} />
-        </button>
-
-        <button style={{ backgroundColor: "transparent", border: "none", boxShadow: "none", margin: 0, padding: 0, cursor: "pointer", marginLeft: 2, marginRight: 2 }}>
-          <MoreVerticalLine fill={theme.palette.text.primary} height={28} width={28} />
-        </button>
+      <Box style={{ display: actionsIsVisible ? "flex" : "none", position: "absolute", top: 0, right: -20 }}>
+        <MemeUserActions meme={props.meme} />
       </Box>
+
       <Box style={{ border: `1px solid ${theme.palette.divider}`, paddingTop: 10, paddingBottom: 10 }}>
         <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", marginBottom: 10 }}>
           <img src={props.meme.user.picture} alt="avatar" style={{ height: 40, width: 40, borderRadius: 50 }} />
@@ -80,7 +53,17 @@ export default function MemeFeedItem(props: Props): JSX.Element {
           </Box>
         )}
 
-        <img src={signedUrl ?? ""} alt={props.meme.caption} style={{ width: 600, display: isLoaded ? "flex" : "none" }} onLoad={() => setIsLoaded(true)} />
+        <Box style={{ cursor: "pointer" }} onClick={() => navigate(`/m/${props.meme.id}`)}>
+          <img src={signedUrl ?? ""} alt={props.meme.caption} style={{ width: 600, display: isLoaded ? "flex" : "none" }} onLoad={() => setIsLoaded(true)} />
+        </Box>
+
+        <Box style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center", marginBottom: 10 }}>
+          {props.meme.caption ? (
+            <Typography variant="body1" style={{ fontWeight: "bold", marginLeft: 10, cursor: "pointer" }} onClick={() => navigate(`/${props.meme.user.username}`)}>
+              {props.meme.user.username}
+            </Typography>
+          ) : null}
+        </Box>
       </Box>
     </Box>
   );
