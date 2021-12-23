@@ -34,6 +34,9 @@ const lightTheme = createTheme({
       default: "#fafafa",
       paper: "#ffffff",
     },
+    grey: {
+      A200: "#E4E6EB",
+    },
     divider: "#dbdbdb",
     text: {
       primary: "#262626",
