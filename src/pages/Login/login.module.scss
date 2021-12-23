@@ -15,18 +15,19 @@
   box-shadow: t.$dark-paper-background 0px 2px 0px;
   border-radius: 4px;
   border: 1px solid t.$dark-paper-background;
-  padding: 4em;
+  padding: 16px 32px;
   width: 300px;
   height: 300px;
   display: flex;
   flex-direction: column;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
 
   img {
     border-radius: 30%;
     object-fit: contain;
-    height: 60px;
+    height: 120px;
   }
 
   .text {
@@ -34,4 +35,10 @@
     font-weight: bold;
     color: t.$on-dark-white;
   }
+}
+
+.button {
+  display: flex;
+  flex-direction: row;
+  font-weight: bold;
 }
