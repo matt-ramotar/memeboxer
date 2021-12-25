@@ -7,6 +7,7 @@ import Upvote from "./Upvote";
 
 interface Props {
   meme: GodMeme;
+  isVisible: boolean;
 }
 
 export default function MemeUserActions(props: Props): JSX.Element {
@@ -28,7 +29,7 @@ export default function MemeUserActions(props: Props): JSX.Element {
 
       <Upvote meme={props.meme} />
 
-      <MoreInfo meme={props.meme} />
+      <MoreInfo meme={props.meme} parentIsOpen={props.isVisible} />
     </Box>
   );
 }

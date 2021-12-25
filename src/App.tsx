@@ -1,14 +1,17 @@
 import { StylesProvider, ThemeProvider } from "@material-ui/core";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en.json";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRoutes } from "react-router";
 import validateToken, { ValidateTokenSuccess } from "./lib/validateToken";
 import routes from "./routes";
-import { setEmail, setGoogleId, setId, setName, setPicture, setUsername } from "./store/user";
+import { setEmail, setGoogleId, setId, setName, setPicture, setToken, setUsername } from "./store/user";
 import useTheme from "./theme";
 import { User } from "./types";
 
 export default function AppContainer(): JSX.Element | null {
+  const dispatch = useDispatch();
   const [isValidated, setIsValidated] = useState<boolean | null>(null);
   const [user, setUser] = useState<User | null>(null);
 
@@ -24,9 +27,10 @@ export default function AppContainer(): JSX.Element | null {
 
   async function validateTokenAsync(localToken: string) {
     try {
-      const { user }: ValidateTokenSuccess = await validateToken(localToken);
+      const { user, token }: ValidateTokenSuccess = await validateToken(localToken);
       setUser(user);
       setIsValidated(true);
+      dispatch(setToken(token));
     } catch (error) {
       setIsValidated(false);
     }
@@ -44,6 +48,9 @@ function App(props: Props): JSX.Element {
   const dispatch = useDispatch();
   const isLoggedIn = Boolean(props.user);
   const routing = useRoutes(routes(isLoggedIn, props.user));
+
+  TimeAgo.addDefaultLocale(en);
+  TimeAgo.addLocale(en);
 
   useEffect(() => {
     if (props.user) {

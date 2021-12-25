@@ -7,6 +7,7 @@ export interface UserState {
   name?: string;
   googleId?: string;
   picture?: string;
+  token?: string;
 }
 
 const initialState: UserState = {};
@@ -33,9 +34,12 @@ const userSlice = createSlice({
     setPicture(state, action: PayloadAction<string>) {
       state.picture = action.payload;
     },
+    setToken(state, action: PayloadAction<string>) {
+      state.token = action.payload;
+    },
   },
 });
 
-export const { setId, setEmail, setUsername, setName, setGoogleId, setPicture } = userSlice.actions;
+export const { setId, setEmail, setUsername, setName, setGoogleId, setPicture, setToken } = userSlice.actions;
 
 export default userSlice.reducer;

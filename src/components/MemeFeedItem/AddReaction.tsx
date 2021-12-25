@@ -3,8 +3,9 @@ import axios from "axios";
 import { BaseEmoji, Picker } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import EmojiSmileLine from "../../assets/icons/EmojiSmileLine";
+import { RootState } from "../../store";
 import { GodMeme } from "../../types";
 import { API_URL } from "../../util/secrets";
 
@@ -13,13 +14,28 @@ interface Props {
 }
 
 export default function AddReaction(props: Props): JSX.Element {
+  const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
   const theme = useTheme();
 
   const addReaction = async (emoji: BaseEmoji) => {
-    const response = await axios.post(`${API_URL}/v1/memes/${props.meme.id}/reactions`);
-    console.log(response);
+    const upsertReactionInput = {
+      native: emoji.native,
+      name: emoji.name,
+      colons: emoji.colons,
+      skin: emoji.skin,
+      isCustom: false,
+    };
+
+    const upsertReactionResponse = await axios.post(`${API_URL}/v1/reactions`, upsertReactionInput);
+
+    const addMemeReactionInput = {
+      reactionId: await upsertReactionResponse.data.id,
+      userId: user.id,
+    };
+
+    await axios.post(`${API_URL}/v1/memes/${props.meme.id}/reactions`, addMemeReactionInput);
   };
 
   const [shouldShow, setShouldShow] = useState(false);
@@ -42,6 +58,7 @@ export default function AddReaction(props: Props): JSX.Element {
   };
 
   const onPick = (emoji: BaseEmoji) => {
+    addReaction(emoji);
     setShouldShow(false);
     setAnchorEl(null);
   };

@@ -35,6 +35,7 @@ const lightTheme = createTheme({
       paper: "#ffffff",
     },
     grey: {
+      A100: "#f5f5f5",
       A200: "#E4E6EB",
     },
     divider: "#dbdbdb",

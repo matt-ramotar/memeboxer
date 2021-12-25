@@ -8,6 +8,8 @@ export interface Meme {
   upvoteIds?: string[];
   commentIds?: string[];
   reactionIds?: string[];
+  created: Date;
+  memeViewIds?: string[];
 }
 
 export interface GodMeme {
@@ -19,6 +21,8 @@ export interface GodMeme {
   upvotes?: MemeUpvote[];
   comments?: Comment[];
   reactions?: MemeReaction[];
+  created: Date;
+  memeViews?: MemeView[];
 }
 export interface User {
   id: string;
@@ -30,7 +34,7 @@ export interface User {
 }
 
 export interface Template {
-  _id: string;
+  id: string;
   name: string;
   entityTag: string;
   memeIds?: string[];
@@ -52,7 +56,7 @@ export interface MemeUpvote {
 }
 
 export interface Comment {
-  _id: string;
+  id: string;
   userId: string;
   parentCommentId?: string;
   childrenCommentIds?: string[];
@@ -60,6 +64,7 @@ export interface Comment {
   commentUpvoteIds?: string[];
   commentReactionIds?: string[];
   memeId?: string;
+  created: Date;
 }
 
 export interface GodComment {
@@ -71,6 +76,7 @@ export interface GodComment {
   commentUpvotes?: CommentUpvote[];
   commentReactions?: CommentReaction[];
   meme?: Meme;
+  created: Date;
 }
 
 export interface CommentUpvote {
@@ -86,4 +92,26 @@ export interface CommentReaction {
   reactionId: string;
 }
 
-export interface MemeReaction {}
+export interface MemeReaction {
+  id: string;
+  memeId: string;
+  reactionId: string;
+  userId: string;
+}
+
+export interface Reaction {
+  id: string;
+  native?: string;
+  name: string;
+  colons?: string;
+  skin?: number;
+  isCustom: boolean;
+  imageUrl: string;
+}
+
+export interface MemeView {
+  id: string;
+  memeId: string;
+  userId: string;
+  datetime: Date;
+}

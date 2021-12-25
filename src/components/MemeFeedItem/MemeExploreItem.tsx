@@ -20,7 +20,7 @@ export default function MemeExploreItem(props: Props): JSX.Element {
 
   useEffect(() => {
     async function fetchSignedUrl() {
-      setSignedUrl(`${STORAGE_URL}/${props.meme.template._id}_${props.meme.id}`);
+      setSignedUrl(`${STORAGE_URL}/${props.meme.template.id}_${props.meme.id}`);
     }
 
     fetchSignedUrl();

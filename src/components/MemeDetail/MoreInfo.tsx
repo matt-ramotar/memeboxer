@@ -2,7 +2,7 @@ import { Box, Typography, useTheme } from "@material-ui/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import MoreVerticalLine from "../../assets/icons/MoreVerticalLine";
+import MoreHorizontalLine from "../../assets/icons/MoreHorizontalLine";
 import { RootState } from "../../store";
 import { GodMeme } from "../../types";
 import { API_URL } from "../../util/secrets";
@@ -44,15 +44,15 @@ export default function MoreInfo(props: Props): JSX.Element {
   return (
     <Box style={{ position: "relative" }}>
       <button style={{ backgroundColor: "transparent", border: "none", boxShadow: "none", margin: 0, padding: 0, cursor: "pointer", marginLeft: 2 }} onClick={() => setIsVisible(!isVisible)}>
-        <MoreVerticalLine fill={theme.palette.text.primary} height={28} width={28} />
+        <MoreHorizontalLine fill={theme.palette.text.primary} height={28} width={28} />
       </button>
 
       <Box
         style={{
           display: isVisible && props.parentIsOpen ? "flex" : "none",
           position: "absolute",
-          top: 48,
-          right: -8,
+          top: 32,
+          right: 8,
           backgroundColor: theme.palette.background.paper,
           width: 200,
 
@@ -93,21 +93,6 @@ export default function MoreInfo(props: Props): JSX.Element {
           }}
         >
           <Typography style={{ fontFamily: "Space Grotesk" }}>Unfollow</Typography>
-        </Box>
-
-        <Box
-          style={{
-            width: "100%",
-            borderBottom: `1px solid ${theme.palette.divider}`,
-            height: 48,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            cursor: "pointer",
-          }}
-        >
-          <Typography style={{ fontFamily: "Space Grotesk" }}>Go to meme</Typography>
         </Box>
 
         <Box
