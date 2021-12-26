@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { useRoutes } from "react-router";
 import validateToken, { ValidateTokenSuccess } from "./lib/validateToken";
 import routes from "./routes";
-import { setEmail, setGoogleId, setId, setName, setPicture, setToken, setUsername } from "./store/user";
+import { setEmail, setGoogleId, setId, setName, setPicture, setTemplateIds, setToken, setUsername, setUsersFollowedByIds, setUsersFollowingIds } from "./store/user";
 import useTheme from "./theme";
 import { User } from "./types";
 
@@ -60,6 +60,18 @@ function App(props: Props): JSX.Element {
       dispatch(setName(props.user.name));
       dispatch(setGoogleId(props.user.googleId));
       dispatch(setPicture(props.user.picture));
+
+      if (props.user.usersFollowingIds) {
+        dispatch(setUsersFollowingIds(props.user.usersFollowingIds));
+      }
+
+      if (props.user.usersFollowedByIds) {
+        dispatch(setUsersFollowedByIds(props.user.usersFollowedByIds));
+      }
+
+      if (props.user.templateIds) {
+        dispatch(setTemplateIds(props.user.templateIds));
+      }
     }
   }, [dispatch, props.user]);
 

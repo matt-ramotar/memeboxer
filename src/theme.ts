@@ -49,7 +49,7 @@ const lightTheme = createTheme({
   },
 
   typography: {
-    fontFamily: "Roboto",
+    fontFamily: "Space Grotesk",
   },
 });
 

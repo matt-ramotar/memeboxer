@@ -1,7 +1,9 @@
 import { Grid, useTheme } from "@material-ui/core";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import MemeFeedItem from "../../components/MemeFeedItem/MemeFeedItem";
 import fetchMemes from "../../lib/fetchMemes";
+import { Page, setActivePage } from "../../store/view";
 import { MAIN_NAV_HEIGHT } from "../../theme";
 import { GodMeme, User } from "../../types";
 
@@ -11,6 +13,8 @@ interface Props {
 
 export default function Home(props: Props): JSX.Element | null {
   const theme = useTheme();
+  const dispatch = useDispatch();
+
   const [memes, setMemes] = useState<GodMeme[] | null>(null);
 
   useEffect(() => {
@@ -22,6 +26,10 @@ export default function Home(props: Props): JSX.Element | null {
 
     fetchMemesAsync();
   }, []);
+
+  useEffect(() => {
+    dispatch(setActivePage(Page.Home));
+  });
 
   if (memes == null) return null;
 

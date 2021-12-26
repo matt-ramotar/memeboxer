@@ -20,7 +20,7 @@ const routes = (isLoggedIn, user) => [
   },
 
   {
-    path: ":userId",
+    path: ":username",
     element: !isLoggedIn ? <Navigate to="/login" /> : <MainLayout user={user} pageName="Profile" />,
   },
   {

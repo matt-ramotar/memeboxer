@@ -31,6 +31,19 @@ export interface User {
   name: string;
   googleId: string;
   picture: string;
+  usersFollowingIds?: string[];
+  usersFollowedByIds?: string[];
+  templateIds?: string[];
+  memeIds?: string[];
+  memeUpvoteIds?: string[];
+  commentUpvoteIds?: string[];
+  memeReactionIds?: string[];
+  commentReactionIds?: string[];
+  commentIds?: string[];
+  actionIds?: string[];
+  notificationIds?: string[];
+  memeViewIds?: string[];
+  feed?: string[];
 }
 
 export interface Template {

@@ -8,6 +8,7 @@ import CommentDetail from "../../components/MemeDetail/Comment";
 import MoreInfo from "../../components/MemeDetail/MoreInfo";
 import createMemeView from "../../lib/createMemeView";
 import { RootState } from "../../store";
+import { Page } from "../../store/view";
 import { MAIN_NAV_HEIGHT } from "../../theme";
 import { Comment, GodMeme } from "../../types";
 import { API_URL, STORAGE_URL } from "../../util/secrets";
@@ -20,6 +21,8 @@ export default function MemeDetail(): JSX.Element | null {
   const user = useSelector((state: RootState) => state.user);
   const [image, setImage] = useState<HTMLImageElement | null>(null);
   const [imageHeight, setImageHeight] = useState<number | null>(null);
+  const lastActivePage = useSelector((state: RootState) => state.view.activePage);
+  const lastUsername = useSelector((state: RootState) => state.view.username);
 
   const [memeComments, setMemeComments] = useState<Comment[]>([]);
 
@@ -89,11 +92,28 @@ export default function MemeDetail(): JSX.Element | null {
 
   if (!meme || !image) return null;
 
+  const onClose = () => {
+    switch (lastActivePage) {
+      case Page.Explore:
+        navigate("/explore");
+        break;
+      case Page.Profile:
+        if (lastUsername) {
+          navigate(`/${lastUsername}`);
+          break;
+        }
+        navigate("/");
+        break;
+      default:
+        navigate("/");
+    }
+  };
+
   return (
     <Grid container style={{ minHeight: `calc(100vh - ${MAIN_NAV_HEIGHT}px)`, flexDirection: "column", alignItems: "center", marginTop: 0 }}>
       <Modal
         open={true}
-        onClose={() => navigate("/")}
+        onClose={onClose}
         style={{
           display: "flex",
           flexDirection: "column",
