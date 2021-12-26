@@ -181,7 +181,7 @@ export default function MemeDetail(): JSX.Element | null {
               </Box>
             </Grid>
 
-            <Grid container style={{ height: "100%", width: "100%", overflowY: "scroll", display: "flex", flexDirection: "column", justifyContent: "flex-start", padding: 8 }}>
+            <Grid container style={{ height: "100%", width: "100%", overflowY: "scroll", display: "flex", flexDirection: "column", justifyContent: "flex-start", padding: 8, paddingTop: 16 }}>
               {memeComments.map((memeComment) => (
                 <CommentDetail key={memeComment.id} commentId={memeComment.id} />
               ))}
