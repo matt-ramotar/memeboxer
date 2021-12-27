@@ -4,7 +4,7 @@ import domtoimage from "dom-to-image";
 import { useDispatch, useSelector } from "react-redux";
 import ArrowLeftLine from "../../assets/icons/ArrowLeftLine";
 import { RootState } from "../../store";
-import { clearComponents, setActiveComponent, setCurrentJob, setData } from "../../store/createMeme";
+import { clearComponents, setActiveComponent, setCurrentJob, setData, setTextList } from "../../store/createMeme";
 import { Page, setActivePage, toggleCreateMeme } from "../../store/view";
 import { API_URL } from "../../util/secrets";
 import CreateMeme from "./CreateMeme";
@@ -17,12 +17,14 @@ export default function CreateMemeFlow(): JSX.Element {
   const theme = useTheme();
   const currentJob = useSelector((state: RootState) => state.createMeme.currentJob);
 
+  const componentMap = useSelector((state: RootState) => state.createMeme.componentMap);
   const dataRedux = useSelector((state: RootState) => state.createMeme.data);
   const templateIdRedux = useSelector((state: RootState) => state.createMeme.templateId);
   const userRedux = useSelector((state: RootState) => state.user);
   const captionRedux = useSelector((state: RootState) => state.createMeme.caption);
   const tagsRedux = useSelector((state: RootState) => state.createMeme.tags);
   const locationRedux = useSelector((state: RootState) => state.createMeme.location);
+  const textListRedux = useSelector((state: RootState) => state.createMeme.textList);
 
   const onClose = () => {
     dispatch(setActivePage(Page.Home));
@@ -37,6 +39,7 @@ export default function CreateMemeFlow(): JSX.Element {
       caption: captionRedux ?? undefined,
       tags: tagsRedux ?? undefined,
       location: locationRedux ?? undefined,
+      text: textListRedux ?? undefined,
     };
 
     const response = await axios.post(`${API_URL}/v1/memes`, input);
@@ -68,9 +71,12 @@ export default function CreateMemeFlow(): JSX.Element {
         type: "image/png",
       };
 
+      const textList = Object.values(componentMap).map((textComponent) => textComponent.text);
+
       if (node) {
         return domtoimage.toPng(node, param).then((data) => {
           dispatch(setData(data));
+          dispatch(setTextList(textList));
           dispatch(setCurrentJob(Math.min(currentJob + 1, 3)));
         });
       }

@@ -10,6 +10,7 @@ export interface Meme {
   reactionIds?: string[];
   created: Date;
   memeViewIds?: string[];
+  text?: string[];
 }
 
 export interface GodMeme {
@@ -23,7 +24,10 @@ export interface GodMeme {
   reactions?: MemeReaction[];
   created: Date;
   memeViews?: MemeView[];
+  tags?: Tag[];
+  text?: string[];
 }
+
 export interface User {
   id: string;
   email: string;
@@ -44,6 +48,11 @@ export interface User {
   notificationIds?: string[];
   memeViewIds?: string[];
   feed?: string[];
+}
+
+export interface Tag {
+  id: string;
+  tag: string;
 }
 
 export interface Template {
@@ -127,4 +136,12 @@ export interface MemeView {
   memeId: string;
   userId: string;
   datetime: Date;
+}
+
+export interface SearchResults {
+  memes: Meme[];
+  tags: Tag[];
+  users: User[];
+  comments: Comment[];
+  templates: Template[];
 }

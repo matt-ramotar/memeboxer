@@ -1,8 +1,8 @@
 import loadable from "@loadable/component";
-import { Grid, TextField, Typography, useTheme } from "@material-ui/core";
-import { useState } from "react";
+import { Grid, Typography, useTheme } from "@material-ui/core";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import SearchIcon from "../../assets/icons/SearchIcon";
+import Search from "../../components/Search/Search";
 import Memeboxer from "../../images/Memeboxer.png";
 import CreateMemeFlow from "../../modals/CreateMemeFlow/CreateMemeFlow";
 import { MAIN_NAV_HEIGHT } from "../../theme";
@@ -21,8 +21,7 @@ export default function MainLayout(props: Props): JSX.Element {
   const Page = loadable(() => import(`../../pages/Main/${props.pageName}`));
   const theme = useTheme();
   const navigate = useNavigate();
-
-  const [searchInput, setSearchInput] = useState("");
+  const dispatch = useDispatch();
 
   return (
     <Grid style={{ flexDirection: "column", justifyContent: "start" }}>
@@ -48,19 +47,12 @@ export default function MainLayout(props: Props): JSX.Element {
         >
           <Grid item xs={3} style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 0 }}>
             <img src={Memeboxer} alt="Memeboxer" style={{ height: 50 }} />
-            <Typography variant="h5" style={{ fontFamily: "Space Mono", fontWeight: "bold", marginLeft: 10, cursor: "pointer" }} onClick={() => navigate("/")}>
+            <Typography variant="h5" style={{ fontFamily: "Space Grotesk", fontWeight: "bold", marginLeft: 10, cursor: "pointer" }} onClick={() => navigate("/")}>
               memeboxer
             </Typography>
           </Grid>
 
-          <Grid item xs={4}>
-            <TextField
-              style={{ padding: 5, border: `1px solid ${theme.palette.divider}`, width: 300 }}
-              InputProps={{ disableUnderline: true, startAdornment: <SearchIcon fill={theme.palette.divider} height={32} width={32} />, endAdornment: null }}
-              value={searchInput}
-              onChange={(value) => setSearchInput(value.target.value)}
-            />
-          </Grid>
+          <Search />
 
           <Grid item xs={3} container style={{ display: "flex", flexDirection: "row", alignItems: "center", maxWidth: 220, justifyContent: "space-between", flexWrap: "nowrap" }}>
             <HomeButton fill={theme.palette.text.primary} height={32} width={32} />

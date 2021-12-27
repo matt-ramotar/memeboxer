@@ -7,6 +7,7 @@ export enum Page {
   Explore = "Explore",
   Notifications = "Notifications",
   Threads = "Threads",
+  Search = "Search",
 }
 
 export interface ViewState {

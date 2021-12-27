@@ -7,6 +7,7 @@ export interface CreateMemeState {
     [id: string]: TextComponent;
   };
   activeComponent: string | null;
+  textList: string[] | null;
   data: string | null;
   caption: string | null;
   tags: string[] | null;
@@ -59,6 +60,7 @@ const initialState: CreateMemeState = {
   componentMap: {},
   activeComponent: null,
   data: null,
+  textList: null,
   caption: null,
   location: null,
   tags: null,
@@ -159,6 +161,9 @@ const createMemeSlice = createSlice({
     setZipCode(state, action: PayloadAction<string>) {
       state.zipCode = action.payload;
     },
+    setTextList(state, action: PayloadAction<string[] | null>) {
+      state.textList = action.payload;
+    },
 
     removeComponent(state, action: PayloadAction<string>) {
       const nextComponentMap = { ...state.componentMap };
@@ -192,5 +197,6 @@ export const {
   setCaption,
   setLocation,
   setZipCode,
+  setTextList,
 } = createMemeSlice.actions;
 export default createMemeSlice.reducer;
