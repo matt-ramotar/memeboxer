@@ -104,6 +104,9 @@ export default function MemeDetail(): JSX.Element | null {
         }
         navigate("/");
         break;
+      case Page.Notifications:
+        navigate("/notifications");
+        break;
       default:
         navigate("/");
     }

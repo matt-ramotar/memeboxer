@@ -6,6 +6,10 @@ import Login from "./pages/Login";
 
 const routes = (isLoggedIn, user) => [
   {
+    path: "notifications",
+    element: !isLoggedIn ? <Navigate to="/login" /> : <MainLayout user={user} pageName="Notifications" />,
+  },
+  {
     path: "search",
     element: !isLoggedIn ? <Navigate to="/login" /> : <MainLayout user={user} pageName="Search" />,
   },

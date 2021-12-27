@@ -1,5 +1,6 @@
 export interface Meme {
   _id: string;
+  id?: string;
   templateId: string;
   userId: string;
   caption?: string;
@@ -144,4 +145,75 @@ export interface SearchResults {
   users: User[];
   comments: Comment[];
   templates: Template[];
+}
+
+export interface Notification {
+  id: string;
+  userId: string;
+  actionId: string;
+  isRead: boolean;
+  created: Date;
+}
+
+export interface GodAction {
+  id: string;
+  type: ActionType;
+  datetime: Date;
+  user?: GodUser;
+  otherUser?: GodUser;
+  template?: Template;
+  meme?: Meme;
+  tag?: Tag;
+  comment?: Comment;
+  otherComment?: Comment;
+  memeReaction?: MemeReaction;
+  commentReaction?: CommentReaction;
+}
+
+export interface Action {
+  id: string;
+  type: ActionType;
+  datetime: Date;
+  userId?: string;
+  otherUserId?: string;
+  templateId?: string;
+  memeId?: string;
+  tagId?: string;
+  commentId?: string;
+  otherCommentId?: string;
+  memeReactionId?: string;
+  commentReactionId?: string;
+}
+
+export enum ActionType {
+  AddTagToMeme = "ADD TAG TO MEME",
+  AddCommentToMeme = "ADD COMMENT TO MEME",
+  AddCommentToComment = "ADD COMMENT TO COMMENT",
+  CreateTemplate = "CREATE TEMPLATE",
+  CreateMeme = "CREATE MEME",
+  FollowUser = "FOLLOW USER",
+  FollowTag = "FOLLOW TAG",
+  ReactToComment = "REACT TO COMMENT",
+  ReactToMeme = "REACT TO MEME",
+  UpvoteComment = "UPVOTE COMMENT",
+  UpvoteMeme = "UPVOTE MEME",
+}
+
+export interface GodUser {
+  id: string;
+  name: string;
+  email: string;
+  username: string;
+  googleId: string;
+  picture?: string;
+  usersFollowing?: User[];
+  usersFollowedBy?: User[];
+  tagsFollowing?: Tag[];
+  memes?: Meme[];
+  memeUpvotes?: MemeUpvote[];
+  memeReactions?: MemeReaction[];
+  comments?: Comment[];
+  commentUpvotes?: CommentUpvote[];
+  commentReactions?: CommentReaction[];
+  actions?: Action[];
 }
