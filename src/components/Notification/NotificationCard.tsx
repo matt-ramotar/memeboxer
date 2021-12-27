@@ -18,7 +18,7 @@ export default function NotificationCard(props: Props): JSX.Element | null {
 
     switch (godAction.type) {
       case ActionType.AddCommentToMeme:
-        return <MemeCommentNotificationCard action={godAction} />;
+        return <MemeCommentNotificationCard notification={props.notification} action={godAction} />;
       case ActionType.ReactToMeme:
         return <MemeReactionNotificationCard notification={props.notification} action={godAction} />;
     }
@@ -27,7 +27,6 @@ export default function NotificationCard(props: Props): JSX.Element | null {
   useEffect(() => {
     async function fetchGodActionAsync() {
       const response = await axios.get(`${API_URL}/v1/actions/${props.notification.actionId}`);
-      console.log("god action", response.data);
       setGodAction(response.data);
     }
 

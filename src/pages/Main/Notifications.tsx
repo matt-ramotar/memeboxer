@@ -2,6 +2,7 @@ import { Box, Grid, Typography, useTheme } from "@material-ui/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { ClipLoader } from "react-spinners";
 import MoreHorizontalLine from "../../assets/icons/MoreHorizontalLine";
 import NotificationCard from "../../components/Notification/NotificationCard";
 import { RootState } from "../../store";
@@ -35,7 +36,24 @@ export default function Notifications(): JSX.Element | null {
     dispatch(setActivePage(Page.Notifications));
   }, []);
 
-  if (!notifications) return null;
+  if (!notifications) {
+    return (
+      <Grid
+        style={{
+          width: "100%",
+          display: "flex",
+          height: `calc(100vh - ${MAIN_NAV_HEIGHT}px)`,
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          marginTop: 32,
+          paddingTop: 32,
+        }}
+      >
+        <ClipLoader loading={true} speedMultiplier={1.5} />
+      </Grid>
+    );
+  }
 
   return (
     <Grid container style={{ minHeight: `calc(100vh - ${MAIN_NAV_HEIGHT}px)`, flexDirection: "column", alignItems: "center", marginTop: 0 }}>
