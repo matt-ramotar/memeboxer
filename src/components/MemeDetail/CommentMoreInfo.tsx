@@ -21,14 +21,16 @@ export default function CommentMoreInfo(props: Props): JSX.Element {
   const [isPoster, setIsPoster] = useState(false);
 
   const onDelete = () => {
-    async function deleteMemeAsync() {
-      const meme = await axios.delete(`${API_URL}/v1/comments/${props.comment.id}`, { data: { userId: user.id, token: user.token } });
-      if (meme) {
+    async function deleteCommentAsync() {
+      console.log(props.comment.id);
+      console.log(user.id);
+      const comment = await axios.delete(`${API_URL}/v1/comments/${props.comment.id}`, { data: { userId: user.id, token: user.token } });
+      if (comment) {
         window.location.reload();
       }
     }
 
-    deleteMemeAsync();
+    deleteCommentAsync();
   };
 
   useEffect(() => {
@@ -38,7 +40,7 @@ export default function CommentMoreInfo(props: Props): JSX.Element {
   }, [props.parentIsOpen]);
 
   useEffect(() => {
-    setIsPoster(props.comment.user.id == user.id);
+    setIsPoster(props.comment.user._id == user.id);
   }, [props.comment, user]);
 
   return (
@@ -79,66 +81,6 @@ export default function CommentMoreInfo(props: Props): JSX.Element {
           <Typography style={{ fontFamily: "Space Grotesk" }}>Report</Typography>
         </Box>
 
-        <Box
-          style={{
-            width: "100%",
-            borderBottom: `1px solid ${theme.palette.divider}`,
-            height: 48,
-            display: isPoster ? "none" : "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            cursor: "pointer",
-            color: theme.palette.error.main,
-          }}
-        >
-          <Typography style={{ fontFamily: "Space Grotesk" }}>Unfollow</Typography>
-        </Box>
-
-        <Box
-          style={{
-            width: "100%",
-            borderBottom: `1px solid ${theme.palette.divider}`,
-            height: 48,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            cursor: "pointer",
-          }}
-        >
-          <Typography style={{ fontFamily: "Space Grotesk" }}>Go to meme</Typography>
-        </Box>
-
-        <Box
-          style={{
-            width: "100%",
-            borderBottom: `1px solid ${theme.palette.divider}`,
-            height: 48,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            cursor: "pointer",
-          }}
-        >
-          <Typography style={{ fontFamily: "Space Grotesk" }}>Share</Typography>
-        </Box>
-
-        <Box
-          style={{
-            width: "100%",
-            borderBottom: `1px solid ${theme.palette.divider}`,
-            height: 48,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            cursor: "pointer",
-          }}
-        >
-          <Typography style={{ fontFamily: "Space Grotesk" }}>Copy link</Typography>
-        </Box>
         <Box
           style={{
             width: "100%",
