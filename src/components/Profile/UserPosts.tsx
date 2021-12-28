@@ -27,7 +27,7 @@ export default function UserPosts(props: Props): JSX.Element | null {
   if (!user) return null;
 
   return (
-    <Grid container xs={12} spacing={2} style={{ width: "100%", minHeight: "100%", display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "flex-start" }}>
+    <Grid container spacing={2} style={{ width: "100%", minHeight: "100%", display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "flex-start" }}>
       {user.memeIds?.map((memeId) => (
         <Grid item xs={4} key={memeId} style={{ display: "flex", maxHeight: "100%", maxWidth: "100%" }}>
           <UserPost memeId={memeId} />
