@@ -31,6 +31,7 @@ export interface GodMeme {
 
 export interface User {
   id: string;
+  _id?: string;
   email: string;
   username: string;
   name: string;
