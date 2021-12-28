@@ -2,6 +2,7 @@ import { Grid, Typography, useTheme } from "@material-ui/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Memes from "../../components/Search/Memes";
 import Users from "../../components/Search/Users";
 import { RootState } from "../../store";
 import { Page, setActivePage } from "../../store/view";
@@ -35,7 +36,7 @@ export default function Search(): JSX.Element | null {
   const renderSwitch = () => {
     switch (activeTab) {
       case 0:
-        return null;
+        return <Memes memes={searchResults?.memes ?? []} />;
       case 1:
         return null;
       case 2:
