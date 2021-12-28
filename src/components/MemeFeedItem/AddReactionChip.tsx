@@ -13,7 +13,7 @@ interface Props {
   meme: GodMeme;
 }
 
-export default function AddReaction(props: Props): JSX.Element {
+export default function AddReactionChip(props: Props): JSX.Element {
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 

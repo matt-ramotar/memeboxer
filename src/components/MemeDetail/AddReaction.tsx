@@ -4,7 +4,7 @@ import { BaseEmoji, Picker } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import EmojiSmileLine from "../../assets/icons/EmojiSmileLine";
+import EmojiAddLine from "../../assets/icons/EmojiAddLine";
 import { RootState } from "../../store";
 import { GodComment } from "../../types";
 import { API_URL } from "../../util/secrets";
@@ -66,7 +66,7 @@ export default function AddReaction(props: Props): JSX.Element {
   return (
     <Grid style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
       <button style={{ backgroundColor: "transparent", border: "none", boxShadow: "none", margin: 0, padding: 0, cursor: "pointer", marginLeft: 2, marginRight: 2 }} onClick={onClick}>
-        <EmojiSmileLine fill={theme.palette.text.primary} height={28} width={28} />
+        <EmojiAddLine fill={theme.palette.text.primary} height={28} width={28} />
       </button>
 
       <Popover

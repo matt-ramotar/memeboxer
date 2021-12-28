@@ -1,11 +1,11 @@
 import { Box, Typography, useTheme } from "@material-ui/core";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { BeatLoader } from "react-spinners";
-import { DREW, TIMOTHY } from "../../fakes";
-import { GodComment, GodMeme, User } from "../../types";
-import { API_URL, STORAGE_URL } from "../../util/secrets";
+import { GodMeme } from "../../types";
+import { STORAGE_URL } from "../../util/secrets";
+import AddReactionChip from "./AddReactionChip";
+import CommenterSquare from "./CommenterSquare";
 import MemeUserActions from "./MemeUserActions";
 import ReactionChip from "./ReactionChip";
 
@@ -13,56 +13,35 @@ interface Props {
   meme: GodMeme;
 }
 
-interface MemeReactionsMap {
-  [key: string]: number;
+interface ReactionIdToUserIdsMap {
+  [reactionId: string]: string[];
 }
 
-interface CommenterMap {
-  [key: string]: User;
+export interface UserIdToMemeReactionIdsMap {
+  [userId: string]: string[];
 }
 
-const buildGodComment = (body: string, user: User): GodComment => {
-  return {
-    id: "",
-    user,
-    body,
-    created: new Date(),
-  };
-};
+interface CommentersMap {
+  [userId: string]: boolean;
+}
 
-export default function MemeFeedItem(props: Props): JSX.Element {
+interface MemeReactionInfo {
+  commenters: string[];
+  reactionIdToUserIds: [string, string[]][];
+  userIdToMemeReactionIdsMap: UserIdToMemeReactionIdsMap;
+}
+
+export default function MemeFeedItem(props: Props): JSX.Element | null {
   const theme = useTheme();
 
   const navigate = useNavigate();
   const [actionsIsVisible, setActionsIsVisible] = useState(false);
-  const [godMeme, setGodMeme] = useState<GodMeme | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [signedUrl, setSignedUrl] = useState<string | null>(null);
-
-  const comments = [buildGodComment("Haha", DREW), buildGodComment("This is great", DREW), buildGodComment("Well done", TIMOTHY)];
-
-  const getCommenters = () => {
-    const map: CommenterMap = {};
-
-    for (const comment of comments) {
-      map[comment.user.id] = comment.user;
-    }
-
-    return Object.values(map);
-  };
-
-  const getMemeReactions = () => {
-    if (godMeme && godMeme.reactions) {
-      const map: MemeReactionsMap = {};
-
-      for (const memeReaction of godMeme.reactions) {
-        map[memeReaction.reactionId] = map[memeReaction.reactionId] ? map[memeReaction.reactionId] + 1 : 1;
-      }
-
-      return Object.entries(map);
-    }
-    return [];
-  };
+  const [reactionIdToUserIdsMap, setReactionIdToUserIdsMap] = useState<ReactionIdToUserIdsMap | null>(null);
+  const [userIdToMemeReactionIdsMap, setUserIdToMemeReactionIdsMap] = useState<UserIdToMemeReactionIdsMap | null>(null);
+  const [commentersMap, setCommentersMap] = useState<CommentersMap | null>(null);
+  const [memeReactionInfo, setMemeReactionInfo] = useState<MemeReactionInfo | null>(null);
 
   useEffect(() => {
     async function fetchSignedUrl() {
@@ -73,18 +52,46 @@ export default function MemeFeedItem(props: Props): JSX.Element {
   }, [props.meme]);
 
   useEffect(() => {
-    async function fetchGodMeme() {
-      const response = await axios.get(`${API_URL}/v1/memes/${props.meme.id}`);
-      setGodMeme(response.data);
+    if (props.meme.reactions) {
+      const reactionIdToUserIdsMap: ReactionIdToUserIdsMap = {};
+      const userIdToMemeReactionIdsMap: UserIdToMemeReactionIdsMap = {};
+
+      for (const memeReaction of props.meme.reactions) {
+        if (reactionIdToUserIdsMap[memeReaction.reactionId]) reactionIdToUserIdsMap[memeReaction.reactionId].push(memeReaction.userId);
+        else reactionIdToUserIdsMap[memeReaction.reactionId] = [memeReaction.userId];
+
+        if (userIdToMemeReactionIdsMap[memeReaction.userId]) userIdToMemeReactionIdsMap[memeReaction.userId].push(memeReaction.id);
+        else userIdToMemeReactionIdsMap[memeReaction.userId] = [memeReaction.id];
+      }
+
+      setReactionIdToUserIdsMap(reactionIdToUserIdsMap);
+      setUserIdToMemeReactionIdsMap(userIdToMemeReactionIdsMap);
+    }
+  }, [props.meme.reactions]);
+
+  useEffect(() => {
+    const commentersMap: CommentersMap = {};
+
+    for (const comment of props.meme.comments ?? []) {
+      commentersMap[comment.userId] = true;
     }
 
-    fetchGodMeme();
-  }, [props.meme]);
+    setCommentersMap(commentersMap);
+  }, [props.meme.comments]);
+
+  useEffect(() => {
+    const commenters = commentersMap && Object.keys(commentersMap) ? Object.keys(commentersMap) : [];
+    const reactionIdToUserIds = reactionIdToUserIdsMap && Object.keys(reactionIdToUserIdsMap) ? Object.entries(reactionIdToUserIdsMap) : [];
+
+    setMemeReactionInfo({ commenters, userIdToMemeReactionIdsMap: userIdToMemeReactionIdsMap ?? {}, reactionIdToUserIds });
+  }, [userIdToMemeReactionIdsMap, reactionIdToUserIdsMap, commentersMap]);
+
+  if (!memeReactionInfo) return null;
 
   return (
     <Box
       key={props.meme.id}
-      style={{ margin: 10, display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", paddingTop: 20, paddingBottom: 20, position: "relative" }}
+      style={{ margin: 10, display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", paddingTop: 16, paddingBottom: 16, position: "relative" }}
       onMouseEnter={() => setActionsIsVisible(true)}
       onMouseLeave={() => setActionsIsVisible(false)}
     >
@@ -92,11 +99,11 @@ export default function MemeFeedItem(props: Props): JSX.Element {
         <MemeUserActions meme={props.meme} isVisible={actionsIsVisible} />
       </Box>
 
-      <Box style={{ border: `1px solid ${theme.palette.divider}`, paddingTop: 10, paddingBottom: 10 }}>
-        <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", marginBottom: 10 }}>
+      <Box style={{ border: `1px solid ${theme.palette.divider}`, paddingTop: 8, paddingBottom: 8 }}>
+        <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", marginBottom: 8 }}>
           <img src={props.meme.user.picture} alt="avatar" style={{ height: 40, width: 40, borderRadius: 50 }} />
 
-          <Typography variant="body1" style={{ fontWeight: "bold", marginLeft: 10, cursor: "pointer" }} onClick={() => navigate(`/${props.meme.user.username}`)}>
+          <Typography variant="body1" style={{ fontWeight: "bold", marginLeft: 8, cursor: "pointer" }} onClick={() => navigate(`/${props.meme.user.username}`)}>
             {props.meme.user.username}
           </Typography>
         </Box>
@@ -111,39 +118,47 @@ export default function MemeFeedItem(props: Props): JSX.Element {
           <img src={signedUrl ?? ""} alt={props.meme.caption} style={{ width: 600, display: isLoaded ? "flex" : "none" }} onLoad={() => setIsLoaded(true)} />
         </Box>
 
-        <Box style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "space-around", padding: "4px 0px" }}>
-          <Box style={{ display: "flex", flexDirection: "row" }}>
+        <Box style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "space-around", paddingTop: 8 }}>
+          <Box style={{ display: props.meme.caption ? "flex" : "none", flexDirection: "row" }}>
             <Typography variant="body1" style={{ fontFamily: "Space Grotesk", fontWeight: "bold", padding: 0, cursor: "pointer" }} onClick={() => navigate(`/${props.meme.user.username}`)}>
-              {godMeme?.user.username}
+              {props.meme.user.username}
             </Typography>
 
             <Typography variant="body1" style={{ fontFamily: "Space Grotesk" }}>
-              So Memeboxer is an app that
+              {props.meme.caption}
             </Typography>
           </Box>
 
-          <Box style={{}}>
-            {props.meme.caption ? (
-              <Typography variant="body1" style={{ fontWeight: "bold", marginLeft: 8, cursor: "pointer", padding: 0 }} onClick={() => navigate(`/${props.meme.user.username}`)}>
-                {props.meme.user.username}
-              </Typography>
-            ) : null}
-          </Box>
-
           <Box style={{ display: "flex", flexDirection: "row" }}>
-            {getMemeReactions().map(([reactionId, count]) => (
-              <ReactionChip key={reactionId} reactionId={reactionId} count={count} />
-            ))}
-          </Box>
-
-          <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", cursor: "pointer" }} onClick={() => navigate(`/m/${godMeme?.id}`)}>
-            <Box>
-              {getCommenters().map((user) => (
-                <img key={user.id} src={user.picture ?? ""} alt="avatar" style={{ height: 32, width: 32, borderRadius: 4, objectFit: "cover", marginRight: 4 }} />
+            <Box style={{ display: memeReactionInfo.reactionIdToUserIds.length > 0 ? "flex" : "none" }}>
+              {memeReactionInfo.reactionIdToUserIds.map(([reactionId, userIds]) => (
+                <ReactionChip
+                  key={reactionId}
+                  reactionId={reactionId}
+                  count={userIds.length}
+                  userIds={userIds}
+                  memeId={props.meme.id}
+                  userIdToMemeReactionIdsMap={memeReactionInfo.userIdToMemeReactionIdsMap}
+                />
               ))}
             </Box>
 
-            <Typography style={{ fontFamily: "Space Grotesk", fontWeight: "bold" }}>{`${comments.length} comment${comments.length > 1 ? "s" : ""}`}</Typography>
+            <Box>
+              <AddReactionChip meme={props.meme} />
+            </Box>
+          </Box>
+
+          <Box
+            style={{ display: memeReactionInfo.commenters.length > 0 ? "flex" : "none", flexDirection: "row", alignItems: "center", cursor: "pointer", marginTop: 8 }}
+            onClick={() => navigate(`/m/${props.meme.id}`)}
+          >
+            <Box>
+              {memeReactionInfo.commenters.map((userId) => (
+                <CommenterSquare key={userId} userId={userId} />
+              ))}
+            </Box>
+
+            <Typography style={{ fontFamily: "Space Grotesk", fontWeight: "bold" }}>{`${props.meme.comments?.length} comment${props.meme.comments?.length == 1 ? "" : "s"}`}</Typography>
           </Box>
         </Box>
       </Box>
