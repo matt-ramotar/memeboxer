@@ -16,7 +16,7 @@ export interface ViewState {
   createMeme: boolean;
   createTemplate: boolean;
   colorPicker: boolean;
-  lastUpdatedNotifications?: Date;
+  lastUpdatedNotifications?: string;
 }
 
 const initialState: ViewState = {
@@ -46,7 +46,7 @@ const viewSlice = createSlice({
       state.username = action.payload;
     },
     setLastUpdatedNotifications(state, action: PayloadAction<Date>) {
-      state.lastUpdatedNotifications = action.payload;
+      state.lastUpdatedNotifications = action.payload.toString();
     },
   },
 });
