@@ -59,7 +59,7 @@ export default function Profile(): JSX.Element | null {
     }
 
     fetchUser();
-  }, [username]);
+  }, [username, isFollowing]);
 
   useEffect(() => {
     setIsCurrentUser(user?.id == currentUser.id);

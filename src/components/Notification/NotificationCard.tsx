@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { ActionType, GodAction, Notification } from "../../types";
 import { API_URL } from "../../util/secrets";
+import FollowUserNotificationCard from "./FollowUserNotificationCard";
 import MemeCommentNotificationCard from "./MemeCommentNotificationCard";
 import MemeReactionNotificationCard from "./MemeReactionNotificationCard";
 
@@ -21,6 +22,8 @@ export default function NotificationCard(props: Props): JSX.Element | null {
         return <MemeCommentNotificationCard notification={props.notification} action={godAction} />;
       case ActionType.ReactToMeme:
         return <MemeReactionNotificationCard notification={props.notification} action={godAction} />;
+      case ActionType.FollowUser:
+        return <FollowUserNotificationCard notification={props.notification} action={godAction} />;
     }
   };
 
