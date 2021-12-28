@@ -42,8 +42,8 @@ export default function ReactionChip(props: Props): JSX.Element | null {
   const onClick = () => {
     async function deleteMemeReactionAsync(memeReactionId: string) {
       const response = await axios.delete(`${API_URL}/v1/memes/${props.memeId}/reactions/${memeReactionId}`, { data: { userId: user.id, token: user.token } });
-      console.log(response);
       setCount(count - 1);
+      setUserHasReacted(false);
     }
 
     async function createMemeReactionAsync() {
@@ -52,7 +52,9 @@ export default function ReactionChip(props: Props): JSX.Element | null {
         userId: user.id,
       };
 
-      await axios.post(`${API_URL}/v1/memes/${props.memeId}/reactions`, addMemeReactionInput);
+      const response = await axios.post(`${API_URL}/v1/memes/${props.memeId}/reactions`, addMemeReactionInput);
+      setCount(count + 1);
+      setUserHasReacted(true);
     }
 
     if (user.id && userHasReacted == true) {

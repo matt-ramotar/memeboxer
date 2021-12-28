@@ -20,7 +20,6 @@ export default function Search(): JSX.Element | null {
   useEffect(() => {
     async function fetchSearchResults() {
       const response = await axios.post(`${API_URL}/v1/search`, { input: searchInput });
-      console.log(response.data);
       setSearchResults(response.data);
     }
 

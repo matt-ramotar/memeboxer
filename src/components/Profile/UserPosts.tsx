@@ -14,10 +14,7 @@ export default function UserPosts(props: Props): JSX.Element | null {
 
   useEffect(() => {
     async function fetchUserAsync() {
-      console.log(props.userId);
       const response = await axios.get(`${API_URL}/v1/users/${props.userId}`);
-      console.log(response);
-      console.log(response.data);
       setUser(response.data);
     }
 

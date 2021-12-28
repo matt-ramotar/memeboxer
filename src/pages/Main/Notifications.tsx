@@ -23,7 +23,6 @@ export default function Notifications(): JSX.Element | null {
   useEffect(() => {
     async function fetchNotifications() {
       const response = await axios.get(`${API_URL}/v1/users/${currentUser.id}/notifications`);
-      console.log(response.data);
       setNotifications(response.data);
     }
 

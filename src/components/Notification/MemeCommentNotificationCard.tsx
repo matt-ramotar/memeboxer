@@ -74,7 +74,6 @@ export default function MemeCommentNotificationCard(props: Props): JSX.Element |
   useEffect(() => {
     async function fetchMemeAsync(memeId: string) {
       const response = await axios.get(`${API_URL}/v1/memes/${memeId}`);
-      console.log(response.data);
       setMeme(response.data);
     }
     if (props.action.meme?._id) {
