@@ -10,26 +10,17 @@ export default function UnreadNotifications(): JSX.Element | null {
   const theme = useTheme();
 
   const currentUser = useSelector((state: RootState) => state.user);
-  const [unreadNotifications, setUnreadNotifications] = useState<Notification[] | null>();
-  const lastUpdatedNotifications = useSelector((state: RootState) => state.view.lastUpdatedNotifications);
+  const [unreadNotifications, setUnreadNotifications] = useState<Notification[] | null>(null);
 
   useEffect(() => {
     async function fetchUserUnreadNotificationsAsync() {
       const response = await axios.get(`${API_URL}/v1/users/${currentUser.id}/notifications/unread`);
+
       setUnreadNotifications(response.data);
     }
 
     fetchUserUnreadNotificationsAsync();
   }, [currentUser.id]);
-
-  useEffect(() => {
-    async function fetchUserUnreadNotificationsAsync() {
-      const response = await axios.get(`${API_URL}/v1/users/${currentUser.id}/notifications/unread`);
-      setUnreadNotifications(response.data);
-    }
-
-    fetchUserUnreadNotificationsAsync();
-  }, [lastUpdatedNotifications]);
 
   if (!unreadNotifications || unreadNotifications.length === 0) return null;
 

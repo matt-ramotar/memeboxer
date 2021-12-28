@@ -46,11 +46,22 @@ export default function ReactionChip(props: Props): JSX.Element | null {
       setCount(count - 1);
     }
 
+    async function createMemeReactionAsync() {
+      const addMemeReactionInput = {
+        reactionId: props.reactionId,
+        userId: user.id,
+      };
+
+      await axios.post(`${API_URL}/v1/memes/${props.memeId}/reactions`, addMemeReactionInput);
+    }
+
     if (user.id && userHasReacted == true) {
       const memeReactionIds = props.userIdToMemeReactionIdsMap[user.id];
       for (const memeReactionId of memeReactionIds) {
         deleteMemeReactionAsync(memeReactionId);
       }
+    } else if (user.id && userHasReacted == false) {
+      createMemeReactionAsync();
     }
   };
 
