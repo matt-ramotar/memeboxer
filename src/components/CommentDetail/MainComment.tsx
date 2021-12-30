@@ -4,6 +4,10 @@ import { useEffect, useState } from "react";
 import useTheme from "../../theme";
 import { GodComment } from "../../types";
 import { FALLBACK_AVATAR } from "../../util/constants";
+import Divider from "../Divider";
+import MainCommentReactions from "./MainCommentReactions";
+import MainCommentUserActions from "./MainCommentUserActions";
+import Reply from "./Reply";
 
 interface Props {
   comment: GodComment;
@@ -66,7 +70,29 @@ export default function MainComment(props: Props): JSX.Element | null {
         </Typography>
       </Box>
 
-      <Box></Box>
+      <Box style={{ marginTop: 16 }}>
+        <MainCommentReactions comment={props.comment} />
+      </Box>
+
+      <Box style={{ marginTop: 16 }}>
+        <Divider />
+      </Box>
+
+      <Box style={{ marginTop: 16 }}>
+        <MainCommentUserActions comment={props.comment} />
+      </Box>
+
+      <Box style={{ marginTop: 16 }}>
+        <Divider />
+      </Box>
+
+      <Box style={{ marginTop: 16 }}>
+        <Reply comment={props.comment} />
+      </Box>
+
+      <Box style={{ marginTop: 16 }}>
+        <Divider />
+      </Box>
     </Box>
   );
 }

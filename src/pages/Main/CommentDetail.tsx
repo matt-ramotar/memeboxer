@@ -118,7 +118,7 @@ export default function CommentDetail(): JSX.Element | null {
               justifyContent: "flex-start",
               overflowY: "scroll",
               height: 900,
-              width: 600,
+              width: 550,
               borderRight: `1px solid ${theme.palette.grey.A100}`,
               backgroundColor: theme.palette.background.paper,
               padding: "32px 64px",
@@ -132,9 +132,9 @@ export default function CommentDetail(): JSX.Element | null {
             container
             style={{
               display: "flex",
-              minWidth: 300,
-              maxWidth: 330,
-              width: 330,
+              minWidth: 350,
+              maxWidth: 380,
+              width: 380,
               height: "100%",
               maxHeight: 900,
               overflowY: "scroll",

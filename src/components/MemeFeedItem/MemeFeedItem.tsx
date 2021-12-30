@@ -13,7 +13,7 @@ interface Props {
   meme: GodMeme;
 }
 
-interface ReactionIdToUserIdsMap {
+export interface ReactionIdToUserIdsMap {
   [reactionId: string]: string[];
 }
 
@@ -33,8 +33,8 @@ interface MemeReactionInfo {
 
 export default function MemeFeedItem(props: Props): JSX.Element | null {
   const theme = useTheme();
-
   const navigate = useNavigate();
+
   const [actionsIsVisible, setActionsIsVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [signedUrl, setSignedUrl] = useState<string | null>(null);
