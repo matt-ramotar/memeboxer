@@ -8,6 +8,7 @@ import UserPosts from "../../components/Profile/UserPosts";
 import { RootState } from "../../store";
 import { Page, setActivePage, setUsername } from "../../store/view";
 import { User } from "../../types";
+import { FALLBACK_AVATAR } from "../../util/constants";
 import { API_URL } from "../../util/secrets";
 
 export default function Profile(): JSX.Element | null {
@@ -20,7 +21,7 @@ export default function Profile(): JSX.Element | null {
   const [user, setUser] = useState<User | null>(null);
   const [isCurrentUser, setIsCurrentUser] = useState<boolean | null>(null);
   const [isFollowing, setIsFollowing] = useState<boolean | null>(null);
-  const [profilePicture, setProfilePicture] = useState<string>("https://dropbox-appbox-static.s3.amazonaws.com/static/dropabout/img/nophoto.png");
+  const [profilePicture, setProfilePicture] = useState<string>(FALLBACK_AVATAR);
   const [activeTab, setActiveTab] = useState(0);
   const [unfollowButtonIsFocused, setUnfollowButtonIsFocused] = useState(false);
 
@@ -93,7 +94,7 @@ export default function Profile(): JSX.Element | null {
       <Grid style={{ display: "flex", flexDirection: "row", justifyContent: "start", alignItems: "center", width: 800 }}>
         <img
           src={profilePicture ?? ""}
-          onError={() => setProfilePicture(`https://dropbox-appbox-static.s3.amazonaws.com/static/dropabout/img/nophoto.png`)}
+          onError={() => setProfilePicture(FALLBACK_AVATAR)}
           alt="avatar"
           style={{ height: 170, width: 170, borderRadius: "50%", objectFit: "cover", objectPosition: "center" }}
         />

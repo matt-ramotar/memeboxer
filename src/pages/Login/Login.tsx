@@ -2,7 +2,7 @@ import { Grid, Typography, useTheme } from "@material-ui/core";
 import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from "react-google-login";
 import Memeboxer from "../../assets/Memeboxer.png";
 import extractUsername from "../../helpers/extractUsername";
-import continueWithGoogle from "../../lib/continueWithGoogle";
+import { continueWithGoogle } from "../../lib/auth";
 import { GOOGLE_CLIENT_ID } from "../../util/secrets";
 import styles from "./login.module.scss";
 

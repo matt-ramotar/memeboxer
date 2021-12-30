@@ -99,7 +99,7 @@ export interface GodComment {
   body: string;
   commentUpvotes?: CommentUpvote[];
   commentReactions?: CommentReaction[];
-  meme?: Meme;
+  meme?: GodMeme;
   created: Date;
 }
 

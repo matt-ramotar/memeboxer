@@ -4,7 +4,7 @@ import en from "javascript-time-ago/locale/en.json";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRoutes } from "react-router";
-import validateToken, { ValidateTokenSuccess } from "./lib/validateToken";
+import { validateToken, ValidateTokenSuccess } from "./lib/auth";
 import routes from "./routes";
 import { setEmail, setGoogleId, setId, setName, setPicture, setTemplateIds, setToken, setUsername, setUsersFollowedByIds, setUsersFollowingIds } from "./store/user";
 import useTheme from "./theme";

@@ -29,7 +29,13 @@ export default function Comment(props: Props): JSX.Element {
   if (!comment) return <Grid container style={{ display: "flex", width: "100%", height: 48, visibility: "visible" }}></Grid>;
 
   return (
-    <Grid container style={{ marginBottom: 12, position: "relative" }} onMouseEnter={() => setActionsIsVisible(true)} onMouseLeave={() => setActionsIsVisible(false)}>
+    <Grid
+      container
+      style={{ marginBottom: 12, position: "relative", cursor: "pointer" }}
+      onMouseEnter={() => setActionsIsVisible(true)}
+      onMouseLeave={() => setActionsIsVisible(false)}
+      onClick={() => navigate(`/c/${props.commentId}`)}
+    >
       <Box style={{ display: actionsIsVisible ? "flex" : "none", position: "absolute", top: -8, right: 0 }}>
         <CommentUserActions comment={comment} isVisible={actionsIsVisible} />
       </Box>

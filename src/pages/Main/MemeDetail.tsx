@@ -4,9 +4,9 @@ import "emoji-mart/css/emoji-mart.css";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-import CommentDetail from "../../components/MemeDetail/Comment";
+import UserComment from "../../components/MemeDetail/Comment";
 import MoreInfo from "../../components/MemeDetail/MoreInfo";
-import createMemeView from "../../lib/createMemeView";
+import { createMemeView } from "../../lib/meme";
 import { RootState } from "../../store";
 import { Page } from "../../store/view";
 import { MAIN_NAV_HEIGHT } from "../../theme";
@@ -206,7 +206,7 @@ export default function MemeDetail(): JSX.Element | null {
 
             <Grid container style={{ height: "100%", width: "100%", overflowY: "scroll", display: "flex", flexDirection: "column", justifyContent: "flex-start", padding: 8, paddingTop: 16 }}>
               {memeComments.map((memeComment) => (
-                <CommentDetail key={memeComment.id} commentId={memeComment.id} />
+                <UserComment key={memeComment.id} commentId={memeComment.id} />
               ))}
             </Grid>
 

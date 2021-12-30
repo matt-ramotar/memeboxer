@@ -10,6 +10,7 @@ import NotificationLine from "../../assets/icons/NotificationLine";
 import { RootState } from "../../store";
 import { setLastUpdatedNotifications } from "../../store/view";
 import { GodAction, Notification, Reaction, User } from "../../types";
+import { FALLBACK_AVATAR } from "../../util/constants";
 import { API_URL } from "../../util/secrets";
 
 interface Props {
@@ -24,7 +25,7 @@ export default function FollowUserNotificationCard(props: Props): JSX.Element | 
 
   const [reaction, setReaction] = useState<Reaction | null>(null);
   const [user, setUser] = useState<User | null>(null);
-  const [userProfilePicture, setUserProfilePicture] = useState("https://dropbox-appbox-static.s3.amazonaws.com/static/dropabout/img/nophoto.png");
+  const [userProfilePicture, setUserProfilePicture] = useState(FALLBACK_AVATAR);
   const [isRead, setIsRead] = useState(props.notification.isRead);
   const [isFocused, setIsFocused] = useState(false);
   const [textColor, setTextColor] = useState(theme.palette.text.primary);
@@ -118,12 +119,7 @@ export default function FollowUserNotificationCard(props: Props): JSX.Element | 
       <Grid>
         <Grid style={{ display: "flex", flexDirection: "row" }}>
           <Box>
-            <img
-              src={userProfilePicture}
-              onError={() => setUserProfilePicture("https://dropbox-appbox-static.s3.amazonaws.com/static/dropabout/img/nophoto.png")}
-              alt="avatar"
-              style={{ width: 50, height: 50, borderRadius: 8 }}
-            />
+            <img src={userProfilePicture} onError={() => setUserProfilePicture(FALLBACK_AVATAR)} alt="avatar" style={{ width: 50, height: 50, borderRadius: 8 }} />
           </Box>
 
           <Box style={{ display: "flex", flexDirection: "column", marginLeft: 16 }}>

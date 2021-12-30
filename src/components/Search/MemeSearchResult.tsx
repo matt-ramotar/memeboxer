@@ -7,6 +7,7 @@ import ReactTimeAgo from "react-time-ago";
 import { RootState } from "../../store";
 import useTheme from "../../theme";
 import { Meme, User } from "../../types";
+import { FALLBACK_AVATAR } from "../../util/constants";
 import { API_URL, STORAGE_URL } from "../../util/secrets";
 
 interface Props {
@@ -21,7 +22,7 @@ export default function MemeSearchResult(props: Props): JSX.Element | null {
   const searchInput = useSelector((state: RootState) => state.search.input);
 
   const [user, setUser] = useState<User | null>(null);
-  const [profilePicture, setProfilePicture] = useState<string>("https://dropbox-appbox-static.s3.amazonaws.com/static/dropabout/img/nophoto.png");
+  const [profilePicture, setProfilePicture] = useState<string>(FALLBACK_AVATAR);
   const [cardIsFocused, setCardIsFocused] = useState(false);
 
   useEffect(() => {
@@ -76,12 +77,7 @@ export default function MemeSearchResult(props: Props): JSX.Element | null {
       }}
     >
       <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-start" }}>
-        <img
-          src={profilePicture}
-          onError={() => setProfilePicture(`https://dropbox-appbox-static.s3.amazonaws.com/static/dropabout/img/nophoto.png`)}
-          alt="avatar"
-          style={{ width: 40, height: 40, borderRadius: 50, objectPosition: "center", objectFit: "cover" }}
-        />
+        <img src={profilePicture} onError={() => setProfilePicture(FALLBACK_AVATAR)} alt="avatar" style={{ width: 40, height: 40, borderRadius: 50, objectPosition: "center", objectFit: "cover" }} />
 
         <Typography variant="h6" style={{ fontWeight: "bold", marginLeft: 8 }}>
           {user?.username}

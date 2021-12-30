@@ -2,7 +2,7 @@ import { Grid, useTheme } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import MemeExploreItem from "../../components/MemeFeedItem/MemeExploreItem";
-import fetchMemes from "../../lib/fetchMemes";
+import { fetchMemes } from "../../lib/meme";
 import { Page, setActivePage } from "../../store/view";
 import { MAIN_NAV_HEIGHT } from "../../theme";
 import { GodMeme } from "../../types";

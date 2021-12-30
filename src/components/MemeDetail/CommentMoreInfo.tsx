@@ -22,8 +22,6 @@ export default function CommentMoreInfo(props: Props): JSX.Element {
 
   const onDelete = () => {
     async function deleteCommentAsync() {
-      console.log(props.comment.id);
-      console.log(user.id);
       const comment = await axios.delete(`${API_URL}/v1/comments/${props.comment.id}`, { data: { userId: user.id, token: user.token } });
       if (comment) {
         window.location.reload();

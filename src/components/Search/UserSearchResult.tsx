@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import { RootState } from "../../store";
 import useTheme from "../../theme";
 import { User } from "../../types";
+import { FALLBACK_AVATAR } from "../../util/constants";
 import { API_URL } from "../../util/secrets";
 
 interface Props {
@@ -19,7 +20,7 @@ export default function UserSearchResult(props: Props): JSX.Element {
   const [isCurrentUser, setIsCurrentUser] = useState<boolean | null>(null);
   const [isFollowing, setIsFollowing] = useState<boolean | null>(null);
   const currentUser = useSelector((state: RootState) => state.user);
-  const [profilePicture, setProfilePicture] = useState<string>("https://dropbox-appbox-static.s3.amazonaws.com/static/dropabout/img/nophoto.png");
+  const [profilePicture, setProfilePicture] = useState<string>(FALLBACK_AVATAR);
   const [numFollowers, setNumFollowers] = useState(props.user.usersFollowedByIds?.length ?? 0);
   const [unfollowButtonIsFocused, setUnfollowButtonIsFocused] = useState(false);
   const [cardIsFocused, setCardIsFocused] = useState(false);
@@ -82,12 +83,7 @@ export default function UserSearchResult(props: Props): JSX.Element {
       }}
     >
       <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-        <img
-          src={profilePicture}
-          onError={() => setProfilePicture(`https://dropbox-appbox-static.s3.amazonaws.com/static/dropabout/img/nophoto.png`)}
-          alt="avatar"
-          style={{ width: 60, height: 60, borderRadius: 8, objectFit: "cover", objectPosition: "center" }}
-        />
+        <img src={profilePicture} onError={() => setProfilePicture(FALLBACK_AVATAR)} alt="avatar" style={{ width: 60, height: 60, borderRadius: 8, objectFit: "cover", objectPosition: "center" }} />
 
         <Box style={{ marginLeft: 24 }}>
           <Typography variant="h6" style={{ fontWeight: "bold", cursor: "pointer" }} onClick={() => navigate(`/${props.user.username}`)}>
