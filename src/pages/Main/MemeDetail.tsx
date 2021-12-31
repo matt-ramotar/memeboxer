@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import UserComment from "../../components/MemeDetail/Comment";
+import MemeMetadata from "../../components/MemeDetail/MemeMetadata";
 import MemeReactions from "../../components/MemeDetail/MemeReactions";
+import MemeUserActions from "../../components/MemeDetail/MemeUserActions";
 import MoreInfo from "../../components/MemeDetail/MoreInfo";
 import { createMemeView } from "../../lib/meme";
 import { RootState } from "../../store";
@@ -239,11 +241,15 @@ export default function MemeDetail(): JSX.Element | null {
                 }}
               >
                 <Box>
+                  <MemeMetadata meme={meme} />
+                </Box>
+
+                <Box>
                   <MemeReactions meme={meme} />
                 </Box>
 
                 <Grid>
-                  <Typography>User Actions</Typography>
+                  <MemeUserActions meme={meme} />
                 </Grid>
 
                 <Grid>

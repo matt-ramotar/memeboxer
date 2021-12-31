@@ -49,23 +49,23 @@ export default function MainComment(props: Props): JSX.Element | null {
       </Typography>
 
       <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", marginTop: 8 }}>
-        <Typography variant="body1" style={{ color: theme.palette.grey[500] }}>
+        <Typography variant="body2" style={{ color: theme.palette.grey[500] }}>
           {`${new Date(props.comment.created).toLocaleTimeString()}`}
         </Typography>
 
-        <Typography variant="body1" style={{ color: theme.palette.grey[500], marginLeft: 8 }}>
+        <Typography variant="body2" style={{ color: theme.palette.grey[500], marginLeft: 8 }}>
           •
         </Typography>
 
-        <Typography variant="body1" style={{ marginLeft: 8, color: theme.palette.grey[500] }}>
+        <Typography variant="body2" style={{ marginLeft: 8, color: theme.palette.grey[500] }}>
           {`${new Date(props.comment.created).toLocaleDateString()}`}
         </Typography>
 
-        <Typography variant="body1" style={{ color: theme.palette.grey[500], marginLeft: 8 }}>
+        <Typography variant="body2" style={{ color: theme.palette.grey[500], marginLeft: 8 }}>
           •
         </Typography>
 
-        <Typography variant="body1" style={{ marginLeft: 8, color: theme.palette.grey[500] }}>
+        <Typography variant="body2" style={{ marginLeft: 8, color: theme.palette.grey[500] }}>
           Memeboxer Web App
         </Typography>
       </Box>
