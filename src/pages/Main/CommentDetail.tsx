@@ -1,12 +1,14 @@
-import { Box, Grid, Modal, useTheme } from "@material-ui/core";
+import { Box, Grid, Modal, Typography, useTheme } from "@material-ui/core";
 import "emoji-mart/css/emoji-mart.css";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
+import ArrowLeftLine from "../../assets/icons/ArrowLeftLine";
 import MainComment from "../../components/CommentDetail/MainComment";
 import ParentMeme from "../../components/CommentDetail/ParentMeme";
 import { fetchGodComment } from "../../lib/comment";
 import { RootState } from "../../store";
+import { setChildComments as setChildren, setId, setReactions } from "../../store/comment";
 import { Page } from "../../store/view";
 import { MAIN_NAV_HEIGHT } from "../../theme";
 import { CommentReaction, GodComment, GodMeme, User } from "../../types";
@@ -15,6 +17,7 @@ import { STORAGE_URL } from "../../util/secrets";
 
 export default function CommentDetail(): JSX.Element | null {
   const theme = useTheme();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { commentId } = useParams();
 
@@ -80,6 +83,14 @@ export default function CommentDetail(): JSX.Element | null {
     }
   }, [comment?.meme]);
 
+  useEffect(() => {
+    if (comment) {
+      dispatch(setId(comment.id));
+      dispatch(setReactions(comment.commentReactions ?? []));
+      dispatch(setChildren(comment.childrenComments ?? []));
+    }
+  }, [comment]);
+
   if (!comment || !memeImage) return null;
 
   return (
@@ -124,7 +135,20 @@ export default function CommentDetail(): JSX.Element | null {
               padding: "32px 64px",
             }}
           >
-            {comment.meme ? <ParentMeme meme={comment.meme} /> : null}
+            <Box style={{ display: comment.meme ? "flex" : "none", flexDirection: "row", alignItems: "center", marginLeft: -16 }}>
+              <button
+                style={{ backgroundColor: "transparent", border: "none", boxShadow: "none", margin: 0, padding: 0, cursor: "pointer", marginLeft: 2, marginRight: 2 }}
+                onClick={() => navigate(`/m/${comment.meme?.id}`)}
+              >
+                <ArrowLeftLine fill={theme.palette.text.primary} height={32} width={32} />
+              </button>
+
+              <Typography variant="h6" style={{ marginLeft: 16, cursor: "pointer" }} onClick={() => navigate(`/m/${comment.meme?.id}`)}>
+                Meme
+              </Typography>
+            </Box>
+
+            <Box style={{ marginTop: 16 }}>{comment.meme ? <ParentMeme meme={comment.meme} /> : null}</Box>
             <MainComment comment={comment} />
           </Grid>
 

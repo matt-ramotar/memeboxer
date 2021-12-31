@@ -19,6 +19,7 @@ export default function CommentReactionChip(props: Props): JSX.Element | null {
   const theme = useTheme();
 
   const user = useSelector((state: RootState) => state.user);
+  const commentReactions = useSelector((state: RootState) => state.comment.reactions);
 
   const [reaction, setReaction] = useState<Reaction | null>(null);
   const [count, setCount] = useState(props.count);

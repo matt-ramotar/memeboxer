@@ -1,5 +1,7 @@
 import { Box, Grid } from "@material-ui/core";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 import { GodComment } from "../../types";
 import { ReactionIdToUserIdsMap } from "../MemeFeedItem/MemeFeedItem";
 import CommentReactionChip from "./CommentReactionChip";
@@ -18,16 +20,18 @@ export interface UserIdToCommentReactionIdsMap {
 }
 
 export default function MainCommentReactions(props: Props): JSX.Element | null {
+  const commentReactions = useSelector((state: RootState) => state.comment.reactions);
+
   const [reactionIdToUserIdsMap, setReactionIdToUserIdsMap] = useState<ReactionIdToUserIdsMap | null>(null);
   const [userIdToCommentReactionIdsMap, setUserIdToCommentReactionIdsMap] = useState<UserIdToCommentReactionIdsMap | null>(null);
   const [commentReactionInfo, setCommentReactionInfo] = useState<CommentReactionInfo | null>(null);
 
   useEffect(() => {
-    if (props.comment.commentReactions) {
+    if (commentReactions) {
       const reactionIdToUserIdsMap: ReactionIdToUserIdsMap = {};
       const userIdToCommentReactionIdsMap: UserIdToCommentReactionIdsMap = {};
 
-      for (const commentReaction of props.comment.commentReactions) {
+      for (const commentReaction of commentReactions) {
         if (reactionIdToUserIdsMap[commentReaction.reactionId]) reactionIdToUserIdsMap[commentReaction.reactionId].push(commentReaction.userId);
         else reactionIdToUserIdsMap[commentReaction.reactionId] = [commentReaction.userId];
 
@@ -38,7 +42,7 @@ export default function MainCommentReactions(props: Props): JSX.Element | null {
       setReactionIdToUserIdsMap(reactionIdToUserIdsMap);
       setUserIdToCommentReactionIdsMap(userIdToCommentReactionIdsMap);
     }
-  }, [props.comment.commentReactions]);
+  }, [commentReactions]);
 
   useEffect(() => {
     const reactionIdToUserIds = reactionIdToUserIdsMap && Object.keys(reactionIdToUserIdsMap) ? Object.entries(reactionIdToUserIdsMap) : [];

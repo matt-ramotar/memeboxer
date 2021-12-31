@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import EmojiAddLine from "../../assets/icons/EmojiAddLine";
 import { RootState } from "../../store";
+import { setReactions } from "../../store/comment";
 import { GodComment } from "../../types";
 import { API_URL } from "../../util/secrets";
 
@@ -18,6 +19,7 @@ export default function AddReaction(props: Props): JSX.Element {
   const theme = useTheme();
 
   const user = useSelector((state: RootState) => state.user);
+  const commentReactions = useSelector((state: RootState) => state.comment.reactions);
 
   const addReaction = async (emoji: BaseEmoji) => {
     const upsertReactionInput = {
@@ -36,7 +38,14 @@ export default function AddReaction(props: Props): JSX.Element {
     };
 
     const response = await axios.post(`${API_URL}/v1/comments/${props.comment.id}/reactions`, addCommentReactionInput);
-    console.log(response);
+
+    const nextCommentReactions = commentReactions ? [...commentReactions] : [];
+
+    if (response.data) {
+      nextCommentReactions.push(response.data);
+    }
+
+    dispatch(setReactions(nextCommentReactions));
   };
 
   const [shouldShow, setShouldShow] = useState(false);

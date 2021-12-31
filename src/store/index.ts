@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import commentSlice from "./comment";
 import createMemeSlice from "./createMeme";
 import searchSlice from "./search";
 import templateSlice from "./template";
@@ -8,6 +9,7 @@ import viewSlice from "./view";
 
 const store = configureStore({
   reducer: {
+    comment: commentSlice,
     createMeme: createMemeSlice,
     search: searchSlice,
     template: templateSlice,
