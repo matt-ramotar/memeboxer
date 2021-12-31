@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import ArrowLeftLine from "../../assets/icons/ArrowLeftLine";
+import ChildComments from "../../components/CommentDetail/ChildComments";
 import MainComment from "../../components/CommentDetail/MainComment";
 import ParentMeme from "../../components/CommentDetail/ParentMeme";
 import { fetchGodComment } from "../../lib/comment";
@@ -171,7 +172,9 @@ export default function CommentDetail(): JSX.Element | null {
 
               flexWrap: "nowrap",
             }}
-          ></Grid>
+          >
+            <ChildComments comment={comment} />
+          </Grid>
         </Box>
       </Modal>
     </Grid>

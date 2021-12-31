@@ -18,8 +18,11 @@ export default function Comment(props: Props): JSX.Element {
   useEffect(() => {
     async function fetchGodCommentAsync() {
       const response = await axios.get(`${API_URL}/v1/comments/${props.commentId}/god`);
+      console.log("response", response);
       setComment(response.data);
     }
+
+    console.log("user comment in meme detail", props);
 
     fetchGodCommentAsync();
   }, [props.commentId]);

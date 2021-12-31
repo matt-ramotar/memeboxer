@@ -1,8 +1,10 @@
 import { Grid, TextField, Typography, useTheme } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { createComment } from "../../lib/comment";
 import { RootState } from "../../store";
-import { GodComment } from "../../types";
+import { setChildComments } from "../../store/comment";
+import { Comment, GodComment } from "../../types";
 import { FALLBACK_AVATAR } from "../../util/constants";
 
 interface Props {
@@ -11,12 +13,40 @@ interface Props {
 
 export default function Reply(props: Props): JSX.Element {
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   const user = useSelector((state: RootState) => state.user);
+  const childComments = useSelector((state: RootState) => state.comment.children);
 
   const [profilePicture, setProfilePicture] = useState<string>(FALLBACK_AVATAR);
   const [isFocused, setIsFocused] = useState(false);
   const [reply, setReply] = useState<string | null>(null);
+
+  const postReply = async (userId: string, body: string) => {
+    const godComment = await createComment(userId, body, props.comment.id);
+    const childComment: Comment = {
+      id: godComment.id,
+      userId: godComment.user.id,
+      parentCommentId: godComment.parentComment?.id,
+      body: godComment.body,
+      created: godComment.created,
+    };
+
+    const nextChildComments = childComments ? [...childComments] : [];
+    nextChildComments.push(childComment);
+    dispatch(setChildComments(nextChildComments));
+
+    setReply(null);
+  };
+
+  const onKeyDown = (e: any) => {
+    if (e.key == "Enter" && e.shiftKey) {
+      if (user && user.id && reply) {
+        console.log("hitting");
+        postReply(user.id, reply);
+      }
+    }
+  };
 
   useEffect(() => {
     if (user) {
@@ -47,6 +77,7 @@ export default function Reply(props: Props): JSX.Element {
             onChange={(e) => setReply(e.target.value)}
             onBlur={() => setIsFocused(false)}
             value={reply}
+            onKeyDown={onKeyDown}
           />
         </Grid>
 
