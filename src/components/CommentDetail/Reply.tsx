@@ -70,6 +70,7 @@ export default function Reply(props: Props): JSX.Element {
 
           <TextField
             multiline
+            autoFocus={true}
             placeholder="Type your reply"
             InputProps={{ disableUnderline: true }}
             inputProps={{ style: { fontSize: 18 } }}
@@ -83,9 +84,9 @@ export default function Reply(props: Props): JSX.Element {
         </Grid>
 
         <Grid item style={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "flex-end" }}>
-          <button style={{ backgroundColor: theme.palette.primary.main, color: theme.palette.background.paper, border: "none", borderRadius: 4, padding: "8px 32px", cursor: "pointer" }}>
-            <Typography style={{ fontWeight: "bold" }}>Reply</Typography>
-          </button>
+          <Typography variant="body1" style={{ fontSize: 18, fontWeight: "bold", color: theme.palette.primary.main, cursor: "pointer", opacity: reply ? 1 : 0.4 }}>
+            Reply
+          </Typography>
         </Grid>
       </Grid>
     );
@@ -112,9 +113,9 @@ export default function Reply(props: Props): JSX.Element {
       />
 
       <Grid item>
-        <button style={{ backgroundColor: theme.palette.primary.main, color: theme.palette.background.paper, opacity: 0.4, border: "none", borderRadius: 4, padding: "8px 32px", cursor: "pointer" }}>
-          <Typography style={{ fontWeight: "bold" }}>Reply</Typography>
-        </button>
+        <Typography variant="body1" style={{ fontSize: 18, fontWeight: "bold", color: theme.palette.primary.main, cursor: "pointer", opacity: reply ? 1 : 0.4 }}>
+          Reply
+        </Typography>
       </Grid>
     </Grid>
   );

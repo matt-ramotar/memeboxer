@@ -49,7 +49,7 @@ export default function ParentMeme(props: Props): JSX.Element | null {
           src={profilePicture ?? ""}
           onError={() => setProfilePicture(FALLBACK_AVATAR)}
           alt="avatar"
-          style={{ height: 40, width: 40, borderRadius: "50%", objectFit: "cover", objectPosition: "center" }}
+          style={{ height: 40, width: 40, borderRadius: "50%", objectFit: "cover", objectPosition: "center", marginLeft: 8 }}
         />
         <Box style={{ marginLeft: 16 }}>
           <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
@@ -67,7 +67,7 @@ export default function ParentMeme(props: Props): JSX.Element | null {
           </Box>
         </Box>
       </Box>
-      <Box style={{ borderLeft: `1px solid ${theme.palette.divider}`, marginLeft: 28, paddingLeft: 40 }}>
+      <Box style={{ borderLeft: `1px solid ${theme.palette.divider}`, marginLeft: 28, paddingLeft: 40, paddingBottom: 16 }}>
         <img src={memeImage.src} alt="null" style={{ minWidth: 200, maxWidth: 200, height: "auto", objectFit: "cover", objectPosition: "center", display: "flex" }} onLoad={onLoad} id="parent-meme" />
       </Box>
     </Box>

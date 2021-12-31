@@ -32,6 +32,7 @@ module.exports = {
         depth: 25,
       },
     ],
+    "jsx-a11y/no-autofocus": "off",
     "@typescript-eslint/no-explicit-any": "off",
   },
   settings: {

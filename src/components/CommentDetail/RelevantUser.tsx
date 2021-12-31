@@ -108,33 +108,19 @@ export default function RelevantUser(props: Props): JSX.Element | null {
       </Grid>
 
       <Box style={{ display: !isCurrentUser && !isFollowing ? "flex" : "none" }}>
-        <button
-          style={{ backgroundColor: theme.palette.text.primary, color: theme.palette.background.paper, border: "none", borderRadius: 4, padding: 4, margin: 0, cursor: "pointer", height: 40 }}
-          onClick={() => onFollow(user.id, currentUser.id ?? "")}
-        >
-          <Typography variant="body2" style={{ fontWeight: "bold" }}>
-            Follow
-          </Typography>
-        </button>
+        <Typography variant="body1" style={{ fontWeight: "bold", cursor: "pointer", color: theme.palette.primary.main }} onClick={() => onFollow(user.id, currentUser.id ?? "")}>
+          Follow
+        </Typography>
       </Box>
 
       <Box style={{ display: !isCurrentUser && !isFollowing ? "flex" : "none" }} onMouseEnter={() => setUnfollowButtonIsFocused(true)} onMouseLeave={() => setUnfollowButtonIsFocused(false)}>
-        <button
-          style={{
-            backgroundColor: theme.palette.background.default,
-            border: unfollowButtonIsFocused ? `1px solid ${theme.palette.error.main}` : `1px solid ${theme.palette.divider}`,
-            borderRadius: 4,
-            height: 40,
-            padding: 4,
-            margin: 0,
-            cursor: "pointer",
-          }}
+        <Typography
+          variant="body1"
+          style={{ fontWeight: "bold", color: unfollowButtonIsFocused ? theme.palette.error.main : theme.palette.text.primary, cursor: "pointer" }}
           onClick={() => onUnfollow(user.id, currentUser.id ?? "")}
         >
-          <Typography variant="body2" style={{ fontWeight: "bold", color: unfollowButtonIsFocused ? theme.palette.error.main : theme.palette.text.primary }}>
-            {unfollowButtonIsFocused ? "Unfollow" : "Following"}
-          </Typography>
-        </button>
+          {unfollowButtonIsFocused ? "Unfollow" : "Following"}
+        </Typography>
       </Box>
     </Grid>
   );
