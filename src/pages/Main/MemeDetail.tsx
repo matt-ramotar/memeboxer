@@ -148,21 +148,21 @@ export default function MemeDetail(): JSX.Element | null {
               justifyContent: "center",
               overflowY: "scroll",
               height: 900,
-              width: 600,
+              width: 550,
               borderRight: `1px solid ${theme.palette.grey.A100}`,
               backgroundColor: theme.palette.background.paper,
             }}
           >
-            <img src={image.src} alt="null" style={{ minWidth: 600, maxWidth: 600, height: imageHeight ? imageHeight : "auto", display: "flex" }} onLoad={onLoad} id="generated-meme" />
+            <img src={image.src} alt="null" style={{ minWidth: 550, maxWidth: 550, height: imageHeight ? imageHeight : "auto", display: "flex" }} onLoad={onLoad} id="generated-meme" />
           </Grid>
 
           <Grid
             container
             style={{
               display: "flex",
-              minWidth: 300,
-              maxWidth: 330,
-              width: 330,
+              minWidth: 350,
+              maxWidth: 380,
+              width: 380,
               height: "100%",
               maxHeight: 900,
               overflowY: "scroll",
