@@ -37,12 +37,13 @@ export default function Reply(props: Props): JSX.Element {
     dispatch(setChildComments(nextChildComments));
 
     setReply(null);
+    setIsFocused(false);
   };
 
   const onKeyDown = (e: any) => {
     if (e.key == "Enter" && e.shiftKey) {
       if (user && user.id && reply) {
-        console.log("hitting");
+        e.preventDefault();
         postReply(user.id, reply);
       }
     }

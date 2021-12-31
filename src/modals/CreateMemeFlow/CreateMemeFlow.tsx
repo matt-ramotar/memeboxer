@@ -154,7 +154,7 @@ export default function CreateMemeFlow(): JSX.Element {
               dispatch(setCurrentJob(Math.max(currentJob - 1, 1)));
             }}
           >
-            <ArrowLeftLine fill={theme.palette.text.primary} height={32} width={32} />
+            <ArrowLeftLine fill={theme.palette.text.primary} height={32} width={32} strokeWidth="3" />
           </button>
           <Typography variant="h6" style={{ fontWeight: "bold" }}>
             Create new meme

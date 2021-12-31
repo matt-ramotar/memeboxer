@@ -2,12 +2,14 @@ import { Box, Grid, Modal, TextField, Typography, useTheme } from "@material-ui/
 import axios from "axios";
 import "emoji-mart/css/emoji-mart.css";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import UserComment from "../../components/MemeDetail/Comment";
+import MemeReactions from "../../components/MemeDetail/MemeReactions";
 import MoreInfo from "../../components/MemeDetail/MoreInfo";
 import { createMemeView } from "../../lib/meme";
 import { RootState } from "../../store";
+import { setComments, setId, setReactions } from "../../store/meme";
 import { Page } from "../../store/view";
 import { MAIN_NAV_HEIGHT } from "../../theme";
 import { Comment, GodMeme } from "../../types";
@@ -16,18 +18,20 @@ import { API_URL, STORAGE_URL } from "../../util/secrets";
 export default function MemeDetail(): JSX.Element | null {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [meme, setMeme] = useState<GodMeme | null>(null);
+  const dispatch = useDispatch();
   const { memeId } = useParams();
+
   const user = useSelector((state: RootState) => state.user);
-  const [image, setImage] = useState<HTMLImageElement | null>(null);
-  const [imageHeight, setImageHeight] = useState<number | null>(null);
   const lastActivePage = useSelector((state: RootState) => state.view.activePage);
   const lastUsername = useSelector((state: RootState) => state.view.username);
+  const reactions = useSelector((state: RootState) => state.meme.reactions);
+  const comments = useSelector((state: RootState) => state.meme.comments);
 
+  const [meme, setMeme] = useState<GodMeme | null>(null);
+  const [image, setImage] = useState<HTMLImageElement | null>(null);
+  const [imageHeight, setImageHeight] = useState<number | null>(null);
   const [memeComments, setMemeComments] = useState<Comment[]>([]);
-
   const [isDisabled, setIsDisabled] = useState(true);
-
   const [comment, setComment] = useState("");
 
   const onComment = () => {
@@ -89,6 +93,14 @@ export default function MemeDetail(): JSX.Element | null {
       setMemeComments(meme.comments);
     }
   }, [meme?.comments]);
+
+  useEffect(() => {
+    if (meme) {
+      dispatch(setId(meme.id));
+      dispatch(setReactions(meme.reactions ?? []));
+      dispatch(setComments(meme.comments ?? []));
+    }
+  }, [meme]);
 
   if (!meme || !image) return null;
 
@@ -205,7 +217,7 @@ export default function MemeDetail(): JSX.Element | null {
             </Grid>
 
             <Grid container style={{ height: "100%", width: "100%", overflowY: "scroll", display: "flex", flexDirection: "column", justifyContent: "flex-start", padding: 8, paddingTop: 16 }}>
-              {memeComments.map((memeComment) => (
+              {comments?.map((memeComment) => (
                 <UserComment key={memeComment.id} commentId={memeComment.id} />
               ))}
             </Grid>
@@ -226,6 +238,10 @@ export default function MemeDetail(): JSX.Element | null {
                   alignItems: "flex-start",
                 }}
               >
+                <Box>
+                  <MemeReactions meme={meme} />
+                </Box>
+
                 <Grid>
                   <Typography>User Actions</Typography>
                 </Grid>

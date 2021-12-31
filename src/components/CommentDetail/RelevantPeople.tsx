@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, useTheme } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import RelevantUser from "./RelevantUser";
 
@@ -7,6 +7,8 @@ interface Props {
 }
 
 export default function RelevantPeople(props: Props): JSX.Element | null {
+  const theme = useTheme();
+
   const [uniqueUserIds, setUniqueUserIds] = useState(Array.from(new Set(props.userIds)));
 
   useEffect(() => {
@@ -16,7 +18,7 @@ export default function RelevantPeople(props: Props): JSX.Element | null {
   if (!uniqueUserIds) return null;
 
   return (
-    <Grid style={{ width: "100%" }}>
+    <Grid style={{ width: "100%", padding: 8, borderRadius: 8, backgroundColor: theme.palette.grey.A100 }}>
       <Typography variant="h6" style={{ fontWeight: "bold" }}>
         Relevant people
       </Typography>

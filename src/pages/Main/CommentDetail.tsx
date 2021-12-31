@@ -154,7 +154,7 @@ export default function CommentDetail(): JSX.Element | null {
                 style={{ backgroundColor: "transparent", border: "none", boxShadow: "none", margin: 0, padding: 0, cursor: "pointer", marginLeft: 2, marginRight: 2 }}
                 onClick={() => navigate(`/m/${comment.meme?.id}`)}
               >
-                <ArrowLeftLine fill={theme.palette.text.primary} height={32} width={32} />
+                <ArrowLeftLine fill={theme.palette.text.primary} height={32} width={32} strokeWidth="1.5" />
               </button>
 
               <Typography variant="h6" style={{ marginLeft: 16, cursor: "pointer", fontWeight: "bold" }} onClick={() => navigate(`/m/${comment.meme?.id}`)}>
@@ -177,7 +177,7 @@ export default function CommentDetail(): JSX.Element | null {
               maxHeight: 900,
               overflowY: "scroll",
               flexDirection: "column",
-              justifyContent: "space-between",
+              justifyContent: "flex-start",
               alignItems: "flex-start",
               paddingRight: 32,
               paddingLeft: 8,
@@ -190,8 +190,11 @@ export default function CommentDetail(): JSX.Element | null {
               flexWrap: "nowrap",
             }}
           >
-            {relevantPeople ? <RelevantPeople userIds={relevantPeople} /> : null}
-            <ChildComments comment={comment} />
+            <Box style={{ width: "100%" }}>{relevantPeople ? <RelevantPeople userIds={relevantPeople} /> : null}</Box>
+
+            <Box style={{ marginTop: 16, width: "100%" }}>
+              <ChildComments comment={comment} />
+            </Box>
           </Grid>
         </Box>
       </Modal>

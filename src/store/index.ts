@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import commentSlice from "./comment";
 import createMemeSlice from "./createMeme";
+import memeSlice from "./meme";
 import searchSlice from "./search";
 import templateSlice from "./template";
 import themeSlice from "./theme";
@@ -11,6 +12,7 @@ const store = configureStore({
   reducer: {
     comment: commentSlice,
     createMeme: createMemeSlice,
+    meme: memeSlice,
     search: searchSlice,
     template: templateSlice,
     theme: themeSlice,
