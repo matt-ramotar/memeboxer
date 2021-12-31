@@ -49,7 +49,7 @@ export default function ParentMeme(props: Props): JSX.Element | null {
           src={profilePicture ?? ""}
           onError={() => setProfilePicture(FALLBACK_AVATAR)}
           alt="avatar"
-          style={{ height: 60, width: 60, borderRadius: "50%", objectFit: "cover", objectPosition: "center" }}
+          style={{ height: 40, width: 40, borderRadius: "50%", objectFit: "cover", objectPosition: "center" }}
         />
         <Box style={{ marginLeft: 16 }}>
           <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>

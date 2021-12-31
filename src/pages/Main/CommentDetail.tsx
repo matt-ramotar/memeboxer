@@ -7,6 +7,7 @@ import ArrowLeftLine from "../../assets/icons/ArrowLeftLine";
 import ChildComments from "../../components/CommentDetail/ChildComments";
 import MainComment from "../../components/CommentDetail/MainComment";
 import ParentMeme from "../../components/CommentDetail/ParentMeme";
+import RelevantPeople from "../../components/CommentDetail/RelevantPeople";
 import { fetchGodComment } from "../../lib/comment";
 import { RootState } from "../../store";
 import { setChildComments as setChildren, setId, setReactions } from "../../store/comment";
@@ -29,6 +30,7 @@ export default function CommentDetail(): JSX.Element | null {
   const [meme, setMeme] = useState<GodMeme | null>(null);
   const [memeImage, setMemeImage] = useState<HTMLImageElement | null>(null);
   const [memeImageHeight, setMemeImageHeight] = useState<number | null>(null);
+  const [relevantPeople, setRelevantPeople] = useState<string[] | null>(null);
 
   const [childComments, setChildComments] = useState<GodComment[] | null>(null);
   const [commentReactions, setCommentReactions] = useState<CommentReaction[] | null>(null);
@@ -92,6 +94,17 @@ export default function CommentDetail(): JSX.Element | null {
     }
   }, [comment]);
 
+  useEffect(() => {
+    const relevantPeople: string[] = [];
+
+    if (comment?.user) relevantPeople.push(comment.user.id);
+    if (comment?.meme) relevantPeople.push(comment.meme.user.id);
+    if (comment?.parentComment) relevantPeople.push(comment.parentComment.userId);
+
+    setRelevantPeople(relevantPeople);
+    console.log("relevant people", relevantPeople);
+  }, [comment]);
+
   if (!comment || !memeImage) return null;
 
   return (
@@ -133,7 +146,7 @@ export default function CommentDetail(): JSX.Element | null {
               width: 550,
               borderRight: `1px solid ${theme.palette.grey.A100}`,
               backgroundColor: theme.palette.background.paper,
-              padding: "32px 64px",
+              padding: 32,
             }}
           >
             <Box style={{ display: comment.meme ? "flex" : "none", flexDirection: "row", alignItems: "center", marginLeft: -16 }}>
@@ -144,7 +157,7 @@ export default function CommentDetail(): JSX.Element | null {
                 <ArrowLeftLine fill={theme.palette.text.primary} height={32} width={32} />
               </button>
 
-              <Typography variant="h6" style={{ marginLeft: 16, cursor: "pointer" }} onClick={() => navigate(`/m/${comment.meme?.id}`)}>
+              <Typography variant="h6" style={{ marginLeft: 16, cursor: "pointer", fontWeight: "bold" }} onClick={() => navigate(`/m/${comment.meme?.id}`)}>
                 Meme
               </Typography>
             </Box>
@@ -166,6 +179,10 @@ export default function CommentDetail(): JSX.Element | null {
               flexDirection: "column",
               justifyContent: "space-between",
               alignItems: "flex-start",
+              paddingRight: 32,
+              paddingLeft: 8,
+              paddingTop: 8,
+              paddingBottom: 8,
 
               position: "relative",
               backgroundColor: theme.palette.background.paper,
@@ -173,6 +190,7 @@ export default function CommentDetail(): JSX.Element | null {
               flexWrap: "nowrap",
             }}
           >
+            {relevantPeople ? <RelevantPeople userIds={relevantPeople} /> : null}
             <ChildComments comment={comment} />
           </Grid>
         </Box>

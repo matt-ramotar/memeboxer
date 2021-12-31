@@ -58,7 +58,7 @@ export default function MainCommentReactions(props: Props): JSX.Element | null {
 
   return (
     <Grid>
-      <Grid style={{ display: "flex", flexDirection: "row" }}>
+      <Grid style={{ display: "flex", flexDirection: "row", width: "100%", flexWrap: "wrap" }}>
         {commentReactionInfo.reactionIdToUserIds.map(([reactionId, userIds]) => (
           <Box key={reactionId} style={{ marginRight: 8 }}>
             <CommentReactionChip
