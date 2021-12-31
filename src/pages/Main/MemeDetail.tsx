@@ -4,6 +4,8 @@ import "emoji-mart/css/emoji-mart.css";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
+import AnalyticsLine from "../../assets/icons/AnalyticsLine";
+import Divider from "../../components/Divider";
 import UserComment from "../../components/MemeDetail/Comment";
 import MemeMetadata from "../../components/MemeDetail/MemeMetadata";
 import MemeReactions from "../../components/MemeDetail/MemeReactions";
@@ -163,7 +165,7 @@ export default function MemeDetail(): JSX.Element | null {
               overflowY: "scroll",
               height: 900,
               width: 550,
-              borderRight: `1px solid ${theme.palette.grey.A100}`,
+              borderRight: `1px solid ${theme.palette.grey.A200}`,
               backgroundColor: theme.palette.background.paper,
             }}
           >
@@ -200,7 +202,7 @@ export default function MemeDetail(): JSX.Element | null {
                   width: "100%",
 
                   maxHeight: 50,
-                  borderBottom: `1px solid ${theme.palette.grey.A100}`,
+                  borderBottom: `1px solid ${theme.palette.grey.A200}`,
                 }}
               >
                 <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
@@ -224,45 +226,48 @@ export default function MemeDetail(): JSX.Element | null {
               ))}
             </Grid>
 
-            <Grid style={{ width: "100%" }}>
-              <Grid
-                item
+            <Box style={{ width: "100%" }}>
+              <Box
                 style={{
                   backgroundColor: theme.palette.background.paper,
-                  borderTop: `1px solid ${theme.palette.grey.A100}`,
+                  borderTop: `1px solid ${theme.palette.grey.A200}`,
                   display: "flex",
                   flexWrap: "nowrap",
                   flexDirection: "column",
-                  maxHeight: 148,
-                  minHeight: 48,
                   width: "100%",
+                  overflowX: "hidden",
                   justifyContent: "space-between",
                   alignItems: "flex-start",
                 }}
               >
-                <Box>
+                <Box style={{ width: `calc(100% - 8px)`, margin: 4 }}>
                   <MemeMetadata meme={meme} />
                 </Box>
 
-                <Box>
+                <Box style={{ width: `calc(100% - 8px)`, margin: 4 }}>
                   <MemeReactions meme={meme} />
                 </Box>
 
-                <Grid>
+                <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", width: "100%", margin: 4 }}>
+                  <AnalyticsLine width={20} height={20} fill={theme.palette.text.primary} />
+                  <Typography variant="caption">{meme.memeViews?.length}</Typography>
+
+                  <Typography variant="caption" style={{ marginLeft: 4 }}>
+                    views
+                  </Typography>
+                </Box>
+
+                <Divider />
+
+                <Box style={{ width: `calc(100% - 8px)`, margin: 4 }}>
                   <MemeUserActions meme={meme} />
-                </Grid>
+                </Box>
+              </Box>
 
-                <Grid>
-                  <Typography>Number of views</Typography>
-                  <Typography>{meme.memeViews?.length}</Typography>
-                </Grid>
-              </Grid>
-
-              <Grid
-                item
+              <Box
                 style={{
                   backgroundColor: theme.palette.background.paper,
-                  borderTop: `1px solid ${theme.palette.grey.A100}`,
+                  borderTop: `1px solid ${theme.palette.grey.A200}`,
                   display: "flex",
                   flexWrap: "nowrap",
                   flexDirection: "row",
@@ -301,8 +306,8 @@ export default function MemeDetail(): JSX.Element | null {
                     Comment
                   </Typography>
                 </button>
-              </Grid>
-            </Grid>
+              </Box>
+            </Box>
           </Grid>
         </Box>
       </Modal>

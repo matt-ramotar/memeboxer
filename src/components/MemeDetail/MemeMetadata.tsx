@@ -10,24 +10,24 @@ export default function MemeMetadata(props: Props): JSX.Element {
 
   return (
     <Grid>
-      <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+      <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
         <Typography variant="body2" style={{ color: theme.palette.grey[500] }}>
           {`${new Date(props.meme.created).toLocaleTimeString()}`}
         </Typography>
 
-        <Typography variant="body2" style={{ color: theme.palette.grey[500], marginLeft: 8 }}>
+        <Typography variant="body2" style={{ color: theme.palette.grey[500] }}>
           •
         </Typography>
 
-        <Typography variant="body2" style={{ marginLeft: 8, color: theme.palette.grey[500] }}>
+        <Typography variant="body2" style={{ color: theme.palette.grey[500] }}>
           {`${new Date(props.meme.created).toLocaleDateString()}`}
         </Typography>
 
-        <Typography variant="body2" style={{ color: theme.palette.grey[500], marginLeft: 8 }}>
+        <Typography variant="body2" style={{ color: theme.palette.grey[500] }}>
           •
         </Typography>
 
-        <Typography variant="body2" style={{ marginLeft: 8, color: theme.palette.grey[500] }}>
+        <Typography variant="body2" style={{ color: theme.palette.grey[500] }}>
           Memeboxer Web App
         </Typography>
       </Box>
