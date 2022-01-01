@@ -87,8 +87,9 @@ export interface Comment {
   body: string;
   commentUpvoteIds?: string[];
   commentReactionIds?: string[];
-  memeId?: string;
+  memeId: string;
   created: Date;
+  isDirect: boolean;
 }
 
 export interface GodComment {
@@ -99,8 +100,9 @@ export interface GodComment {
   body: string;
   commentUpvotes?: CommentUpvote[];
   commentReactions?: CommentReaction[];
-  meme?: GodMeme;
+  meme: GodMeme;
   created: Date;
+  isDirect: boolean;
 }
 
 export interface CommentUpvote {

@@ -11,6 +11,8 @@ import MemeMetadata from "../../components/MemeDetail/MemeMetadata";
 import MemeReactions from "../../components/MemeDetail/MemeReactions";
 import MemeUserActions from "../../components/MemeDetail/MemeUserActions";
 import MoreInfo from "../../components/MemeDetail/MoreInfo";
+import { godCommentToComment } from "../../helpers/comment";
+import { createComment } from "../../lib/comment";
 import { createMemeView } from "../../lib/meme";
 import { RootState } from "../../store";
 import { setComments, setId, setReactions } from "../../store/meme";
@@ -20,6 +22,8 @@ import { Comment, GodMeme } from "../../types";
 import { API_URL, STORAGE_URL } from "../../util/secrets";
 
 export default function MemeDetail(): JSX.Element | null {
+  const IS_DIRECT = true;
+
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,22 +40,21 @@ export default function MemeDetail(): JSX.Element | null {
   const [imageHeight, setImageHeight] = useState<number | null>(null);
   const [memeComments, setMemeComments] = useState<Comment[]>([]);
   const [isDisabled, setIsDisabled] = useState(true);
+
   const [comment, setComment] = useState("");
 
   const onComment = () => {
-    async function createCommentAsync() {
-      const body = {
-        userId: user.id,
-        memeId,
-        body: comment,
-      };
-      const response = await axios.post(`${API_URL}/v1/comments`, body);
-      const nextMemeComments = [...memeComments, response.data];
+    async function createCommentAsync(userId: string, memeId: string) {
+      const godComment = await createComment(userId, comment, memeId, IS_DIRECT);
+      const memeComment = godCommentToComment(godComment);
+      const nextMemeComments = [...memeComments, memeComment];
       setMemeComments(nextMemeComments);
       setComment("");
     }
 
-    createCommentAsync();
+    if (user && user.id && meme && meme.id) {
+      createCommentAsync(user.id, meme.id);
+    }
   };
 
   useEffect(() => {

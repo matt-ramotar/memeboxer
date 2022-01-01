@@ -1,10 +1,11 @@
 import { Grid, TextField, Typography, useTheme } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { godCommentToComment } from "../../helpers/comment";
 import { createComment } from "../../lib/comment";
 import { RootState } from "../../store";
 import { setChildComments } from "../../store/comment";
-import { Comment, GodComment } from "../../types";
+import { GodComment } from "../../types";
 import { FALLBACK_AVATAR } from "../../util/constants";
 
 interface Props {
@@ -21,17 +22,11 @@ export default function Reply(props: Props): JSX.Element {
   const [profilePicture, setProfilePicture] = useState<string>(FALLBACK_AVATAR);
   const [isFocused, setIsFocused] = useState(false);
   const [reply, setReply] = useState<string | null>(null);
+  const [isDirect, setIsDirect] = useState(false);
 
   const postReply = async (userId: string, body: string) => {
-    const godComment = await createComment(userId, body, props.comment.id);
-    const childComment: Comment = {
-      id: godComment.id,
-      userId: godComment.user.id,
-      parentCommentId: godComment.parentComment?.id,
-      body: godComment.body,
-      created: godComment.created,
-    };
-
+    const godComment = await createComment(userId, body, props.comment.meme.id, isDirect, props.comment.id);
+    const childComment = godCommentToComment(godComment);
     const nextChildComments = childComments ? [...childComments] : [];
     nextChildComments.push(childComment);
     dispatch(setChildComments(nextChildComments));

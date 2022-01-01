@@ -17,6 +17,8 @@ export default function UserComment(props: Props): JSX.Element {
       setParentMeme(godMeme);
     }
 
+    console.log(props.action);
+
     if (props.action.comment?.memeId) {
       getGodMemeAsync(props.action.comment.memeId);
     }

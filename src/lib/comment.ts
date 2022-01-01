@@ -7,7 +7,7 @@ export async function fetchGodComment(commentId: string): Promise<GodComment | n
   return response.data;
 }
 
-export async function createComment(userId: string, body: string, parentCommentId?: string, memeId?: string): Promise<GodComment> {
-  const response = await axios.post(`${API_URL}/v1/comments`, { userId, body, parentCommentId, memeId });
+export async function createComment(userId: string, body: string, memeId: string, isDirect: boolean, parentCommentId?: string): Promise<GodComment> {
+  const response = await axios.post(`${API_URL}/v1/comments`, { userId, body, parentCommentId, memeId, isDirect });
   return response.data;
 }
