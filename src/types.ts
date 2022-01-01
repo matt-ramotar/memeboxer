@@ -218,3 +218,8 @@ export interface GodUser {
   commentReactions?: CommentReaction[];
   actions?: Action[];
 }
+
+export interface UserActivity {
+  comments: GodAction[];
+  reactions: GodAction[];
+}

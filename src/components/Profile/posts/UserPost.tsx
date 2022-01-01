@@ -2,8 +2,8 @@ import { Grid } from "@material-ui/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { GodMeme } from "../../types";
-import { API_URL, STORAGE_URL } from "../../util/secrets";
+import { GodMeme } from "../../../types";
+import { API_URL, STORAGE_URL } from "../../../util/secrets";
 
 interface Props {
   memeId: string;

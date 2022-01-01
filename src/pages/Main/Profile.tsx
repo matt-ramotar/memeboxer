@@ -3,11 +3,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
+import { ClipLoader } from "react-spinners";
 import Divider from "../../components/Divider";
-import UserPosts from "../../components/Profile/UserPosts";
+import UserComments from "../../components/Profile/comments/UserComments";
+import UserPosts from "../../components/Profile/posts/UserPosts";
+import { getUserActivity } from "../../lib/user";
 import { RootState } from "../../store";
 import { Page, setActivePage, setUsername } from "../../store/view";
-import { User } from "../../types";
+import { GodAction, User, UserActivity } from "../../types";
 import { FALLBACK_AVATAR } from "../../util/constants";
 import { API_URL } from "../../util/secrets";
 
@@ -24,6 +27,8 @@ export default function Profile(): JSX.Element | null {
   const [profilePicture, setProfilePicture] = useState<string>(FALLBACK_AVATAR);
   const [activeTab, setActiveTab] = useState(0);
   const [unfollowButtonIsFocused, setUnfollowButtonIsFocused] = useState(false);
+  const [commentActions, setCommentActions] = useState<GodAction[] | null>(null);
+  const [reactionActions, setReactionActions] = useState<GodAction[] | null>(null);
 
   const onFollow = (userId: string, otherUserId: string) => {
     async function followUserAsync(userId: string, otherUserId: string) {
@@ -76,6 +81,17 @@ export default function Profile(): JSX.Element | null {
     }
   }, [user]);
 
+  useEffect(() => {
+    async function getUserActivityAsync(userId: string) {
+      const userActivity: UserActivity = await getUserActivity(userId);
+      setCommentActions(userActivity.comments);
+      setReactionActions(userActivity.reactions);
+    }
+    if (username) {
+      getUserActivityAsync(username);
+    }
+  }, [username]);
+
   if (!user || !currentUser) return null;
 
   const renderSwitch = () => {
@@ -83,9 +99,20 @@ export default function Profile(): JSX.Element | null {
       case 0:
         return <UserPosts userId={user.id} />;
       case 1:
-        return <Typography>1</Typography>;
+        if (reactionActions) return <Typography>1</Typography>;
+        return (
+          <Grid style={{ width: "100%", height: "100%", display: "flex", flexDirection: "row", justifyContent: "center" }}>
+            <ClipLoader color={theme.palette.text.primary} />
+          </Grid>
+        );
+
       case 2:
-        return <Typography>2</Typography>;
+        if (commentActions) return <UserComments comments={commentActions} />;
+        return (
+          <Grid style={{ width: "100%", height: "100%", display: "flex", flexDirection: "row", justifyContent: "center" }}>
+            <ClipLoader color={theme.palette.text.primary} />
+          </Grid>
+        );
     }
   };
 

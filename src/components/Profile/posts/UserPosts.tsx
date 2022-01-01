@@ -1,8 +1,8 @@
 import { Grid } from "@material-ui/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { User } from "../../types";
-import { API_URL } from "../../util/secrets";
+import { User } from "../../../types";
+import { API_URL } from "../../../util/secrets";
 import UserPost from "./UserPost";
 
 interface Props {
