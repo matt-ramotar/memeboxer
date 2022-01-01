@@ -40,6 +40,8 @@ export default function ShareMeme(): JSX.Element | null {
             setXOffsetTag(e.nativeEvent.layerX);
             setYOffsetTag(e.nativeEvent.layerY);
             setShouldShowTagPopover(true);
+            console.log(e.nativeEvent.y);
+            console.log(imageHeight);
         } else {
             setShouldShowTagPopover(false);
             setTagSearchResults(null);
@@ -49,6 +51,10 @@ export default function ShareMeme(): JSX.Element | null {
 
     const onTagSearchInputChange = (e: any) => {
         setTagSearchInput(e.target.value);
+    };
+
+    const getId = () => {
+        return yOffsetTag && yOffsetTag > Math.min(Math.min((imageHeight ?? 600) - 200, (imageHeight ?? 600) * 0.75), 250) ? "tag-popover-down" : "tag-popover-up";
     };
 
     useEffect(() => {
@@ -119,11 +125,12 @@ export default function ShareMeme(): JSX.Element | null {
             </Box>
 
             <Box
-                id={yOffsetTag && yOffsetTag > Math.min((imageHeight ?? 600) * 0.75, 450) ? "tag-popover-down" : "tag-popover-up"}
+                id={getId()}
                 style={{
                     display: shouldShowTagPopover ? "block" : "none",
-                    top: yOffsetTag ? (yOffsetTag > Math.min((imageHeight ?? 600) * 0.75, 450) ? yOffsetTag - 208 : yOffsetTag + 12) : 0,
+                    top: yOffsetTag ? (yOffsetTag > Math.min(Math.min((imageHeight ?? 600) - 200, (imageHeight ?? 600) * 0.75), 250) ? yOffsetTag - 208 : yOffsetTag + 12) : 0,
                     left: xOffsetTag ? xOffsetTag - 25 : 0,
+                    maxHeight: "100%",
                 }}
             >
                 <Box style={{ display: "flex", flexDirection: "column", overflowY: "clip", maxHeight: "100%" }}>

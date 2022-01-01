@@ -117,7 +117,7 @@ input#memeboxer {
     width: 300px;
     height: 200px;
     padding: 5px;
-    z-index: 100;
+    z-index: 10000;
     background: #fff;
 
     color: #000;
@@ -139,7 +139,7 @@ input#memeboxer {
     border-left: 12px solid transparent;
     left: 16px;
     top: -24px;
-    z-index: 99;
+    z-index: 10000;
 }
 
 #tag-popover-down {
@@ -149,7 +149,7 @@ input#memeboxer {
     width: 300px;
     height: 200px;
     padding: 5px;
-    z-index: 100;
+    z-index: 10000;
     background: #fff;
 
     color: #000;
@@ -171,5 +171,5 @@ input#memeboxer {
     border-left: 12px solid transparent;
     left: 16px;
     bottom: -24px;
-    z-index: 99;
+    z-index: 10000;
 }
