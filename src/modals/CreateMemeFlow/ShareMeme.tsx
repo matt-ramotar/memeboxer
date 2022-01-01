@@ -15,12 +15,26 @@ export default function ShareMeme(): JSX.Element | null {
 
   const [image, setImage] = useState<HTMLImageElement | null>(null);
   const [imageHeight, setImageHeight] = useState<number | null>(null);
+  const [shouldShowTagTooltip, setShouldShowTagTooltip] = useState(true);
+  const [xOffsetTag, setXOffsetTag] = useState<number | null>(null);
+  const [yOffsetTag, setYOffsetTag] = useState<number | null>(null);
+  const [shouldShowTagPopover, setShouldShowTagPopover] = useState(false);
 
   const onLoad = () => {
     const node = document.getElementById("generated-meme") as HTMLImageElement;
 
     if (node) {
       setImageHeight(node.height);
+    }
+  };
+
+  const onTagClick = (e: any) => {
+    if (!shouldShowTagPopover) {
+      setXOffsetTag(e.nativeEvent.layerX);
+      setYOffsetTag(e.nativeEvent.layerY);
+      setShouldShowTagPopover(true);
+    } else {
+      setShouldShowTagPopover(false);
     }
   };
 
@@ -42,9 +56,23 @@ export default function ShareMeme(): JSX.Element | null {
         height: "100%",
         width: "100%",
         cursor: "auto",
+        position: "relative",
       }}
     >
-      <Box style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", overflowY: "scroll", maxHeight: "100%" }}>
+      <Box
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          overflowY: "scroll",
+          overflowX: "clip",
+          maxHeight: "100%",
+          cursor: shouldShowTagPopover ? "auto" : "crosshair",
+          position: "relative",
+        }}
+        onMouseEnter={() => setShouldShowTagTooltip(false)}
+        onClick={onTagClick}
+      >
         <img
           src={meme}
           alt="null"
@@ -52,6 +80,23 @@ export default function ShareMeme(): JSX.Element | null {
           onLoad={onLoad}
           id="generated-meme"
         />
+      </Box>
+
+      <Box id="tag-tooltip" style={{ display: shouldShowTagTooltip ? "block" : "none" }}>
+        <Typography variant="body1" style={{ fontWeight: "bold", color: theme.palette.background.paper, textAlign: "center" }}>
+          Click to tag people
+        </Typography>
+      </Box>
+
+      <Box
+        id={yOffsetTag && yOffsetTag > Math.min((imageHeight ?? 600) * 0.75, 450) ? "tag-popover-down" : "tag-popover-up"}
+        style={{
+          display: shouldShowTagPopover ? "block" : "none",
+          top: yOffsetTag ? (yOffsetTag > Math.min((imageHeight ?? 600) * 0.75, 450) ? yOffsetTag - 208 : yOffsetTag + 12) : 0,
+          left: xOffsetTag ? xOffsetTag - 25 : 0,
+        }}
+      >
+        <Typography>Tag</Typography>
       </Box>
 
       <Grid
