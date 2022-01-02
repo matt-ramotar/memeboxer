@@ -13,9 +13,11 @@ import TagSearchResult from "./TagSearchResult";
 import WriteACaption from "./WriteACaption";
 
 export default function ShareMeme(): JSX.Element | null {
+    const theme = useTheme();
+
     const meme = useSelector((state: RootState) => state.createMeme.data);
     const user = useSelector((state: RootState) => state.user);
-    const theme = useTheme();
+    const memeTagInputs = useSelector((state: RootState) => state.createMeme.memeTagInputs);
 
     const [image, setImage] = useState<HTMLImageElement | null>(null);
     const [imageHeight, setImageHeight] = useState<number | null>(null);
@@ -81,6 +83,10 @@ export default function ShareMeme(): JSX.Element | null {
             setImage(nextImage);
         }
     }, [meme]);
+
+    useEffect(() => {
+        if (memeTagInputs) setShouldShowTagPopover(false);
+    }, [memeTagInputs]);
 
     if (!meme || !image) return null;
 
@@ -157,7 +163,7 @@ export default function ShareMeme(): JSX.Element | null {
                         {tagSearchResults && tagSearchResults.length > 0
                             ? tagSearchResults.map((user) => (
                                   <Box key={user.id}>
-                                      <TagSearchResult user={user} />
+                                      <TagSearchResult user={user} xOffset={xOffsetTag ?? 0} yOffset={yOffsetTag ?? 0} />
                                   </Box>
                               ))
                             : null}
