@@ -10,6 +10,8 @@ export default function UnreadNotifications(): JSX.Element | null {
   const theme = useTheme();
 
   const currentUser = useSelector((state: RootState) => state.user);
+  const lastUpdated = useSelector((state: RootState) => state.notification.lastUpdated);
+
   const [unreadNotifications, setUnreadNotifications] = useState<Notification[] | null>(null);
 
   useEffect(() => {
@@ -20,7 +22,7 @@ export default function UnreadNotifications(): JSX.Element | null {
     }
 
     fetchUserUnreadNotificationsAsync();
-  }, [currentUser.id]);
+  }, [currentUser.id, lastUpdated]);
 
   if (!unreadNotifications || unreadNotifications.length === 0) return null;
 

@@ -8,7 +8,7 @@ import CheckmarkLine from "../../assets/icons/CheckmarkLine";
 import CircleStandardFill from "../../assets/icons/CircleStandardFill";
 import NotificationLine from "../../assets/icons/NotificationLine";
 import { RootState } from "../../store";
-import { setLastUpdatedNotifications } from "../../store/view";
+import { setLastUpdated } from "../../store/notification";
 import { GodAction, GodComment, GodMeme, Notification, Reaction } from "../../types";
 import { API_URL, STORAGE_URL } from "../../util/secrets";
 
@@ -36,7 +36,7 @@ export default function MemeCommentNotificationCard(props: Props): JSX.Element |
     async function putIsReadAsync() {
       await axios.put(`${API_URL}/v1/notifications/${props.notification.id}/read`);
       setIsRead(true);
-      dispatch(setLastUpdatedNotifications(new Date()));
+      dispatch(setLastUpdated(new Date().toString()));
     }
 
     putIsReadAsync();
@@ -46,7 +46,7 @@ export default function MemeCommentNotificationCard(props: Props): JSX.Element |
     async function putIsUnreadAsync() {
       await axios.put(`${API_URL}/v1/notifications/${props.notification.id}/unread`);
       setIsRead(false);
-      dispatch(setLastUpdatedNotifications(new Date()));
+      dispatch(setLastUpdated(new Date().toString()));
     }
 
     putIsUnreadAsync();
@@ -84,6 +84,10 @@ export default function MemeCommentNotificationCard(props: Props): JSX.Element |
   useEffect(() => {
     setIsMemeOwner(meme?.user.id == currentUser.id);
   }, [meme?.user.id]);
+
+  useEffect(() => {
+    setIsRead(props.notification.isRead);
+  }, [props.notification.isRead]);
 
   if (!meme || !comment) return null;
 

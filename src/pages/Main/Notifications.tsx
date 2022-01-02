@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
 import MoreHorizontalLine from "../../assets/icons/MoreHorizontalLine";
+import MarkAllRead from "../../components/MoreInfo/notifications/MarkAllRead";
 import NotificationCard from "../../components/Notification/NotificationCard";
 import { RootState } from "../../store";
+import { setOverrideFromChild } from "../../store/notification";
 import { Page, setActivePage } from "../../store/view";
 import { MAIN_NAV_HEIGHT } from "../../theme";
 import { Notification } from "../../types";
@@ -15,6 +17,9 @@ export default function Notifications(): JSX.Element | null {
   const theme = useTheme();
   const dispatch = useDispatch();
 
+  const lastUpdated = useSelector((state: RootState) => state.notification.lastUpdated);
+  const overrideFromChild = useSelector((state: RootState) => state.notification.overrideFromChild);
+
   const [notifications, setNotifications] = useState<Notification[] | null>(null);
   const [activeTab, setActiveTab] = useState(0);
   const currentUser = useSelector((state: RootState) => state.user);
@@ -22,18 +27,25 @@ export default function Notifications(): JSX.Element | null {
 
   useEffect(() => {
     async function fetchNotifications() {
+      console.log("fetching notifications", new Date());
       const response = await axios.get(`${API_URL}/v1/users/${currentUser.id}/notifications`);
-      setNotifications(response.data);
+      console.log("fetched notifications", response.data);
+
+      setNotifications([...response.data]);
     }
 
     if (currentUser.id) {
       fetchNotifications();
     }
-  }, [currentUser.id]);
+  }, [currentUser.id, lastUpdated]);
 
   useEffect(() => {
     dispatch(setActivePage(Page.Notifications));
   }, []);
+
+  useEffect(() => {
+    if (overrideFromChild) setIsVisible(false);
+  }, [overrideFromChild]);
 
   if (!notifications) {
     return (
@@ -76,9 +88,40 @@ export default function Notifications(): JSX.Element | null {
           </Typography>
 
           <Box>
-            <button style={{ backgroundColor: "transparent", border: "none", boxShadow: "none", margin: 0, padding: 0, cursor: "pointer", marginLeft: 2 }} onClick={() => setIsVisible(!isVisible)}>
-              <MoreHorizontalLine fill={theme.palette.text.primary} height={28} width={28} />
-            </button>
+            {overrideFromChild ? (
+              <ClipLoader size={20} color={theme.palette.text.primary} />
+            ) : (
+              <Box style={{ position: "relative" }}>
+                <button
+                  style={{ backgroundColor: "transparent", border: "none", boxShadow: "none", margin: 0, padding: 0, cursor: "pointer", marginLeft: 2 }}
+                  onClick={() => {
+                    setIsVisible(!isVisible);
+                    dispatch(setOverrideFromChild(false));
+                  }}
+                >
+                  <MoreHorizontalLine fill={theme.palette.text.primary} height={28} width={28} />
+                </button>
+
+                <Box
+                  style={{
+                    display: isVisible && !overrideFromChild ? "flex" : "none",
+                    position: "absolute",
+                    top: 32,
+                    right: 0,
+
+                    width: 200,
+                    flexWrap: "nowrap",
+                    flexDirection: "column",
+                    justifyContent: "flex-start",
+
+                    borderRadius: 4,
+                    boxShadow: "0 1px 2px rgb(0 0 0 / 0.2)",
+                  }}
+                >
+                  <MarkAllRead />
+                </Box>
+              </Box>
+            )}
           </Box>
         </Grid>
 

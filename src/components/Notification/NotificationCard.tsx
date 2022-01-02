@@ -13,17 +13,18 @@ interface Props {
 
 export default function NotificationCard(props: Props): JSX.Element | null {
   const [godAction, setGodAction] = useState<GodAction | null>(null);
+  const [isRead, setIsRead] = useState(props.notification.isRead);
 
   const renderSwitch = () => {
     if (!godAction) return null;
 
     switch (godAction.type) {
       case ActionType.AddCommentToMeme:
-        return <MemeCommentNotificationCard notification={props.notification} action={godAction} />;
+        return <MemeCommentNotificationCard notification={{ ...props.notification, isRead }} action={godAction} />;
       case ActionType.ReactToMeme:
-        return <MemeReactionNotificationCard notification={props.notification} action={godAction} />;
+        return <MemeReactionNotificationCard notification={{ ...props.notification, isRead }} action={godAction} />;
       case ActionType.FollowUser:
-        return <FollowUserNotificationCard notification={props.notification} action={godAction} />;
+        return <FollowUserNotificationCard notification={{ ...props.notification, isRead }} action={godAction} />;
     }
   };
 
@@ -35,6 +36,11 @@ export default function NotificationCard(props: Props): JSX.Element | null {
 
     fetchGodActionAsync();
   }, [props.notification.actionId]);
+
+  useEffect(() => {
+    console.log("notification card", props.notification.id, props.notification.isRead);
+    setIsRead(props.notification.isRead);
+  }, [props.notification.isRead]);
 
   if (!godAction) return null;
 

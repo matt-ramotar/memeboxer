@@ -16,7 +16,6 @@ export interface ViewState {
   createMeme: boolean;
   createTemplate: boolean;
   colorPicker: boolean;
-  lastUpdatedNotifications?: string;
 }
 
 const initialState: ViewState = {
@@ -45,11 +44,8 @@ const viewSlice = createSlice({
     setUsername(state, action: PayloadAction<string>) {
       state.username = action.payload;
     },
-    setLastUpdatedNotifications(state, action: PayloadAction<Date>) {
-      state.lastUpdatedNotifications = action.payload.toString();
-    },
   },
 });
 
-export const { toggleCreateTemplate, setActivePage, toggleColorPicker, toggleCreateMeme, setUsername, setLastUpdatedNotifications } = viewSlice.actions;
+export const { toggleCreateTemplate, setActivePage, toggleColorPicker, toggleCreateMeme, setUsername } = viewSlice.actions;
 export default viewSlice.reducer;
