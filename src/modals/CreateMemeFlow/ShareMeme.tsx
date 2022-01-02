@@ -175,6 +175,16 @@ export default function ShareMeme(): JSX.Element | null {
                 </Box>
             </Box>
 
+            {memeTagInputs && memeTagInputs.length > 0
+                ? memeTagInputs.map((memeTagInput) => (
+                      <Box id="tagged-user" key={memeTagInput.userId} style={{ position: "absolute", top: memeTagInput.yOffset - 24, left: memeTagInput.xOffset - 54 }}>
+                          <Typography variant="caption" style={{ fontWeight: "bold" }}>
+                              {memeTagInput.username}
+                          </Typography>
+                      </Box>
+                  ))
+                : null}
+
             <Grid
                 container
                 style={{

@@ -23,6 +23,7 @@ export default function TagSearchResult(props: Props): JSX.Element {
         if (props.user._id) {
             const memeTagInput: MemeTagInput = {
                 userId: props.user._id,
+                username: props.user.username,
                 xOffset: props.xOffset,
                 yOffset: props.yOffset,
             };

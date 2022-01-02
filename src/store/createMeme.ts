@@ -98,6 +98,10 @@ const createMemeSlice = createSlice({
         clearComponents(state) {
             state.componentMap = {};
         },
+        clearTagInfo(state) {
+            state.usersTaggedMap = null;
+            state.memeTagInputs = null;
+        },
         setActiveComponent(state, action: PayloadAction<string | null>) {
             state.activeComponent = action.payload;
         },
@@ -205,6 +209,7 @@ export const {
     addComponent,
     setData,
     clearComponents,
+    clearTagInfo,
     setActiveComponent,
     setFontSize,
     removeComponent,
