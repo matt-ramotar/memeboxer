@@ -196,7 +196,6 @@ input#memeboxer {
     width: 0;
     height: 0;
     position: absolute;
-
     border-top: 12px solid #121212;
     border-bottom: 12px solid transparent;
     border-right: 12px solid transparent;
@@ -204,4 +203,22 @@ input#memeboxer {
     left: 54px;
     bottom: -24px;
     z-index: 99;
+}
+
+#tagged-user-meme-post {
+    box-shadow: black 0px 2px 0px;
+    display: block;
+    text-align: center;
+    position: absolute;
+    padding: 8px;
+    opacity: 0.85;
+    min-width: 40px;
+    max-width: 130px;
+    padding: 2px;
+    z-index: 100;
+    background: #121212;
+    color: #fff;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
 }

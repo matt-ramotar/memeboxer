@@ -57,7 +57,7 @@ export default function CreateMemeFlow(): JSX.Element {
         else if (currentJob == 2) {
             dispatch(setActiveComponent(null));
             const node = document.getElementById("meme");
-            const scale = 1.5;
+            const scale = 1;
 
             const style = {
                 transform: "scale(" + scale + ")",
