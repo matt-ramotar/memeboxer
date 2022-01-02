@@ -26,7 +26,13 @@ export default function UserTag(props: Props): JSX.Element | null {
     if (!user) return null;
 
     return (
-        <Grid style={{ padding: 8, cursor: "pointer" }} onClick={() => navigate(`/${user.username}`)}>
+        <Grid
+            style={{ padding: 8, cursor: "pointer" }}
+            onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/${user.username}`);
+            }}
+        >
             <Typography variant="caption" style={{ fontWeight: "bold" }}>
                 {user.username}
             </Typography>
