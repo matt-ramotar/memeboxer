@@ -199,7 +199,7 @@ export default function MemeDetail(): JSX.Element | null {
                                     borderRadius: "50%",
                                     width: 32,
                                     height: 32,
-                                    display: "flex",
+                                    display: meme.memeTags && meme.memeTags.length > 0 ? "flex" : "none",
                                     flexDirection: "row",
                                     justifyContent: "center",
                                     alignItems: "center",

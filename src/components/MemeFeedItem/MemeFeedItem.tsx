@@ -139,7 +139,7 @@ export default function MemeFeedItem(props: Props): JSX.Element | null {
                             borderRadius: "50%",
                             width: 32,
                             height: 32,
-                            display: "flex",
+                            display: props.meme.memeTags && props.meme.memeTags.length > 0 ? "flex" : "none",
                             flexDirection: "row",
                             justifyContent: "center",
                             alignItems: "center",
