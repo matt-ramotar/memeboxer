@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { ClipLoader } from "react-spinners";
 import Divider from "../../components/Divider";
-import UserComments from "../../components/Profile/comments/UserComments";
 import UserPosts from "../../components/Profile/posts/UserPosts";
+import TaggedMemes from "../../components/Profile/tagged/TaggedMemes";
 import { getUserActivity } from "../../lib/user";
 import { RootState } from "../../store";
 import { Page, setActivePage, setUsername } from "../../store/view";
@@ -97,22 +97,37 @@ export default function Profile(): JSX.Element | null {
   const renderSwitch = () => {
     switch (activeTab) {
       case 0:
-        return <UserPosts userId={user.id} />;
-      case 1:
-        if (reactionActions) return <Typography>1</Typography>;
-        return (
-          <Grid style={{ width: "100%", height: "100%", display: "flex", flexDirection: "row", justifyContent: "center" }}>
-            <ClipLoader color={theme.palette.text.primary} />
-          </Grid>
-        );
+        if (!user)
+          return (
+            <Grid style={{ width: "100%", height: "100%", display: "flex", flexDirection: "row", justifyContent: "center" }}>
+              <ClipLoader color={theme.palette.text.primary} />
+            </Grid>
+          );
+        return <UserPosts user={user} />;
+      // case 1:
+      //   if (reactionActions) return <Typography>1</Typography>;
+      //   return (
+      //     <Grid style={{ width: "100%", height: "100%", display: "flex", flexDirection: "row", justifyContent: "center" }}>
+      //       <ClipLoader color={theme.palette.text.primary} />
+      //     </Grid>
+      //   );
 
-      case 2:
-        if (commentActions) return <UserComments comments={commentActions} />;
-        return (
-          <Grid style={{ width: "100%", height: "100%", display: "flex", flexDirection: "row", justifyContent: "center" }}>
-            <ClipLoader color={theme.palette.text.primary} />
-          </Grid>
-        );
+      // case 2:
+      //   if (commentActions) return <UserComments comments={commentActions} />;
+      //   return (
+      //     <Grid style={{ width: "100%", height: "100%", display: "flex", flexDirection: "row", justifyContent: "center" }}>
+      //       <ClipLoader color={theme.palette.text.primary} />
+      //     </Grid>
+      //   );
+
+      case 3:
+        if (!user)
+          return (
+            <Grid style={{ width: "100%", height: "100%", display: "flex", flexDirection: "row", justifyContent: "center" }}>
+              <ClipLoader color={theme.palette.text.primary} />
+            </Grid>
+          );
+        return <TaggedMemes user={user} />;
     }
   };
 
@@ -191,7 +206,7 @@ export default function Profile(): JSX.Element | null {
             </Typography>
           </Box>
 
-          <Box style={{ margin: 16 }}>
+          {/* <Box style={{ margin: 16 }}>
             <Typography style={{ fontWeight: activeTab == 1 ? "bold" : "normal", cursor: "pointer" }} onClick={() => setActiveTab(1)}>
               Reactions
             </Typography>
@@ -200,6 +215,12 @@ export default function Profile(): JSX.Element | null {
           <Box style={{ margin: 16 }}>
             <Typography style={{ fontWeight: activeTab == 2 ? "bold" : "normal", cursor: "pointer" }} onClick={() => setActiveTab(2)}>
               Comments
+            </Typography>
+          </Box> */}
+
+          <Box style={{ margin: 16 }}>
+            <Typography style={{ fontWeight: activeTab == 3 ? "bold" : "normal", cursor: "pointer" }} onClick={() => setActiveTab(3)}>
+              Tagged
             </Typography>
           </Box>
         </Grid>
