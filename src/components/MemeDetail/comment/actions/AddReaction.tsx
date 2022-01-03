@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import EmojiAddLine from "../../../../assets/icons/EmojiAddLine";
 import { RootState } from "../../../../store";
+import { addCommentReactions } from "../../../../store/meme";
 import { GodComment } from "../../../../types";
 import { API_URL } from "../../../../util/secrets";
 
@@ -14,10 +15,11 @@ interface Props {
 }
 
 export default function AddReaction(props: Props): JSX.Element {
-  const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
-
   const theme = useTheme();
+
+  const user = useSelector((state: RootState) => state.user);
+  const commentReactions = useSelector((state: RootState) => state.meme.commentReactions[props.comment.id]);
 
   const addReaction = async (emoji: BaseEmoji) => {
     const upsertReactionInput = {
@@ -35,7 +37,15 @@ export default function AddReaction(props: Props): JSX.Element {
       userId: user.id,
     };
 
-    await axios.post(`${API_URL}/v1/comments/${props.comment.id}/reactions`, addCommentReactionInput);
+    const response = await axios.post(`${API_URL}/v1/comments/${props.comment.id}/reactions`, addCommentReactionInput);
+
+    const nextCommentReactions = commentReactions ? [...commentReactions] : [];
+
+    if (response.data) {
+      nextCommentReactions.push(response.data);
+    }
+
+    dispatch(addCommentReactions({ commentId: props.comment.id, commentReactions: nextCommentReactions }));
   };
 
   const [shouldShow, setShouldShow] = useState(false);

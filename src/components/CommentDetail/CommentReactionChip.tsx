@@ -69,6 +69,10 @@ export default function CommentReactionChip(props: Props): JSX.Element | null {
     }
   }, [user]);
 
+  useEffect(() => {
+    setCount(props.count);
+  }, [props.count]);
+
   if (!reaction) return null;
 
   return (

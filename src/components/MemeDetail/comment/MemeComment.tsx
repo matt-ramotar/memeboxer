@@ -52,23 +52,28 @@ export default function MemeComment(props: Props): JSX.Element {
         <CommentUserActions comment={comment} isVisible={actionsIsVisible} />
       </Box>
 
-      <Grid item xs={12} style={{ display: "flex", flexDirection: "row", width: "100%" }}>
+      <Grid item xs={12} style={{ display: "flex", flexDirection: "row", width: "100%", alignItems: "flex-start" }}>
         <ProfilePicture username={comment.user.username} />
 
-        <Box style={{ marginLeft: 8 }}>
-          <Typography
-            style={{ fontFamily: "Space Grotesk", fontWeight: "bold", cursor: "pointer" }}
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/${comment.user.username}`);
-            }}
-          >
-            {comment.user.username}
-          </Typography>
+        <Box style={{ display: "flex", flexDirection: "column", marginLeft: 8 }}>
+          <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+            <Typography
+              style={{ fontFamily: "Space Grotesk", fontWeight: "bold", cursor: "pointer" }}
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/${comment.user.username}`);
+              }}
+            >
+              {comment.user.username}
+            </Typography>
+
+            <Typography variant="body2" style={{ marginLeft: 8 }}>
+              <ReactTimeAgo date={comment.created} />
+            </Typography>
+          </Box>
+
           <Typography style={{ fontFamily: "Space Grotesk" }}>{comment.body}</Typography>
         </Box>
-
-        <ReactTimeAgo date={comment.created} locale="en-US" timeStyle="twitter" />
       </Grid>
 
       <Grid item xs={12} style={{ display: "flex" }}>

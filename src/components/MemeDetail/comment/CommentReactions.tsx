@@ -28,6 +28,7 @@ export default function CommentReactions(props: Props): JSX.Element | null {
 
   useEffect(() => {
     if (commentReactions) {
+      console.log("hitting in comment reactions", commentReactions);
       const reactionIdToUserIdsMap: ReactionIdToUserIdsMap = {};
       const userIdToCommentReactionIdsMap: UserIdToCommentReactionIdsMap = {};
 
