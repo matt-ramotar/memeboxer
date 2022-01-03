@@ -61,6 +61,7 @@ export default function MoreInfo(props: Props): JSX.Element {
           justifyContent: "flex-start",
           border: `1px solid ${theme.palette.divider}`,
           borderRadius: 10,
+          zIndex: 10000,
         }}
       >
         <Box
