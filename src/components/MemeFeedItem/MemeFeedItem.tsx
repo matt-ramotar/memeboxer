@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme } from "@material-ui/core";
+import { Box, Grid, Typography, useTheme } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
@@ -9,7 +9,6 @@ import { addMemeReactions } from "../../store/feed";
 import { GodMeme } from "../../types";
 import { STORAGE_URL } from "../../util/secrets";
 import UserTag from "../MemeDetail/UserTag";
-import AddReactionChip from "./AddReactionChip";
 import CommenterSquare from "./CommenterSquare";
 import MemeUserActions from "./MemeUserActions";
 import ReactionChip from "./ReactionChip";
@@ -106,7 +105,7 @@ export default function MemeFeedItem(props: Props): JSX.Element | null {
   return (
     <Box
       key={props.meme.id}
-      style={{ margin: 10, display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", paddingTop: 16, paddingBottom: 16, position: "relative" }}
+      style={{ margin: 10, display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", paddingTop: 16, paddingBottom: 16, position: "relative", width: 600 }}
       onMouseEnter={() => setActionsIsVisible(true)}
       onMouseLeave={() => setActionsIsVisible(false)}
     >
@@ -166,7 +165,7 @@ export default function MemeFeedItem(props: Props): JSX.Element | null {
           </Box>
         </Box>
 
-        <Box style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "space-around", paddingTop: 8 }}>
+        <Box style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "space-around", paddingTop: 8, width: "100%" }}>
           <Box style={{ display: props.meme.caption ? "flex" : "none", flexDirection: "row" }}>
             <Typography variant="body1" style={{ fontFamily: "Space Grotesk", fontWeight: "bold", padding: 0, cursor: "pointer" }} onClick={() => navigate(`/${props.meme.user.username}`)}>
               {props.meme.user.username}
@@ -177,37 +176,39 @@ export default function MemeFeedItem(props: Props): JSX.Element | null {
             </Typography>
           </Box>
 
-          <Box style={{ display: "flex", flexDirection: "row" }}>
-            <Box style={{ display: memeReactionInfo.reactionIdToUserIds.length > 0 ? "flex" : "none" }}>
-              {memeReactionInfo.reactionIdToUserIds.map(([reactionId, userIds]) => (
-                <ReactionChip
-                  key={reactionId}
-                  reactionId={reactionId}
-                  count={userIds.length}
-                  userIds={userIds}
-                  memeId={props.meme.id}
-                  userIdToMemeReactionIdsMap={memeReactionInfo.userIdToMemeReactionIdsMap}
-                />
-              ))}
-            </Box>
+          <Grid
+            container
+            spacing={1}
+            style={{
+              display: memeReactionInfo.reactionIdToUserIds.length > 0 ? "flex" : "none",
+              flexDirection: "row",
+              justifyContent: "flex-start",
+              alignItems: "center",
+              flexWrap: "wrap",
+              paddingLeft: 4,
+              paddingRight: 4,
+            }}
+          >
+            {memeReactionInfo.reactionIdToUserIds.map(([reactionId, userIds]) => (
+              <Grid item key={reactionId}>
+                <ReactionChip reactionId={reactionId} count={userIds.length} userIds={userIds} memeId={props.meme.id} userIdToMemeReactionIdsMap={memeReactionInfo.userIdToMemeReactionIdsMap} />
+              </Grid>
+            ))}
+          </Grid>
 
-            <Box>
-              <AddReactionChip meme={props.meme} />
-            </Box>
-          </Box>
-
-          <Box
-            style={{ display: memeReactionInfo.commenters.length > 0 ? "flex" : "none", flexDirection: "row", alignItems: "center", cursor: "pointer", marginTop: 8 }}
+          <Grid
+            container
+            style={{ display: memeReactionInfo.commenters.length > 0 ? "flex" : "none", flexDirection: "row", alignItems: "center", cursor: "pointer", marginTop: 12, paddingLeft: 4, paddingRight: 4 }}
             onClick={() => navigate(`/m/${props.meme.id}`)}
           >
-            <Box>
-              {memeReactionInfo.commenters.map((userId) => (
-                <CommenterSquare key={userId} userId={userId} />
-              ))}
-            </Box>
+            {memeReactionInfo.commenters.map((userId) => (
+              <Grid item key={userId}>
+                <CommenterSquare userId={userId} />
+              </Grid>
+            ))}
 
-            <Typography style={{ fontFamily: "Space Grotesk", fontWeight: "bold" }}>{`${props.meme.comments?.length} comment${props.meme.comments?.length == 1 ? "" : "s"}`}</Typography>
-          </Box>
+            <Typography variant="body1" style={{ marginLeft: 8, fontWeight: "bold" }}>{`${props.meme.comments?.length} comment${props.meme.comments?.length == 1 ? "" : "s"}`}</Typography>
+          </Grid>
         </Box>
       </Box>
     </Box>

@@ -81,12 +81,10 @@ export default function ReactionChip(props: Props): JSX.Element | null {
         display: count > 0 ? "flex" : "none",
         flexDirection: "row",
         backgroundColor: userHasReacted ? "#E3F2FD" : "#f1f1f1",
-        padding: "2px 8px",
+        padding: "2px 6px",
         border: userHasReacted ? `1px solid ${theme.palette.primary.main}` : "none",
         borderRadius: 16,
         cursor: "pointer",
-        marginRight: 4,
-        marginBottom: 6,
       }}
       onClick={onClick}
     >
