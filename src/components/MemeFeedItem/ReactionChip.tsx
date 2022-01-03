@@ -26,6 +26,7 @@ export default function ReactionChip(props: Props): JSX.Element | null {
   useEffect(() => {
     async function fetchReaction() {
       const response = await axios.get(`${API_URL}/v1/reactions/${props.reactionId}`);
+      console.log("fetched reaction", response.data);
       setReaction(response.data);
     }
     fetchReaction();
@@ -38,6 +39,10 @@ export default function ReactionChip(props: Props): JSX.Element | null {
       setUserHasReacted(false);
     }
   }, [user]);
+
+  useEffect(() => {
+    setCount(props.count);
+  }, [props.count]);
 
   const onClick = () => {
     async function deleteMemeReactionAsync(memeReactionId: string) {

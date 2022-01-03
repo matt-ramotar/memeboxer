@@ -5,7 +5,9 @@ import "emoji-mart/css/emoji-mart.css";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import EmojiAddLine from "../../assets/icons/EmojiAddLine";
+import { addMemeReaction, AddReactionInput } from "../../lib/meme";
 import { RootState } from "../../store";
+import { addMemeReaction as addMemeReactionRedux } from "../../store/feed";
 import { GodMeme } from "../../types";
 import { API_URL } from "../../util/secrets";
 
@@ -14,12 +16,12 @@ interface Props {
 }
 
 export default function AddReaction(props: Props): JSX.Element {
-  const user = useSelector((state: RootState) => state.user);
+  const theme = useTheme();
   const dispatch = useDispatch();
 
-  const theme = useTheme();
+  const user = useSelector((state: RootState) => state.user);
 
-  const addReaction = async (emoji: BaseEmoji) => {
+  const addReaction = async (emoji: BaseEmoji, userId: string) => {
     const upsertReactionInput = {
       native: emoji.native,
       name: emoji.name,
@@ -30,12 +32,16 @@ export default function AddReaction(props: Props): JSX.Element {
 
     const upsertReactionResponse = await axios.post(`${API_URL}/v1/reactions`, upsertReactionInput);
 
-    const addMemeReactionInput = {
-      reactionId: await upsertReactionResponse.data.id,
-      userId: user.id,
-    };
+    const reactionId = upsertReactionResponse.data.id;
+    console.log("hitting", reactionId);
 
-    await axios.post(`${API_URL}/v1/memes/${props.meme.id}/reactions`, addMemeReactionInput);
+    const addReactionInput: AddReactionInput = { reactionId, userId };
+
+    const memeReaction = await addMemeReaction(props.meme.id, addReactionInput);
+
+    console.log("hitting meme reaction", memeReaction);
+
+    dispatch(addMemeReactionRedux({ memeId: props.meme.id, memeReaction }));
   };
 
   const [shouldShow, setShouldShow] = useState(false);
@@ -58,7 +64,10 @@ export default function AddReaction(props: Props): JSX.Element {
   };
 
   const onPick = (emoji: BaseEmoji) => {
-    addReaction(emoji);
+    if (user && user.id) {
+      console.log("hitting inside onpick");
+      addReaction(emoji, user.id);
+    }
     setShouldShow(false);
     setAnchorEl(null);
   };
