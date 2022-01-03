@@ -16,3 +16,8 @@ export async function getUserActivity(userId: string): Promise<UserActivity> {
   const response: AxiosResponse = await axios.get(`${API_URL}/v1/users/${userId}/activity`);
   return response.data;
 }
+
+export async function followUser(userId: string, otherUserId: string): Promise<User> {
+  const response = await axios.put(`${API_URL}/v1/users/${userId}/followers/${otherUserId}/follow`);
+  return response.data;
+}

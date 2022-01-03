@@ -1,12 +1,12 @@
 import { useTheme } from "@material-ui/core";
-import HeartLine from "../../assets/icons/HeartLine";
-import { GodComment } from "../../types";
+import HeartLine from "../../../../assets/icons/HeartLine";
+import { GodComment } from "../../../../types";
 
 interface Props {
   comment: GodComment;
 }
 
-export default function Upvote(props: Props): JSX.Element {
+export default function AddHeart(props: Props): JSX.Element {
   const theme = useTheme();
 
   return (

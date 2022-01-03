@@ -1,6 +1,6 @@
 import { useTheme } from "@material-ui/core";
-import ShareLine from "../../../../assets/icons/ShareLine";
-import { GodMeme } from "../../../../types";
+import ShareLine from "../../../assets/icons/ShareLine";
+import { GodMeme } from "../../../types";
 
 interface Props {
   meme: GodMeme;

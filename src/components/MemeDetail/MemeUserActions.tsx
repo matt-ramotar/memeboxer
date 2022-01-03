@@ -1,9 +1,9 @@
 import { Grid } from "@material-ui/core";
 import { GodMeme } from "../../types";
-import AddReaction from "./actions/meme/AddReaction";
-import Comment from "./actions/meme/Comment";
-import Share from "./actions/meme/Share";
-import Upvote from "./actions/meme/Upvote";
+import AddReaction from "./actions/AddReaction";
+import Comment from "./actions/Comment";
+import Share from "./actions/Share";
+import Upvote from "./actions/Upvote";
 
 interface Props {
   meme: GodMeme;

@@ -2,17 +2,17 @@ import { Box, Typography, useTheme } from "@material-ui/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import MoreVerticalLine from "../../assets/icons/MoreVerticalLine";
-import { RootState } from "../../store";
-import { GodComment } from "../../types";
-import { API_URL } from "../../util/secrets";
+import MoreHorizontalLine from "../../../../assets/icons/MoreHorizontalLine";
+import { RootState } from "../../../../store";
+import { GodMeme } from "../../../../types";
+import { API_URL } from "../../../../util/secrets";
 
 interface Props {
-  comment: GodComment;
+  meme: GodMeme;
   parentIsOpen: boolean;
 }
 
-export default function CommentMoreInfo(props: Props): JSX.Element {
+export default function MoreInfo(props: Props): JSX.Element {
   const theme = useTheme();
 
   const [isVisible, setIsVisible] = useState(false);
@@ -21,14 +21,14 @@ export default function CommentMoreInfo(props: Props): JSX.Element {
   const [isPoster, setIsPoster] = useState(false);
 
   const onDelete = () => {
-    async function deleteCommentAsync() {
-      const comment = await axios.delete(`${API_URL}/v1/comments/${props.comment.id}`, { data: { userId: user.id, token: user.token } });
-      if (comment) {
+    async function deleteMemeAsync() {
+      const meme = await axios.delete(`${API_URL}/v1/memes/${props.meme.id}`, { data: { userId: user.id, token: user.token } });
+      if (meme) {
         window.location.reload();
       }
     }
 
-    deleteCommentAsync();
+    deleteMemeAsync();
   };
 
   useEffect(() => {
@@ -38,27 +38,21 @@ export default function CommentMoreInfo(props: Props): JSX.Element {
   }, [props.parentIsOpen]);
 
   useEffect(() => {
-    setIsPoster(props.comment.user._id == user.id);
-  }, [props.comment, user]);
+    setIsPoster(props.meme.user.id == user.id);
+  }, [props.meme, user]);
 
   return (
     <Box style={{ position: "relative" }}>
-      <button
-        style={{ backgroundColor: "transparent", border: "none", boxShadow: "none", margin: 0, padding: 0, cursor: "pointer", marginLeft: 2 }}
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsVisible(!isVisible);
-        }}
-      >
-        <MoreVerticalLine fill={theme.palette.text.primary} height={28} width={28} />
+      <button style={{ backgroundColor: "transparent", border: "none", boxShadow: "none", margin: 0, padding: 0, cursor: "pointer", marginLeft: 2 }} onClick={() => setIsVisible(!isVisible)}>
+        <MoreHorizontalLine fill={theme.palette.text.primary} height={28} width={28} />
       </button>
 
       <Box
         style={{
           display: isVisible && props.parentIsOpen ? "flex" : "none",
           position: "absolute",
-          top: 0,
-          right: -32,
+          top: 32,
+          right: 8,
           backgroundColor: theme.palette.background.paper,
           width: 200,
 
@@ -85,6 +79,51 @@ export default function CommentMoreInfo(props: Props): JSX.Element {
           <Typography style={{ fontFamily: "Space Grotesk" }}>Report</Typography>
         </Box>
 
+        <Box
+          style={{
+            width: "100%",
+            borderBottom: `1px solid ${theme.palette.divider}`,
+            height: 48,
+            display: isPoster ? "none" : "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            cursor: "pointer",
+            color: theme.palette.error.main,
+          }}
+        >
+          <Typography style={{ fontFamily: "Space Grotesk" }}>Unfollow</Typography>
+        </Box>
+
+        <Box
+          style={{
+            width: "100%",
+            borderBottom: `1px solid ${theme.palette.divider}`,
+            height: 48,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            cursor: "pointer",
+          }}
+        >
+          <Typography style={{ fontFamily: "Space Grotesk" }}>Share</Typography>
+        </Box>
+
+        <Box
+          style={{
+            width: "100%",
+            borderBottom: `1px solid ${theme.palette.divider}`,
+            height: 48,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            cursor: "pointer",
+          }}
+        >
+          <Typography style={{ fontFamily: "Space Grotesk" }}>Copy link</Typography>
+        </Box>
         <Box
           style={{
             width: "100%",

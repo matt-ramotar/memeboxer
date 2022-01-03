@@ -4,17 +4,18 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import ReactTimeAgo from "react-time-ago";
-import { addCommentReactions } from "../../store/meme";
-import { GodComment } from "../../types";
-import { API_URL } from "../../util/secrets";
-import CommentReactions from "./comment/CommentReactions";
-import CommentUserActions from "./comment/CommentUserActions";
+import { addCommentReactions } from "../../../store/meme";
+import { GodComment } from "../../../types";
+import { API_URL } from "../../../util/secrets";
+import ProfilePicture from "../../ProfilePicture/ProfilePicture";
+import CommentReactions from "./CommentReactions";
+import CommentUserActions from "./CommentUserActions";
 
 interface Props {
   commentId: string;
 }
 
-export default function Comment(props: Props): JSX.Element {
+export default function MemeComment(props: Props): JSX.Element {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -52,10 +53,16 @@ export default function Comment(props: Props): JSX.Element {
       </Box>
 
       <Grid item xs={12} style={{ display: "flex", flexDirection: "row", width: "100%" }}>
-        <img src={comment.user.picture ?? ""} alt="avatar" style={{ width: 40, height: 40, borderRadius: "50%", cursor: "pointer" }} />
+        <ProfilePicture username={comment.user.username} />
 
         <Box style={{ marginLeft: 8 }}>
-          <Typography style={{ fontFamily: "Space Grotesk", fontWeight: "bold", cursor: "pointer" }} onClick={() => navigate(`/${comment.user.username}`)}>
+          <Typography
+            style={{ fontFamily: "Space Grotesk", fontWeight: "bold", cursor: "pointer" }}
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/${comment.user.username}`);
+            }}
+          >
             {comment.user.username}
           </Typography>
           <Typography style={{ fontFamily: "Space Grotesk" }}>{comment.body}</Typography>

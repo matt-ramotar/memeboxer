@@ -9,6 +9,7 @@ import { addMemeReactions } from "../../store/feed";
 import { GodMeme } from "../../types";
 import { STORAGE_URL } from "../../util/secrets";
 import UserTag from "../MemeDetail/UserTag";
+import ProfilePicture from "../ProfilePicture/ProfilePicture";
 import CommenterSquare from "./CommenterSquare";
 import MemeUserActions from "./MemeUserActions";
 import ReactionChip from "./ReactionChip";
@@ -115,11 +116,17 @@ export default function MemeFeedItem(props: Props): JSX.Element | null {
 
       <Box style={{ border: `1px solid ${theme.palette.divider}`, paddingTop: 8, paddingBottom: 8 }}>
         <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", marginBottom: 8 }}>
-          <img src={props.meme.user.picture} alt="avatar" style={{ height: 40, width: 40, borderRadius: 50 }} />
+          <ProfilePicture username={props.meme.user.username} />
 
-          <Typography variant="body1" style={{ fontWeight: "bold", marginLeft: 8, cursor: "pointer" }} onClick={() => navigate(`/${props.meme.user.username}`)}>
-            {props.meme.user.username}
-          </Typography>
+          <Box style={{ display: "flex", flexDirection: "column" }}>
+            <Typography variant="body1" style={{ fontWeight: "bold", marginLeft: 8, cursor: "pointer" }} onClick={() => navigate(`/${props.meme.user.username}`)}>
+              {props.meme.user.username}
+            </Typography>
+
+            <Typography variant="body2" style={{ marginLeft: 8 }}>
+              {props.meme.location}
+            </Typography>
+          </Box>
         </Box>
 
         {(!isLoaded || !signedUrl) && (
@@ -166,12 +173,12 @@ export default function MemeFeedItem(props: Props): JSX.Element | null {
         </Box>
 
         <Box style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "space-around", paddingTop: 8, width: "100%" }}>
-          <Box style={{ display: props.meme.caption ? "flex" : "none", flexDirection: "row" }}>
-            <Typography variant="body1" style={{ fontFamily: "Space Grotesk", fontWeight: "bold", padding: 0, cursor: "pointer" }} onClick={() => navigate(`/${props.meme.user.username}`)}>
+          <Box style={{ display: props.meme.caption ? "flex" : "none", flexDirection: "row", marginLeft: 4 }}>
+            <Typography variant="body1" style={{ fontWeight: "bold", padding: 0, cursor: "pointer" }} onClick={() => navigate(`/${props.meme.user.username}`)}>
               {props.meme.user.username}
             </Typography>
 
-            <Typography variant="body1" style={{ fontFamily: "Space Grotesk" }}>
+            <Typography variant="body1" style={{ marginLeft: 8 }}>
               {props.meme.caption}
             </Typography>
           </Box>
@@ -187,6 +194,7 @@ export default function MemeFeedItem(props: Props): JSX.Element | null {
               flexWrap: "wrap",
               paddingLeft: 4,
               paddingRight: 4,
+              marginTop: 4,
             }}
           >
             {memeReactionInfo.reactionIdToUserIds.map(([reactionId, userIds]) => (

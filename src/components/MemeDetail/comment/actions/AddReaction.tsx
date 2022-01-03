@@ -4,10 +4,10 @@ import { BaseEmoji, Picker } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import EmojiAddLine from "../../assets/icons/EmojiAddLine";
-import { RootState } from "../../store";
-import { GodComment } from "../../types";
-import { API_URL } from "../../util/secrets";
+import EmojiAddLine from "../../../../assets/icons/EmojiAddLine";
+import { RootState } from "../../../../store";
+import { GodComment } from "../../../../types";
+import { API_URL } from "../../../../util/secrets";
 
 interface Props {
   comment: GodComment;

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { User } from "../../types";
 import { API_URL } from "../../util/secrets";
+import ProfilePicture from "../ProfilePicture/ProfilePicture";
 
 interface Props {
   userId: string;
@@ -24,7 +25,7 @@ export default function CommenterSquare(props: Props): JSX.Element | null {
 
   return (
     <Box>
-      <img key={user.id} src={user.picture ?? ""} alt="avatar" style={{ height: 32, width: 32, borderRadius: 4, objectFit: "cover", marginRight: 4 }} />
+      <ProfilePicture username={user.username} height={32} width={32} borderRadius={8} />
     </Box>
   );
 }

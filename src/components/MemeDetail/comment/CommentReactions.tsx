@@ -1,10 +1,10 @@
 import { Box, Grid } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store";
-import { GodComment } from "../../types";
-import CommentReactionChip from "../CommentDetail/CommentReactionChip";
-import { ReactionIdToUserIdsMap } from "../MemeFeedItem/MemeFeedItem";
+import { RootState } from "../../../store";
+import { GodComment } from "../../../types";
+import CommentReactionChip from "../../CommentDetail/CommentReactionChip";
+import { ReactionIdToUserIdsMap } from "../../MemeFeedItem/MemeFeedItem";
 
 interface Props {
   comment: GodComment;

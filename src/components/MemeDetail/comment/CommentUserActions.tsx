@@ -1,9 +1,9 @@
 import { Box, useTheme } from "@material-ui/core";
-import { GodComment } from "../../types";
-import AddComment from "./AddComment";
-import AddReaction from "./AddReaction";
-import CommentMoreInfo from "./CommentMoreInfo";
-import Upvote from "./Upvote";
+import { GodComment } from "../../../types";
+import AddComment from "./actions/AddComment";
+import AddHeart from "./actions/AddHeart";
+import AddReaction from "./actions/AddReaction";
+import CommentMoreInfo from "./actions/CommentMoreInfo";
 
 interface Props {
   comment: GodComment;
@@ -27,7 +27,7 @@ export default function CommentUserActions(props: Props): JSX.Element {
 
       <AddComment comment={props.comment} />
 
-      <Upvote comment={props.comment} />
+      <AddHeart comment={props.comment} />
 
       <CommentMoreInfo comment={props.comment} parentIsOpen={props.isVisible} />
     </Box>
