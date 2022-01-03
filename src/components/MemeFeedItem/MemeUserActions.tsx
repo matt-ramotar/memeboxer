@@ -2,7 +2,7 @@ import { Box, useTheme } from "@material-ui/core";
 import { GodMeme } from "../../types";
 import AddComment from "./AddComment";
 import AddReaction from "./AddReaction";
-import MoreInfo from "./MoreInfo";
+import MoreInfo from "./MoreInfo/MoreInfo";
 import Upvote from "./Upvote";
 
 interface Props {

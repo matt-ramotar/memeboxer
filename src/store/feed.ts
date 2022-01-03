@@ -3,6 +3,7 @@ import { MemeReaction } from "../types";
 
 export interface FeedState {
   memeReactions: MemeReactions;
+  overrideMoreInfoFromChild: boolean;
 }
 
 interface MemeReactions {
@@ -26,6 +27,7 @@ export interface RemoveMemeReaction {
 
 const initialState: FeedState = {
   memeReactions: {},
+  overrideMoreInfoFromChild: false,
 };
 
 const feedSlice = createSlice({
@@ -46,9 +48,12 @@ const feedSlice = createSlice({
       nextMemeReactions[action.payload.memeId] = nextMemeReactionsList;
       state.memeReactions = nextMemeReactions;
     },
+    setOverrideFromChild(state, action: PayloadAction<boolean>) {
+      state.overrideMoreInfoFromChild = action.payload;
+    },
   },
 });
 
-export const { addMemeReactions, addMemeReaction } = feedSlice.actions;
+export const { addMemeReactions, addMemeReaction, setOverrideFromChild } = feedSlice.actions;
 
 export default feedSlice.reducer;

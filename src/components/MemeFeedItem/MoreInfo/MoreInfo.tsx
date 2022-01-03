@@ -1,11 +1,15 @@
 import { Box, Typography, useTheme } from "@material-ui/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import MoreVerticalLine from "../../assets/icons/MoreVerticalLine";
-import { RootState } from "../../store";
-import { GodMeme } from "../../types";
-import { API_URL } from "../../util/secrets";
+import { useDispatch, useSelector } from "react-redux";
+import MoreVerticalLine from "../../../assets/icons/MoreVerticalLine";
+import { RootState } from "../../../store";
+import { setOverrideFromChild } from "../../../store/feed";
+import { GodMeme } from "../../../types";
+import { API_URL } from "../../../util/secrets";
+import CopyLink from "./CopyLink";
+import Delete from "./Delete";
+import GoToMeme from "./GoToMeme";
 
 interface Props {
   meme: GodMeme;
@@ -14,10 +18,12 @@ interface Props {
 
 export default function MoreInfo(props: Props): JSX.Element {
   const theme = useTheme();
-
-  const [isVisible, setIsVisible] = useState(false);
+  const dispatch = useDispatch();
 
   const user = useSelector((state: RootState) => state.user);
+  const overrideFromChild = useSelector((state: RootState) => state.feed.overrideMoreInfoFromChild);
+
+  const [isVisible, setIsVisible] = useState(false);
   const [isPoster, setIsPoster] = useState(false);
 
   const onDelete = () => {
@@ -43,13 +49,19 @@ export default function MoreInfo(props: Props): JSX.Element {
 
   return (
     <Box style={{ position: "relative" }}>
-      <button style={{ backgroundColor: "transparent", border: "none", boxShadow: "none", margin: 0, padding: 0, cursor: "pointer", marginLeft: 2 }} onClick={() => setIsVisible(!isVisible)}>
+      <button
+        style={{ backgroundColor: "transparent", border: "none", boxShadow: "none", margin: 0, padding: 0, cursor: "pointer", marginLeft: 2 }}
+        onClick={() => {
+          dispatch(setOverrideFromChild(false));
+          setIsVisible(!isVisible);
+        }}
+      >
         <MoreVerticalLine fill={theme.palette.text.primary} height={28} width={28} />
       </button>
 
       <Box
         style={{
-          display: isVisible && props.parentIsOpen ? "flex" : "none",
+          display: isVisible && props.parentIsOpen && !overrideFromChild ? "flex" : "none",
           position: "absolute",
           top: 48,
           right: -8,
@@ -59,11 +71,44 @@ export default function MoreInfo(props: Props): JSX.Element {
           flexWrap: "nowrap",
           flexDirection: "column",
           justifyContent: "flex-start",
-          border: `1px solid ${theme.palette.divider}`,
-          borderRadius: 10,
+          border: `1px solid ${theme.palette.grey.A200}`,
+          borderRadius: 8,
           zIndex: 10000,
         }}
       >
+        <GoToMeme meme={props.meme} />
+
+        {/* <Box
+          style={{
+            width: "100%",
+            borderBottom: `1px solid ${theme.palette.divider}`,
+            height: 48,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            cursor: "pointer",
+          }}
+        >
+          <Typography style={{ fontFamily: "Space Grotesk" }}>Share</Typography>
+        </Box> */}
+
+        <CopyLink meme={props.meme} />
+        {/* <Box
+          style={{
+            width: "100%",
+            borderBottom: `1px solid ${theme.palette.divider}`,
+            height: 48,
+            display: isPoster ? "flex" : "none",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            cursor: "pointer",
+          }}
+        >
+          <Typography style={{ fontFamily: "Space Grotesk" }}>Edit</Typography>
+        </Box> */}
+
         <Box
           style={{
             width: "100%",
@@ -80,6 +125,8 @@ export default function MoreInfo(props: Props): JSX.Element {
           <Typography style={{ fontFamily: "Space Grotesk" }}>Report</Typography>
         </Box>
 
+        <Delete meme={props.meme} />
+
         <Box
           style={{
             width: "100%",
@@ -90,87 +137,12 @@ export default function MoreInfo(props: Props): JSX.Element {
             justifyContent: "center",
             alignItems: "center",
             cursor: "pointer",
+            borderBottomRightRadius: 10,
+            borderBottomLeftRadius: 10,
             color: theme.palette.error.main,
           }}
         >
           <Typography style={{ fontFamily: "Space Grotesk" }}>Unfollow</Typography>
-        </Box>
-
-        <Box
-          style={{
-            width: "100%",
-            borderBottom: `1px solid ${theme.palette.divider}`,
-            height: 48,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            cursor: "pointer",
-          }}
-        >
-          <Typography style={{ fontFamily: "Space Grotesk" }}>Go to meme</Typography>
-        </Box>
-
-        <Box
-          style={{
-            width: "100%",
-            borderBottom: `1px solid ${theme.palette.divider}`,
-            height: 48,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            cursor: "pointer",
-          }}
-        >
-          <Typography style={{ fontFamily: "Space Grotesk" }}>Share</Typography>
-        </Box>
-
-        <Box
-          style={{
-            width: "100%",
-            borderBottom: `1px solid ${theme.palette.divider}`,
-            height: 48,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            cursor: "pointer",
-          }}
-        >
-          <Typography style={{ fontFamily: "Space Grotesk" }}>Copy link</Typography>
-        </Box>
-        <Box
-          style={{
-            width: "100%",
-            borderBottom: `1px solid ${theme.palette.divider}`,
-            height: 48,
-            display: isPoster ? "flex" : "none",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            cursor: "pointer",
-          }}
-        >
-          <Typography style={{ fontFamily: "Space Grotesk" }}>Edit</Typography>
-        </Box>
-        <Box
-          style={{
-            width: "100%",
-
-            height: 48,
-            display: isPoster ? "flex" : "none",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            cursor: "pointer",
-            color: theme.palette.error.main,
-            borderBottomRightRadius: 10,
-            borderBottomLeftRadius: 10,
-          }}
-          onClick={onDelete}
-        >
-          <Typography style={{ fontFamily: "Space Grotesk" }}>Delete</Typography>
         </Box>
       </Box>
     </Box>
