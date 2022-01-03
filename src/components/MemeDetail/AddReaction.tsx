@@ -43,6 +43,8 @@ export default function AddReaction(props: Props): JSX.Element {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+
     if (!shouldShow) {
       setAnchorEl(event.currentTarget);
       setShouldShow(true);
@@ -57,7 +59,8 @@ export default function AddReaction(props: Props): JSX.Element {
     setShouldShow(false);
   };
 
-  const onPick = (emoji: BaseEmoji) => {
+  const onPick = (emoji: BaseEmoji, e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e.stopPropagation();
     addReaction(emoji);
     setShouldShow(false);
     setAnchorEl(null);
@@ -81,6 +84,7 @@ export default function AddReaction(props: Props): JSX.Element {
           vertical: "bottom",
           horizontal: "center",
         }}
+        onClick={(e) => e.stopPropagation()}
       >
         <Picker showPreview={false} showSkinTones={false} onClick={onPick} color="primary" />
       </Popover>

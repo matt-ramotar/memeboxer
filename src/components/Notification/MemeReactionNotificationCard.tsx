@@ -79,6 +79,10 @@ export default function MemeReactionNotificationCard(props: Props): JSX.Element 
     }
   }, [props.action.memeReaction?.memeId]);
 
+  useEffect(() => {
+    setIsRead(props.notification.isRead);
+  }, [props.notification.isRead]);
+
   if (!meme) return null;
 
   return (

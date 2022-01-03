@@ -34,7 +34,7 @@ export default function MemeExploreItem(props: Props): JSX.Element {
       onMouseEnter={() => setActionsIsVisible(true)}
       onMouseLeave={() => setActionsIsVisible(false)}
     >
-      <Grid item xs={12} style={{ cursor: "pointer" }}>
+      <Grid item xs={12} style={{ cursor: "pointer" }} onClick={() => navigate(`/m/${props.meme.id}`)}>
         {(!isLoaded || !signedUrl) && (
           <Box style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
             <BeatLoader color={theme.palette.primary.main} loading={!isLoaded} />

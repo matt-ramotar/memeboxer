@@ -43,7 +43,13 @@ export default function CommentMoreInfo(props: Props): JSX.Element {
 
   return (
     <Box style={{ position: "relative" }}>
-      <button style={{ backgroundColor: "transparent", border: "none", boxShadow: "none", margin: 0, padding: 0, cursor: "pointer", marginLeft: 2 }} onClick={() => setIsVisible(!isVisible)}>
+      <button
+        style={{ backgroundColor: "transparent", border: "none", boxShadow: "none", margin: 0, padding: 0, cursor: "pointer", marginLeft: 2 }}
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsVisible(!isVisible);
+        }}
+      >
         <MoreVerticalLine fill={theme.palette.text.primary} height={28} width={28} />
       </button>
 

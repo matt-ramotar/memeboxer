@@ -77,6 +77,10 @@ export default function FollowUserNotificationCard(props: Props): JSX.Element | 
     }
   }, [user]);
 
+  useEffect(() => {
+    setIsRead(props.notification.isRead);
+  }, [props.notification.isRead]);
+
   if (!user || !currentUser) return null;
 
   return (

@@ -152,13 +152,29 @@ export default function CommentDetail(): JSX.Element | null {
             <Box style={{ display: comment.meme ? "flex" : "none", flexDirection: "row", alignItems: "center", marginLeft: -16 }}>
               <button
                 style={{ backgroundColor: "transparent", border: "none", boxShadow: "none", margin: 0, padding: 0, cursor: "pointer", marginLeft: 2, marginRight: 2 }}
-                onClick={() => navigate(`/m/${comment.meme?.id}`)}
+                onClick={() => {
+                  if (comment.parentComment) {
+                    navigate(`/c/${comment.parentComment.id}`);
+                  } else {
+                    navigate(`/m/${comment.meme?.id}`);
+                  }
+                }}
               >
                 <ArrowLeftLine fill={theme.palette.text.primary} height={32} width={32} strokeWidth="1.5" />
               </button>
 
-              <Typography variant="h6" style={{ marginLeft: 16, cursor: "pointer", fontWeight: "bold" }} onClick={() => navigate(`/m/${comment.meme?.id}`)}>
-                Meme
+              <Typography
+                variant="h6"
+                style={{ marginLeft: 16, cursor: "pointer", fontWeight: "bold" }}
+                onClick={() => {
+                  if (comment.parentComment) {
+                    navigate(`/c/${comment.parentComment.id}`);
+                  } else {
+                    navigate(`/m/${comment.meme?.id}`);
+                  }
+                }}
+              >
+                {comment.parentComment ? "Parent" : "Meme"}
               </Typography>
             </Box>
 

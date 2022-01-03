@@ -82,13 +82,15 @@ export default function CommentReactionChip(props: Props): JSX.Element | null {
         border: userHasReacted ? `1px solid ${theme.palette.primary.main}` : "none",
         borderRadius: 16,
         cursor: "pointer",
-        marginRight: 4,
-        marginBottom: 6,
+
+        marginBottom: 4,
       }}
       onClick={onClick}
     >
-      <Typography>{reaction.native}</Typography>
-      <Typography style={{ marginLeft: 8, color: userHasReacted ? theme.palette.primary.main : theme.palette.text.primary, fontFamily: "Space Grotesk" }}>{count}</Typography>
+      <Typography variant="body2">{reaction.native}</Typography>
+      <Typography variant="body2" style={{ marginLeft: 8, color: userHasReacted ? theme.palette.primary.main : theme.palette.text.primary, fontFamily: "Space Grotesk" }}>
+        {count}
+      </Typography>
     </Box>
   );
 }
