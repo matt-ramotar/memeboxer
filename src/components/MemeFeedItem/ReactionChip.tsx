@@ -88,8 +88,10 @@ export default function ReactionChip(props: Props): JSX.Element | null {
       }}
       onClick={onClick}
     >
-      <Typography>{reaction.native}</Typography>
-      <Typography style={{ marginLeft: 8, color: userHasReacted ? theme.palette.primary.main : theme.palette.text.primary, fontFamily: "Space Grotesk" }}>{count}</Typography>
+      <Typography variant="body2">{reaction.native}</Typography>
+      <Typography variant="body2" style={{ marginLeft: 4, color: userHasReacted ? theme.palette.primary.main : theme.palette.text.primary, fontFamily: "Space Grotesk" }}>
+        {count}
+      </Typography>
     </Box>
   );
 }

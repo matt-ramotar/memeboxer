@@ -1,4 +1,4 @@
-import { Box, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -53,12 +53,12 @@ export default function MemeReactions(props: Props): JSX.Element | null {
   if (!memeReactionInfo) return null;
 
   return (
-    <Grid>
-      <Grid style={{ display: "flex", flexDirection: "row", width: "100%", flexWrap: "wrap" }}>
+    <Grid container>
+      <Grid container spacing={1} style={{ display: "flex", flexDirection: "row", width: "100%", flexWrap: "wrap" }}>
         {memeReactionInfo.reactionIdToUserIds.map(([reactionId, userIds]) => (
-          <Box key={reactionId} style={{ marginRight: 8 }}>
+          <Grid item xs={2} key={reactionId} style={{}}>
             <ReactionChip reactionId={reactionId} count={userIds.length} userIds={userIds} memeId={props.meme.id} userIdToMemeReactionIdsMap={memeReactionInfo.userIdToMemeReactionIdsMap} />
-          </Box>
+          </Grid>
         ))}
       </Grid>
     </Grid>

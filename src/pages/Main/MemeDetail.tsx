@@ -296,9 +296,9 @@ export default function MemeDetail(): JSX.Element | null {
                   <MemeMetadata meme={meme} />
                 </Box>
 
-                <Box style={{ width: `calc(100% - 8px)`, margin: 4 }}>
+                <Grid item xs={12} style={{ width: `calc(100% - 8px)`, margin: 4, display: "flex" }}>
                   <MemeReactions meme={meme} />
-                </Box>
+                </Grid>
 
                 <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", width: "100%", margin: 4 }}>
                   <AnalyticsLine width={20} height={20} fill={theme.palette.text.primary} />
