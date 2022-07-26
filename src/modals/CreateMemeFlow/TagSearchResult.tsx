@@ -34,7 +34,7 @@ export default function TagSearchResult(props: Props): JSX.Element {
 
     useEffect(() => {
         if (props.user) {
-            setProfilePicture(`https://dropbox-appbox-media.s3.amazonaws.com/dropboxer-photos/${props.user.username}.jpg`);
+            setProfilePicture(`https://app.dropboxer.net/appbox-media/dropboxer-photos/${props.user.username}.jpg`);
         }
     }, [props.user]);
 

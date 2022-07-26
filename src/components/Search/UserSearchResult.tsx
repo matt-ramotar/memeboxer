@@ -57,7 +57,7 @@ export default function UserSearchResult(props: Props): JSX.Element {
 
   useEffect(() => {
     if (props.user) {
-      setProfilePicture(`https://dropbox-appbox-media.s3.amazonaws.com/dropboxer-photos/${props.user.username}.jpg`);
+      setProfilePicture(`https://app.dropboxer.net/appbox-media/dropboxer-photos/${props.user.username}.jpg`);
     }
 
     if (props.user.usersFollowedByIds) {

@@ -18,7 +18,7 @@ export default function ProfilePicture(props: Props): JSX.Element {
 
   useEffect(() => {
     if (props.username) {
-      setProfilePicture(`https://dropbox-appbox-media.s3.amazonaws.com/dropboxer-photos/${props.username}.jpg`);
+      setProfilePicture(`https://app.dropboxer.net/appbox-media/dropboxer-photos/${props.username}.jpg`);
     }
   }, [props.username]);
 
@@ -33,7 +33,7 @@ export default function ProfilePicture(props: Props): JSX.Element {
 
   useEffect(() => {
     if (user) {
-      setProfilePicture(`https://dropbox-appbox-media.s3.amazonaws.com/dropboxer-photos/${user.username}.jpg`);
+      setProfilePicture(`https://app.dropboxer.net/appbox-media/dropboxer-photos/${user.username}.jpg`);
     }
   }, [user]);
 

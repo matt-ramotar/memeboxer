@@ -73,7 +73,7 @@ export default function FollowUserNotificationCard(props: Props): JSX.Element | 
 
   useEffect(() => {
     if (user) {
-      setUserProfilePicture(`https://dropbox-appbox-media.s3.amazonaws.com/dropboxer-photos/${user.username}.jpg`);
+      setUserProfilePicture(`https://app.dropboxer.net/appbox-media/dropboxer-photos/${user.username}.jpg`);
     }
   }, [user]);
 

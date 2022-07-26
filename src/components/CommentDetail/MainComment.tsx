@@ -20,7 +20,7 @@ export default function MainComment(props: Props): JSX.Element | null {
 
   useEffect(() => {
     if (props.comment.user) {
-      setProfilePicture(`https://dropbox-appbox-media.s3.amazonaws.com/dropboxer-photos/${props.comment.user.username}.jpg`);
+      setProfilePicture(`https://app.dropboxer.net/appbox-media/dropboxer-photos/${props.comment.user.username}.jpg`);
     }
   }, [props.comment.user]);
   return (

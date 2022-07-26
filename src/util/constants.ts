@@ -1,1 +1,1 @@
-export const FALLBACK_AVATAR = "https://dropbox-appbox-static.s3.amazonaws.com/static/dropabout/img/nophoto.png";
+export const FALLBACK_AVATAR = "https://app.dropboxer.net/static/dropabout/img/nophoto.png";

@@ -77,7 +77,7 @@ export default function Profile(): JSX.Element | null {
 
   useEffect(() => {
     if (user) {
-      setProfilePicture(`https://dropbox-appbox-media.s3.amazonaws.com/dropboxer-photos/${user.username}.jpg`);
+      setProfilePicture(`https://app.dropboxer.net/appbox-media/dropboxer-photos/${user.username}.jpg`);
     }
   }, [user]);
 

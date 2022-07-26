@@ -36,7 +36,7 @@ export default function ParentMeme(props: Props): JSX.Element | null {
 
   useEffect(() => {
     if (props.meme.user) {
-      setProfilePicture(`https://dropbox-appbox-media.s3.amazonaws.com/dropboxer-photos/${props.meme.user.username}.jpg`);
+      setProfilePicture(`https://app.dropboxer.net/appbox-media/dropboxer-photos/${props.meme.user.username}.jpg`);
     }
   }, [props.meme.user]);
 

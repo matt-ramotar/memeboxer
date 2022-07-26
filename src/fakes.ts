@@ -6,7 +6,7 @@ export const DREW: User = {
   username: "drew",
   name: "Drew Houston",
   googleId: "",
-  picture: "https://dropbox-appbox-media.s3.amazonaws.com/dropboxer-photos/drew.jpg",
+  picture: "https://app.dropboxer.net/appbox-media/dropboxer-photos/drew.jpg",
 };
 
 export const TIMOTHY: User = {
@@ -15,7 +15,7 @@ export const TIMOTHY: User = {
   username: "timothy",
   name: "Timothy Young",
   googleId: "",
-  picture: "https://dropbox-appbox-media.s3.amazonaws.com/dropboxer-photos/15645.jpg",
+  picture: "https://app.dropboxer.net/appbox-media/dropboxer-photos/15645.jpg",
 };
 
 export const MATT: User = {
@@ -24,5 +24,5 @@ export const MATT: User = {
   username: "mramotar",
   name: "Matthew Ramotar",
   googleId: "",
-  picture: "https://dropbox-appbox-media.s3.amazonaws.com/dropboxer-photos/mramotar.jpg",
+  picture: "https://app.dropboxer.net/appbox-media/dropboxer-photos/mramotar.jpg",
 };
